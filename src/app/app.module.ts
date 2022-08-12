@@ -16,6 +16,7 @@ import { DatabaseService } from './services/database.service';
 import { ProductDefaultQueryRepository } from './repositories/product.default.query.repository';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MapperService } from './services/mapper.service';
 
 export function initializeFactory(init: InitializeAppService) {
   return () => init.initializeApp();
@@ -47,6 +48,8 @@ export function initializeFactory(init: InitializeAppService) {
     MigrationService,
     ProductRepository,
     ProductDefaultQueryRepository,
+
+    MapperService,
 
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

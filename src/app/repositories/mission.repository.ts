@@ -12,7 +12,7 @@ export class MissionRepository {
 
   async getMissions(): Promise<Mission[]> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      var missions: DBSQLiteValues = await db.query(`select missions.* , COALESCE(SUM(counters.amount), 0) as totalAmount from missions left join counters on counters.missionId = missions.id group by missions.id`);
+      var missions: DBSQLiteValues = await db.query(`select missions.* , COALESCE(SUM(counters.amount), 0) as countersAmountTotal from missions left join counters on counters.missionId = missions.id group by missions.id`);
       return missions.values as Mission[];
     });
   }
@@ -42,7 +42,7 @@ export class MissionRepository {
   }
   async getMissionById(id: number): Promise<Mission> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      let sqlcmd: string = `select missions.* , COALESCE(SUM(counters.amount), 0) as totalAmount from missions left join counters on counters.missionId = missions.id where missions.id = ${id} group by missions.id LIMIT 1`;
+      let sqlcmd: string = `select missions.* , COALESCE(SUM(counters.amount), 0) as countersAmountTotal from missions left join counters on counters.missionId = missions.id where missions.id = ${id} group by missions.id LIMIT 1`;
       let values: Array<any> = [id];
       let ret: any = await db.query(sqlcmd, values);
       if (ret.values.length > 0) {

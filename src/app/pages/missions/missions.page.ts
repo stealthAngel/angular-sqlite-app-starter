@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
-import { Mission } from 'src/app/models/Mission';
+import { MissionDto } from 'src/app/models/MissionDto';
 import { MissionRepository } from 'src/app/repositories/mission.repository';
+import { MapperService } from 'src/app/services/mapper.service';
 import { Swiper } from 'swiper';
 @Component({
   selector: 'app-missions',
@@ -10,7 +11,7 @@ import { Swiper } from 'swiper';
 })
 export class MissionsPage implements OnInit {
 
-  missions: Mission[];
+  missions: MissionDto[];
   segments: string[] = ['Card View', 'Notepad View'];
   selectedSegment: string = this.segments[0];
   //view children of appflipper
@@ -19,7 +20,7 @@ export class MissionsPage implements OnInit {
   swiper: Swiper;
 
 
-  constructor(private missionRepository: MissionRepository, private changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private changeDetectorRef: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.get();
@@ -64,8 +65,8 @@ export class MissionsPage implements OnInit {
   }
 
   async get() {
-    this.missions = await this.missionRepository.getMissions();
-    console.log(this.missions)
+    let missions = await this.missionRepository.getMissions();
+    this.missions = missions.map(m => this.mapperService.toDto(m));
   }
 
 }
