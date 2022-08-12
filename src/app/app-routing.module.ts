@@ -152,7 +152,11 @@ const routes: Routes = [
     path: '',
     redirectTo: 'hometests',
     pathMatch: 'full'
+  },  {
+    path: 'mission',
+    loadChildren: () => import('./pages/mission/mission.module').then( m => m.MissionPageModule)
   },
+
 ];
 
 @NgModule({

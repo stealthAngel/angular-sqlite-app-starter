@@ -1,7 +1,10 @@
 export interface Product {
+  id: number;
   name: string;
-  description: string;
   price: number;
-  createdAt: Date;
-  ModifiedAt: Date;
+  description: string;
+  imageUrl: string;
+  isAvailable: boolean;
+  isPopular: boolean;
+  category: string;
 }
