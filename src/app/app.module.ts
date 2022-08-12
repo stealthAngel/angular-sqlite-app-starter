@@ -15,6 +15,7 @@ import { ProductRepository } from './repositories/product.repository';
 import { DatabaseService } from './services/database.service';
 import { ProductDefaultQueryRepository } from './repositories/product.default.query.repository';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export function initializeFactory(init: InitializeAppService) {
   return () => init.initializeApp();
@@ -23,7 +24,12 @@ export function initializeFactory(init: InitializeAppService) {
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    BrowserAnimationsModule,
+  ],
   providers: [
     SQLiteService,
     DetailService,

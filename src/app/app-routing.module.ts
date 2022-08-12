@@ -8,6 +8,11 @@ const routes: Routes = [
       .then(m => m.ProductsPageModule)
   },
   {
+    path: 'missions',
+    loadChildren: () => import('./pages/missions/missions.module')
+      .then(m => m.MissionsPageModule)
+  },
+  {
     path: 'hometests',
     loadChildren: () => import('./test/hometests/hometests.module')
       .then(m => m.HomeTestsPageModule)
@@ -150,13 +155,9 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'hometests',
+    redirectTo: 'missions',
     pathMatch: 'full'
-  },  {
-    path: 'mission',
-    loadChildren: () => import('./pages/mission/mission.module').then( m => m.MissionPageModule)
   },
-
 ];
 
 @NgModule({
