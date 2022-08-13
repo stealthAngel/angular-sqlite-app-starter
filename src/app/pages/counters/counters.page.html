@@ -37,9 +37,9 @@
     </ion-row>
 
 
-    <ion-row className="text-center">
+    <ion-row>
       <ion-col>
-        <ion-card>
+        <ion-card >
           <ion-card-content>
             <h1>{{countersCalculated.total}}</h1>
           </ion-card-content>
@@ -57,21 +57,21 @@
               <ion-row>
                 <ion-col>
                   <ion-text>
-                    Start time today: {{countersCalculated.startTimeToday}}
+                    Start time today: {{countersCalculated.startTimeToday | date:'HH:mm'}}
                   </ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
                   <ion-text>
-                    End time today: {{countersCalculated.endTimeToday}}
+                    End time today: {{countersCalculated.endTimeToday | date:'HH:mm'}}
                   </ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
                   <ion-text>
-                    Time spend: {{countersCalculated.timeBetweenToday}}
+                    Time spend: {{countersCalculated.timeBetweenToday | date:'HH:mm'}}
                   </ion-text>
                 </ion-col>
               </ion-row>
