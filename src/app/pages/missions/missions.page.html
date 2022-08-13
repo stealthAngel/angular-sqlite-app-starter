@@ -27,10 +27,10 @@
           <app-flipper>
             <div front>
               <ion-row>
-                <ion-col size="7" (click)="onMissionClick(mission.id)">
+                <ion-col size="7" [routerLink]="['/counters', mission.id]">
                   {{mission.countersAmountTotal}}/{{mission.endAmount}} {{mission.name}}
                 </ion-col>
-                <ion-col size="4">
+                <ion-col size="4" [routerLink]="['/counters', mission.id]">
                   {{mission.percentage + '%'}}
                 </ion-col>
                 <ion-col size="1" (click)="onFlip(i)">
@@ -40,8 +40,8 @@
             </div>
             <div back>
               <ion-row>
-                <ion-col size="3" (click)="onMissionClick(mission.id)">
-                  <div (click)="onEditMissionClick(mission.id)">
+                <ion-col size="3">
+                  <div [routerLink]="['create']">
                     <ion-icon name="create-outline"></ion-icon>
                     Edit
                   </div>
@@ -63,7 +63,7 @@
     </ng-template>
     <ng-template swiperSlide>
       <ng-container *ngFor="let x of missions">
-        <p class="ion-margin" (click)="onMissionClick(x.id)">
+        <p class="ion-margin" [routerLink]="['counters', x.id]">
           {{x.name}} {{x.totalAmount}}/{{x.endAmount}}
           <ng-container *ngIf="x.totalAmount >= x.endAmount">
             <ion-icon name="checkmark-circle-outline"></ion-icon>
@@ -79,7 +79,7 @@
   <ng-template>
     <ion-content>
       <ion-list>
-        <ion-item [button]="true" [detail]="false">Add new Mission</ion-item>
+        <ion-item [button]="true" [detail]="false" [routerLink]="['create']">Add new Mission</ion-item>
         <ion-item [button]="true" id="nested-trigger">More Options...</ion-item>
         <ion-popover trigger="nested-trigger" [dismissOnSelect]="true" side="end">
           <ng-template>

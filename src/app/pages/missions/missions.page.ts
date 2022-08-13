@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
+import { Router } from '@angular/router';
 import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
 import { MissionDto } from 'src/app/models/MissionDto';
 import { MissionRepository } from 'src/app/repositories/mission.repository';
@@ -20,14 +21,13 @@ export class MissionsPage implements OnInit {
   swiper: Swiper;
 
 
-  constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private changeDetectorRef: ChangeDetectorRef) { }
+  constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private changeDetectorRef: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit() {
     this.get();
   }
 
   onFlip(index: number) {
-    console.log("🚀 ~ file: missions.page.ts ~ line 28 ~ MissionsPage ~ onFlip ~ this.flippers", this.flippers)
     this.flippers.get(index).cardClicked();
   }
 
@@ -37,18 +37,6 @@ export class MissionsPage implements OnInit {
 
   onSearchChange($event) {
     console.log("onSearchChange", $event.detail.value);
-  }
-
-  onOptions() {
-    console.log("onOptions");
-  }
-
-  onMissionClick(id: number) {
-    console.log("onMissionClick", id);
-  }
-
-  onEditMissionClick(id: number) {
-    console.log("onEditMissionClick", id);
   }
 
   onDeleteMissionClick(id: number) {

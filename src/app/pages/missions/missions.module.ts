@@ -11,6 +11,8 @@ import { MissionRepository } from 'src/app/repositories/mission.repository';
 import { CounterRepository } from 'src/app/repositories/counter.repository';
 import { SwiperModule } from 'swiper/angular';
 import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
+import { CreateMissionPage } from './create-mission/create-mission.page';
+import { UpdateMissionPage } from './update-mission/update-mission.page';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,6 +24,8 @@ import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
   declarations: [
     MissionsPage,
     FlipperComponent,
+    CreateMissionPage,
+    UpdateMissionPage,
   ],
   providers: [
     MissionRepository,

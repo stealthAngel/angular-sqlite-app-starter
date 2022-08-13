@@ -158,6 +158,11 @@ const routes: Routes = [
     redirectTo: 'missions',
     pathMatch: 'full'
   },
+  {
+    path: 'counters/:id',
+    loadChildren: () => import('./pages/counters/counters.module').then( m => m.CountersPageModule)
+  },
+
 ];
 
 @NgModule({

@@ -43,8 +43,7 @@ export class MissionRepository {
   async getMissionById(id: number): Promise<Mission> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       let sqlcmd: string = `select missions.* , COALESCE(SUM(counters.amount), 0) as countersAmountTotal from missions left join counters on counters.missionId = missions.id where missions.id = ${id} group by missions.id LIMIT 1`;
-      let values: Array<any> = [id];
-      let ret: any = await db.query(sqlcmd, values);
+      let ret: any = await db.query(sqlcmd);
       if (ret.values.length > 0) {
         return ret.values[0] as Mission;
       }
@@ -57,5 +56,4 @@ export class MissionRepository {
     });
     await this.counterRepository.deleteCounterByMissionById(id);
   }
-
 }

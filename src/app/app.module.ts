@@ -17,37 +17,39 @@ import { ProductDefaultQueryRepository } from './repositories/product.default.qu
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapperService } from './services/mapper.service';
+import { FormsModule } from '@angular/forms';
 
 export function initializeFactory(init: InitializeAppService) {
   return () => init.initializeApp();
 }
 
 @NgModule({
-    declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        IonicModule.forRoot(),
-        AppRoutingModule,
-        BrowserAnimationsModule,
-    ],
-    providers: [
-        SQLiteService,
-        DetailService,
-        DatabaseService,
-        InitializeAppService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: initializeFactory,
-            deps: [InitializeAppService],
-            multi: true
-        },
-        MigrationService,
-        ProductRepository,
-        ProductDefaultQueryRepository,
-        MapperService,
-        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-    ],
-    bootstrap: [AppComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    FormsModule,
+  ],
+  providers: [
+    SQLiteService,
+    DetailService,
+    DatabaseService,
+    InitializeAppService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeFactory,
+      deps: [InitializeAppService],
+      multi: true
+    },
+    MigrationService,
+    ProductRepository,
+    ProductDefaultQueryRepository,
+    MapperService,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
