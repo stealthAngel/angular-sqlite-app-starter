@@ -18,6 +18,7 @@ export class CountersPage implements OnInit {
   missionId: number;
   mission: Mission = {} as Mission;
   counters: Counter[] = [];
+
   countersCalculated: CountersCalculation = {} as CountersCalculation;
   differentAmountForm = this.formBuilder.group({
     amount: null
@@ -32,24 +33,22 @@ export class CountersPage implements OnInit {
       this.missionId = params.id;
     });
 
-    this.get();
-
     this.checkoutForm = this.formBuilder.group({
       name: '',
       address: ''
     });
+
+    this.init();
   }
 
-  async get() {
+  async init() {
     this.counters = await this.counterRepository.getCountersByMissionId(this.missionId);
     this.mission = await this.missionRepository.getMissionById(this.missionId);
     this.countersCalculated = this.getCountersExtentionObject(this.counters);
   }
 
-
   getCountersExtentionObject(counters: Counter[]) {
     let countersToday = counters.filter(counter => new Date(counter.createdAt).getDate() === new Date().getDate());
-
     let x: CountersCalculation = {} as CountersCalculation;//x is counters calculated
     x.total = counters.reduce((acc, curr) => acc + curr.amount, 0);
     x.amountDoneToday = countersToday.reduce((acc, curr) => acc + curr.amount, 0);
@@ -61,7 +60,6 @@ export class CountersPage implements OnInit {
     x.experiencePerUnit = calculatePercentage(1, this.mission.endAmount);
     x.experiencePer10Unit = calculatePercentage(10, this.mission.endAmount);
     x.amountToDoFor1Percent = this.mission.endAmount / 100;
-    console.log("🚀 ~ file: counters.page.ts ~ line 54 ~ CountersPage ~ getCountersExtentionObject ~ x", x)
     return x;
   }
 
@@ -94,17 +92,17 @@ export class CountersPage implements OnInit {
       amount: amount,
       missionId: this.missionId,
       createdAt: null
-
     };
     let lastId = await this.counterRepository.createCounter(counter);
 
     let addedCounter = await this.counterRepository.getCounterById(lastId);
 
-    this.counters.push(addedCounter);
+    this.counters.unshift(addedCounter);
+
+    this.countersCalculated = this.getCountersExtentionObject(this.counters);
   }
 
   async deleteCounter(id: number) {
-
     await this.counterRepository.deleteCounterById(id);
 
     this.counters = this.counters.filter(counter => counter.id !== id);

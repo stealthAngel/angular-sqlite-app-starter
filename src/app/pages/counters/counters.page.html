@@ -46,68 +46,50 @@
         </ion-card>
         <ion-card>
           <ion-card-content>
-            <ion-grid>
+            <ion-grid class="information-grid">
               <ion-row>
                 <ion-col>
-                  <ion-text>
-                    Amount done today: {{countersCalculated.amountDoneToday}}
-                  </ion-text>
+                  <ion-text>Amount done today: {{countersCalculated.amountDoneToday}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>
-                    Start time today: {{countersCalculated.startTimeToday | date:'HH:mm'}}
-                  </ion-text>
+                  <ion-text>Start time today: {{countersCalculated.startTimeToday | date:'HH:mm'}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>
-                    End time today: {{countersCalculated.endTimeToday | date:'HH:mm'}}
-                  </ion-text>
+                  <ion-text>End time today: {{countersCalculated.endTimeToday | date:'HH:mm'}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>
-                    Time spend: {{countersCalculated.timeBetweenToday | date:'HH:mm'}}
-                  </ion-text>
+                  <ion-text>Time spend: {{countersCalculated.timeBetweenToday | date:'HH:mm'}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>
-                    Units left: {{countersCalculated.unitsLeft}}
-                  </ion-text>
+                  <ion-text>Units left: {{countersCalculated.unitsLeft}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>
-                    Experience currently: {{countersCalculated.experienceCurrently}}
-                  </ion-text>
+                  <ion-text>Experience currently: {{countersCalculated.experienceCurrently}}%</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>
-                    Experience per unit: {{countersCalculated.experiencePerUnit}}
-                  </ion-text>
+                  <ion-text>Experience per unit: {{countersCalculated.experiencePerUnit}}%</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>
-                    Experience per 10 units: {{countersCalculated.experiencePer10Unit}}
-                  </ion-text>
+                  <ion-text>Experience per 10 units: {{countersCalculated.experiencePer10Unit}}%</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>
-                    amount to do for 1%: {{countersCalculated.amountToDoFor1Percent}}
-                  </ion-text>
+                  <ion-text>Amount to do for 1%: {{countersCalculated.amountToDoFor1Percent}} units</ion-text>
                 </ion-col>
               </ion-row>
             </ion-grid>
