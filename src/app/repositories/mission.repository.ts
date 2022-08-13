@@ -17,13 +17,13 @@ export class MissionRepository {
     });
   }
 
-  async createMission(mission: Mission) {
+  async createMission(mission: Mission): Promise<number> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       let sqlcmd: string = "insert into missions (name, description, endAmount) values (?, ?, ?)";
       let values: Array<any> = [mission.name, mission.description, mission.endAmount];
       let ret: any = await db.run(sqlcmd, values);
       if (ret.changes.lastId > 0) {
-        return ret.changes as Mission;
+        return ret.changes as number;
       }
       throw Error('create mission failed');
     });
@@ -50,6 +50,7 @@ export class MissionRepository {
       throw Error('get mission by id failed');
     });
   }
+  
   async deleteMissionById(id: number): Promise<void> {
     this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       await db.query(`delete from missions where id = ${id};`);

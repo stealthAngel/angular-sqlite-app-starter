@@ -28,36 +28,116 @@
     <ion-row>
       <ion-col>
         <ion-item>
-          <!-- <form [formGroup]="differentAmountForm" (ngSubmit)="onAddDifferentCounter()">
+          <form [formGroup]="differentAmountForm" (ngSubmit)="onAddDifferentCounter()">
             <ion-label position="floating">Click to add a different amount</ion-label>
-            <ion-input type="number"></ion-input>
-          </form> -->
-
-          <form [formGroup]="checkoutForm">
-
-            <div>
-              <label for="name">
-                Name
-              </label>
-              <input id="name" type="text" formControlName="name">
-            </div>
-
-            <div>
-              <label for="address">
-                Address
-              </label>
-              <input id="address" type="text" formControlName="address">
-            </div>
-
-            <button class="button" type="submit">Purchase</button>
-
+            <ion-input type="number" formControlName="amount"></ion-input>
           </form>
         </ion-item>
       </ion-col>
     </ion-row>
-  </ion-grid>
 
-  <div *ngFor="let counter of counters">
-    {{counter|json}}
+
+    <ion-row className="text-center">
+      <ion-col>
+        <ion-card>
+          <ion-card-content>
+            <h1>{{countersCalculated.total}}</h1>
+          </ion-card-content>
+        </ion-card>
+        <ion-card>
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    Amount done today: {{countersCalculated.amountDoneToday}}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    Start time today: {{countersCalculated.startTimeToday}}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    End time today: {{countersCalculated.endTimeToday}}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    Time spend: {{countersCalculated.timeBetweenToday}}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    Units left: {{countersCalculated.unitsLeft}}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    Experience currently: {{countersCalculated.experienceCurrently}}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    Experience per unit: {{countersCalculated.experiencePerUnit}}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    Experience per 10 units: {{countersCalculated.experiencePer10Unit}}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>
+                    amount to do for 1%: {{countersCalculated.amountToDoFor1Percent}}
+                  </ion-text>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+
+  </ion-grid>
+  <div *ngIf="counters.length > 0">
+    <ion-grid>
+      <ion-row style="border-bottom: groove">
+        <ion-col>
+          <ion-label>amount</ion-label>
+        </ion-col>
+        <ion-col>
+          <ion-label>date</ion-label>
+        </ion-col>
+      </ion-row>
+      <div *ngFor="let counter of counters">
+        <ion-row style="border-bottom: groove" (click)="onDeleteClick(counter.id)">
+          <ion-col>
+            {{counter.amount}}
+          </ion-col>
+          <ion-col>
+            {{counter.createdAt}}
+          </ion-col>
+        </ion-row>
+      </div>
+    </ion-grid>
   </div>
 </ion-content>

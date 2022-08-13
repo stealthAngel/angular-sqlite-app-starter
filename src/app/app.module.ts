@@ -30,7 +30,6 @@ export function initializeFactory(init: InitializeAppService) {
     IonicModule.forRoot(),
     AppRoutingModule,
     BrowserAnimationsModule,
-    FormsModule,
   ],
   providers: [
     SQLiteService,

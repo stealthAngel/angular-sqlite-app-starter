@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -16,10 +16,12 @@ import { MissionRepository } from 'src/app/repositories/mission.repository';
     FormsModule,
     IonicModule,
     CountersPageRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [
     MissionRepository,
-    CounterRepository
+    CounterRepository,
+    FormBuilder
   ],
   declarations: [CountersPage]
 })
