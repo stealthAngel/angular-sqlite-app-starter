@@ -23,37 +23,31 @@ export function initializeFactory(init: InitializeAppService) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    BrowserAnimationsModule,
-  ],
-  providers: [
-    SQLiteService,
-    DetailService,
-
-    DatabaseService,
-
-    InitializeAppService,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeFactory,
-      deps: [InitializeAppService],
-      multi: true
-    },
-
-    MigrationService,
-    ProductRepository,
-    ProductDefaultQueryRepository,
-
-    MapperService,
-
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-  ],
-  bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        BrowserAnimationsModule,
+    ],
+    providers: [
+        SQLiteService,
+        DetailService,
+        DatabaseService,
+        InitializeAppService,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeFactory,
+            deps: [InitializeAppService],
+            multi: true
+        },
+        MigrationService,
+        ProductRepository,
+        ProductDefaultQueryRepository,
+        MapperService,
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    ],
+    bootstrap: [AppComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
