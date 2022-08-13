@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="title">
-    <ion-title>Missions</ion-title>
+    <ion-title>Mission List</ion-title>
     <ion-buttons slot="end">
       <ion-button id="popover-button">
         <ion-icon icon="ellipsis-vertical" slot="icon-only"></ion-icon>
@@ -23,48 +23,42 @@
   <swiper class="custom-swiper" (slideChange)="onSlideChange()" (swiper)="setSwiperInstance($event)">
     <ng-template swiperSlide>
       <ng-container *ngFor="let mission of missions; let i = index;">
-        <app-flipper>
-          <div front>
-            <ion-card>
-              <ion-card-content>
-                <ion-row>
-                  <ion-col size="7" (click)="onMissionClick(mission.id)">
-                    {{mission.countersAmountTotal}}/{{mission.endAmount}} {{mission.name}}
-                  </ion-col>
-                  <ion-col size="4">
-                    {{mission.percentage + '%'}}
-                  </ion-col>
-                  <ion-col size="1" (click)="onFlip(i)">
-                    <ion-icon name="settings-outline"></ion-icon>
-                  </ion-col>
-                </ion-row>
-              </ion-card-content>
-            </ion-card>
-          </div>
-          <div back>
-            <ion-card>
-              <ion-card-content>
-                <ion-row>
-                  <ion-col size="3" (click)="onMissionClick(mission.id)">
-                    <div (click)="onEditMissionClick(mission.id)">
-                      <ion-icon name="create-outline"></ion-icon>
-                      Edit
-                    </div>
-                  </ion-col>
-                  <ion-col size="3">
-                    <div (click)="onDeleteMissionClick(mission.id)">
-                      <ion-icon name="trash-outline"></ion-icon>
-                      Delete
-                    </div>
-                  </ion-col>
-                  <ion-col offset="5" size="1" (click)="onFlip(i)">
-                    <ion-icon name="arrow-undo-outline"></ion-icon>
-                  </ion-col>
-                </ion-row>
-              </ion-card-content>
-            </ion-card>
-          </div>
-        </app-flipper>
+        <ion-card-content>
+          <app-flipper>
+            <div front>
+              <ion-row>
+                <ion-col size="7" (click)="onMissionClick(mission.id)">
+                  {{mission.countersAmountTotal}}/{{mission.endAmount}} {{mission.name}}
+                </ion-col>
+                <ion-col size="4">
+                  {{mission.percentage + '%'}}
+                </ion-col>
+                <ion-col size="1" (click)="onFlip(i)">
+                  <ion-icon name="settings-outline"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </div>
+            <div back>
+              <ion-row>
+                <ion-col size="3" (click)="onMissionClick(mission.id)">
+                  <div (click)="onEditMissionClick(mission.id)">
+                    <ion-icon name="create-outline"></ion-icon>
+                    Edit
+                  </div>
+                </ion-col>
+                <ion-col size="3">
+                  <div (click)="onDeleteMissionClick(mission.id)">
+                    <ion-icon name="trash-outline"></ion-icon>
+                    Delete
+                  </div>
+                </ion-col>
+                <ion-col offset="5" size="1" (click)="onFlip(i)">
+                  <ion-icon name="arrow-undo-outline"></ion-icon>
+                </ion-col>
+              </ion-row>
+            </div>
+          </app-flipper>
+        </ion-card-content>
       </ng-container>
     </ng-template>
     <ng-template swiperSlide>
