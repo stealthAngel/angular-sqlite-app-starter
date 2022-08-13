@@ -2,7 +2,9 @@
   <ion-toolbar color="title">
     <ion-title>{{mission.name}}</ion-title>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="missions"></ion-back-button>
+      <ion-button [routerLink]="['/missions']">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
