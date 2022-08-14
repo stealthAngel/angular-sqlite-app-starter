@@ -62,13 +62,16 @@
       </ng-container>
     </ng-template>
     <ng-template swiperSlide>
-      <ng-container *ngFor="let x of missions$ | async">
-        <p class="ion-margin" [routerLink]="['counters', x.id]">
-          {{x.name}} {{x.countersAmountTotal}}/{{x.endAmount}}
-          <ng-container *ngIf="x.countersAmountTotal >= x.endAmount">
-            <ion-icon class="icon" name="checkmark-circle-outline"></ion-icon>
-          </ng-container>
-        </p>
+      <ng-container *ngFor="let mission of missions$ | async">
+        <div [routerLink]="['/counters', mission.id]">
+          <p class="ion-margin">
+            {{mission.name}} {{mission.countersAmountTotal}}/{{mission.endAmount}}
+            <ng-container *ngIf="mission.countersAmountTotal >= mission.endAmount">
+              <ion-icon class="icon" name="checkmark-circle-outline"></ion-icon>
+            </ng-container>
+          </p>
+        </div>
+
       </ng-container>
     </ng-template>
   </swiper>
@@ -80,18 +83,9 @@
     <ion-content>
       <ion-list>
         <ion-item [button]="true" [detail]="false" [routerLink]="['create']">Add new Mission</ion-item>
-        <ion-item [button]="true" id="nested-trigger">More Options...</ion-item>
-        <ion-popover trigger="nested-trigger" [dismissOnSelect]="true" side="end">
-          <ng-template>
-            <ion-content>
-              <ion-list>
-                <ion-item [button]="true" [detail]="false">Filter</ion-item>
-                <ion-item [button]="true" [detail]="false">Order</ion-item>
-              </ion-list>
-            </ion-content>
-          </ng-template>
-        </ion-popover>
-        <ion-item [button]="true" [detail]="false">Settings</ion-item>
+        <ion-item [button]="true" [detail]="false" [routerLink]="['create']">Filter</ion-item>
+        <ion-item [button]="true" [detail]="false" [routerLink]="['create']">Order</ion-item>
+        <ion-item [button]="true" [detail]="false" [routerLink]="['settings']">Settings</ion-item>
       </ion-list>
     </ion-content>
   </ng-template>
