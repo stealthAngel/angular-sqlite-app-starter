@@ -16,7 +16,8 @@ import {
 export class FlipperComponent implements OnInit {
 
   data: boolean = false;
-
+  @Input()
+  customFrontCss: string;
   ngOnInit(): void {
   }
 

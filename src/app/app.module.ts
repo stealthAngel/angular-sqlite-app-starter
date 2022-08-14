@@ -17,7 +17,7 @@ import { ProductDefaultQueryRepository } from './repositories/product.default.qu
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MapperService } from './services/mapper.service';
-import { FormsModule } from '@angular/forms';
+import { MissionService } from './services/mission.service';
 
 export function initializeFactory(init: InitializeAppService) {
   return () => init.initializeApp();
@@ -46,6 +46,7 @@ export function initializeFactory(init: InitializeAppService) {
     ProductRepository,
     ProductDefaultQueryRepository,
     MapperService,
+    MissionService
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],

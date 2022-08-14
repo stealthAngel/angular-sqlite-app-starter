@@ -24,7 +24,7 @@
     <ng-template swiperSlide>
       <ng-container *ngFor="let mission of missions; let i = index;">
         <ion-card-content>
-          <app-flipper>
+          <app-flipper [customFrontCss]="mission.countersAmountTotal >= mission.endAmount ? 'card-completed' : ''">
             <div front>
               <ion-row>
                 <ion-col size="7" [routerLink]="['/counters', mission.id]">
@@ -64,9 +64,9 @@
     <ng-template swiperSlide>
       <ng-container *ngFor="let x of missions">
         <p class="ion-margin" [routerLink]="['counters', x.id]">
-          {{x.name}} {{x.totalAmount}}/{{x.endAmount}}
-          <ng-container *ngIf="x.totalAmount >= x.endAmount">
-            <ion-icon name="checkmark-circle-outline"></ion-icon>
+          {{x.name}} {{x.countersAmountTotal}}/{{x.endAmount}}
+          <ng-container *ngIf="x.countersAmountTotal >= x.endAmount">
+            <ion-icon class="icon" name="checkmark-circle-outline"></ion-icon>
           </ng-container>
         </p>
       </ng-container>

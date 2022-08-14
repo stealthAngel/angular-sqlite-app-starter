@@ -2,8 +2,8 @@ import { ChangeDetectorRef, Component, OnInit, QueryList, TemplateRef, ViewChild
 import { Router } from '@angular/router';
 import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
 import { MissionDto } from 'src/app/models/MissionDto';
-import { MissionRepository } from 'src/app/repositories/mission.repository';
 import { MapperService } from 'src/app/services/mapper.service';
+import { MissionService } from 'src/app/services/mission.service';
 import { Swiper } from 'swiper';
 @Component({
   selector: 'app-missions',
@@ -21,10 +21,15 @@ export class MissionsPage implements OnInit {
   swiper: Swiper;
 
 
-  constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private changeDetectorRef: ChangeDetectorRef, private router: Router) { }
+  constructor(private missionService: MissionService, private changeDetectorRef: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit() {
+    console.log('woefjowejfwo');
     this.get();
+  }
+
+  ionViewDidEnter(){
+
   }
 
   onFlip(index: number) {
@@ -53,8 +58,7 @@ export class MissionsPage implements OnInit {
   }
 
   async get() {
-    let missions = await this.missionRepository.getMissions();
-    this.missions = missions.map(m => this.mapperService.toDto(m));
+    let missions = this.missionService.missions$;this.mapperService.toDto(m)
   }
 
 }

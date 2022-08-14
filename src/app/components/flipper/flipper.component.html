@@ -1,7 +1,7 @@
 <div class="flippy-container ">
   <div class="flippy-cardContainer-wrapper horizontal">
     <div class="flippy-cardContainer" [class.isActive]="data">
-      <div class="flippy-card flippy-front" style="transition-duration: 0.6s;">
+      <div class="flippy-card flippy-front {{customFrontCss}}" style="transition-duration: 0.6s;">
         <ng-content select="[front]"></ng-content>
       </div>
       <div class="flippy-card flippy-back" style="transition-duration: 0.6s;">

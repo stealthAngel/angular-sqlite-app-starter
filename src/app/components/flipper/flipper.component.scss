@@ -1,4 +1,10 @@
 // taken from https://github.com/sbayd/react-flippy/blob/master/src/lib/styles.css
+
+.card-completed {
+  background-color: var(--ion-color-success,#3dbd23 ) !important;
+}
+
+
 .flippy-container *
 {
     box-sizing: border-box;
