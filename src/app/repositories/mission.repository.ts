@@ -14,7 +14,7 @@ export class MissionRepository {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       var missions: DBSQLiteValues = await db.query(`select missions.* , COALESCE(SUM(counters.amount), 0) as countersAmountTotal from missions left join counters on counters.missionId = missions.id group by missions.id`);
       return missions.values as Mission[];
-    });
+    }, 'get misions');
   }
 
   async createMission(mission: Mission): Promise<number> {

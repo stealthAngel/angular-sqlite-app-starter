@@ -13,7 +13,7 @@ export class CounterRepository {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       var counters: DBSQLiteValues = await db.query(`select counters.* from counters where missionId = ${id}`);
       return counters.values as Counter[];
-    });
+    }, 'get counters by mission id');
   }
 
   async getCounterById(id: number): Promise<Counter> {

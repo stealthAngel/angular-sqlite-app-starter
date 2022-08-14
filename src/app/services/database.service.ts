@@ -6,10 +6,11 @@ import { SQLiteService } from './sqlite.service';
 
 export class DatabaseService {
 
+  methodIsCalled = false;
   constructor(private sqlite: SQLiteService) {
   }
 
-  async executeQuery<T>(callback: myCallbackType<T>): Promise<T> {
+  async executeQuery<T>(callback: myCallbackType<T>, debugString: string = ''): Promise<T> {
     try {
       let isConnection = await this.sqlite.isConnection(environment.databaseName);
 
@@ -18,7 +19,7 @@ export class DatabaseService {
         return await callback(db);
       }
       else {
-        const db = await this.sqlite.createConnection(environment.databaseName, false, "no-encryption", 1);
+        const db = await this.sqlite.createConnection(environment.databaseName, false, "no-encryption", 1); //if called simultainiously it's opened two times
         await db.open();
         let cb = await callback(db);
         await db.close();
@@ -26,7 +27,7 @@ export class DatabaseService {
         return cb;
       }
     } catch (error) {
-      throw Error(`error ${error}`);
+      throw Error(`error ${error} .... ${debugString}`);
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { first, map } from 'rxjs/operators';
 import { calculatePercentage } from 'src/app/helpers/maths';
 import { Counter } from 'src/app/models/counter';
 import { CountersCalculation } from 'src/app/models/counters-calculation';
@@ -39,7 +40,9 @@ export class CountersPage implements OnInit {
 
   async init() {
     this.counters = await this.counterRepository.getCountersByMissionId(this.missionId);
-    this.mission = await this.missionService.getMissionById(this.missionId);
+    //set mission by id observable
+    // this.mission = await this.missionService.missions$.pipe(map(x => x.find(y => y.id === this.missionId))).toPromise();
+    // console.log("🚀 ~ file: counters.page.ts ~ line 45 ~ CountersPage ~ init ~ mission", this.mission)
     this.countersCalculated = this.getCountersExtentionObject(this.counters);
   }
 
