@@ -21,7 +21,7 @@ export class CountersPage implements OnInit {
   missionId: number;
   mission: MissionDto = {} as MissionDto;
   counters: Counter[] = [];
-
+  isLoaded = false;
   countersCalculated: CountersCalculation = {} as CountersCalculation;
 
   differentAmountForm = this.formBuilder.group({
@@ -31,19 +31,21 @@ export class CountersPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private counterRepository: CounterRepository, private missionService: MissionService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      this.missionId = params.id;
-    });
-
     this.init();
   }
 
   async init() {
-    this.counters = await this.counterRepository.getCountersByMissionId(this.missionId);
-    //set mission by id observable
-    // this.mission = await this.missionService.missions$.pipe(map(x => x.find(y => y.id === this.missionId))).toPromise();
-    // console.log("🚀 ~ file: counters.page.ts ~ line 45 ~ CountersPage ~ init ~ mission", this.mission)
-    this.countersCalculated = this.getCountersExtentionObject(this.counters);
+
+    this.activatedRoute.params.subscribe(params => {
+      this.missionId = +params.id;
+    });
+
+    this.missionService.missions$.subscribe(async (missions) => {
+      this.mission = missions.find(mission => mission.id === this.missionId);
+      this.counters = await this.counterRepository.getCountersByMissionId(this.missionId);
+      this.countersCalculated = this.getCountersExtentionObject(this.counters);
+      this.isLoaded = true;
+    });
   }
 
   getCountersExtentionObject(counters: Counter[]) {
