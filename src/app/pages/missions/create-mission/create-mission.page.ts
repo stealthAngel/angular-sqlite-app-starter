@@ -37,8 +37,9 @@ export class CreateMissionPage implements OnInit {
 
     this.missionService.createMission(mission);
 
-    this.router.navigate(['/missions']);
+    this.toastService.show('Successfully created!');
 
+    this.router.navigate(['/missions']);
   }
 
 }

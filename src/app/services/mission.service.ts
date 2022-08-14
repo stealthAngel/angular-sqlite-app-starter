@@ -13,10 +13,6 @@ export class MissionService {
   public missionsSubject = new BehaviorSubject<MissionDto[]>([]);
   public missions$ = this.missionsSubject.asObservable();
 
-  async geteMissionById(id: number) {
-    return this.missionsSubject.getValue().find(mission => mission.id === id);
-  }
-
   async createMission(mission: Mission) {
     const missionDto = this.mapperService.mapMissionToDto(mission);
     this.missionsSubject.next([...this.missionsSubject.getValue(), missionDto]);
@@ -34,10 +30,6 @@ export class MissionService {
     this.missionRepository.updateMission(mission);
   }
 
-  public set(missions: MissionDto[]) {
-    this.missionsSubject.next(missions);
-  }
-
   async addCountersAmountTotalToMissionObservable(id: number, amount: number) {
     const mission = this.missionsSubject.getValue().find(m => m.id === id);
     mission.countersAmountTotal += amount;
@@ -47,8 +39,9 @@ export class MissionService {
   async init() {
     let missions = await this.missionRepository.getMissions();
     const missionsDtos = missions.map(mission => this.mapperService.mapMissionToDto(mission));
-    this.set(missionsDtos);
+    this.missionsSubject.next(missionsDtos);
   }
+
   constructor(private missionRepository: MissionRepository, private mapperService: MapperService) {
     this.init();
   }

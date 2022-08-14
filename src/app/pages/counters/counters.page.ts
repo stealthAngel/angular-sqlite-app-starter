@@ -22,7 +22,7 @@ export class CountersPage implements OnInit {
   counters: Counter[] = [];
 
   countersCalculated: CountersCalculation = {} as CountersCalculation;
-  
+
   differentAmountForm = this.formBuilder.group({
     amount: null
   });
@@ -39,7 +39,7 @@ export class CountersPage implements OnInit {
 
   async init() {
     this.counters = await this.counterRepository.getCountersByMissionId(this.missionId);
-    this.mission = await this.missionService.geteMissionById(this.missionId);
+    this.mission = await this.missionService.getMissionById(this.missionId);
     this.countersCalculated = this.getCountersExtentionObject(this.counters);
   }
 
