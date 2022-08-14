@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { calculatePercentage } from '../helpers/maths';
 import { Mission } from '../models/Mission';
+import { MissionDto } from '../models/MissionDto';
 import { MissionRepository } from '../repositories/mission.repository';
 import { MapperService } from './mapper.service';
 
@@ -8,11 +10,16 @@ import { MapperService } from './mapper.service';
   providedIn: 'root'
 })
 export class MissionService {
-  public missionsSubject = new BehaviorSubject<Mission[]>([]);
+  public missionsSubject = new BehaviorSubject<MissionDto[]>([]);
   public missions$ = this.missionsSubject.asObservable();
 
+  async geteMissionById(id: number) {
+    return this.missionsSubject.getValue().find(mission => mission.id === id);
+  }
+
   async createMission(mission: Mission) {
-    this.missionsSubject.next([...this.missionsSubject.getValue(), mission]);
+    const missionDto = this.mapperService.mapMissionToDto(mission);
+    this.missionsSubject.next([...this.missionsSubject.getValue(), missionDto]);
     this.missionRepository.createMission(mission);
   }
 
@@ -22,17 +29,27 @@ export class MissionService {
   }
 
   async updateMission(mission: Mission) {
-    this.missionsSubject.next(this.missionsSubject.getValue().map(m => m.id === mission.id ? mission : m));
+    const missionDto = this.mapperService.mapMissionToDto(mission);
+    this.missionsSubject.next(this.missionsSubject.getValue().map(m => m.id === missionDto.id ? missionDto : m));
     this.missionRepository.updateMission(mission);
   }
 
-  public set(missions: Mission[]) {
+  public set(missions: MissionDto[]) {
     this.missionsSubject.next(missions);
   }
 
+  async addCountersAmountTotalToMissionObservable(id: number, amount: number) {
+    const mission = this.missionsSubject.getValue().find(m => m.id === id);
+    mission.countersAmountTotal += amount;
+    mission.percentage = calculatePercentage(mission.countersAmountTotal, mission.endAmount);
+  }
+
+  async init() {
+    let missions = await this.missionRepository.getMissions();
+    const missionsDtos = missions.map(mission => this.mapperService.mapMissionToDto(mission));
+    this.set(missionsDtos);
+  }
   constructor(private missionRepository: MissionRepository, private mapperService: MapperService) {
-    this.missionRepository.getMissions().then((missions) => {
-      this.set(missions);
-    });
+    this.init();
   }
 }

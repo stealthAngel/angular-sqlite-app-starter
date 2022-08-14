@@ -5,8 +5,10 @@ import { calculatePercentage } from 'src/app/helpers/maths';
 import { Counter } from 'src/app/models/counter';
 import { CountersCalculation } from 'src/app/models/counters-calculation';
 import { Mission } from 'src/app/models/Mission';
+import { MissionDto } from 'src/app/models/MissionDto';
 import { CounterRepository } from 'src/app/repositories/counter.repository';
 import { MissionRepository } from 'src/app/repositories/mission.repository';
+import { MissionService } from 'src/app/services/mission.service';
 
 @Component({
   selector: 'app-counters',
@@ -16,26 +18,20 @@ import { MissionRepository } from 'src/app/repositories/mission.repository';
 export class CountersPage implements OnInit {
 
   missionId: number;
-  mission: Mission = {} as Mission;
+  mission: MissionDto = {} as MissionDto;
   counters: Counter[] = [];
 
   countersCalculated: CountersCalculation = {} as CountersCalculation;
+  
   differentAmountForm = this.formBuilder.group({
     amount: null
   });
 
-  public checkoutForm: FormGroup;
-
-  constructor(private activatedRoute: ActivatedRoute, private counterRepository: CounterRepository, private missionRepository: MissionRepository, private formBuilder: FormBuilder) { }
+  constructor(private activatedRoute: ActivatedRoute, private counterRepository: CounterRepository, private missionService: MissionService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.missionId = params.id;
-    });
-
-    this.checkoutForm = this.formBuilder.group({
-      name: '',
-      address: ''
     });
 
     this.init();
@@ -43,7 +39,7 @@ export class CountersPage implements OnInit {
 
   async init() {
     this.counters = await this.counterRepository.getCountersByMissionId(this.missionId);
-    this.mission = await this.missionRepository.getMissionById(this.missionId);
+    this.mission = await this.missionService.geteMissionById(this.missionId);
     this.countersCalculated = this.getCountersExtentionObject(this.counters);
   }
 
@@ -94,6 +90,8 @@ export class CountersPage implements OnInit {
       createdAt: null
     };
     let lastId = await this.counterRepository.createCounter(counter);
+
+    this.missionService.addCountersAmountTotalToMissionObservable(this.missionId, amount);
 
     let addedCounter = await this.counterRepository.getCounterById(lastId);
 

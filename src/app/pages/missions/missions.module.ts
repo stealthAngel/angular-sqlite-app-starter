@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,6 +13,8 @@ import { SwiperModule } from 'swiper/angular';
 import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
 import { CreateMissionPage } from './create-mission/create-mission.page';
 import { UpdateMissionPage } from './update-mission/update-mission.page';
+import { MissionService } from 'src/app/services/mission.service';
+import { ToastService } from 'src/app/services/toast.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -20,6 +22,7 @@ import { UpdateMissionPage } from './update-mission/update-mission.page';
     IonicModule,
     MissionsPageRoutingModule,
     SwiperModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     MissionsPage,
@@ -29,7 +32,10 @@ import { UpdateMissionPage } from './update-mission/update-mission.page';
   ],
   providers: [
     MissionRepository,
-    CounterRepository
+    CounterRepository,
+    MissionService,
+    ToastService,
+    FormBuilder,
   ]
 })
 export class MissionsPageModule { }

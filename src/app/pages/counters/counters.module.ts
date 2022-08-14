@@ -8,6 +8,7 @@ import { CountersPageRoutingModule } from './counters-routing.module';
 
 import { CountersPage } from './counters.page';
 import { CounterRepository } from 'src/app/repositories/counter.repository';
+import { MissionService } from 'src/app/services/mission.service';
 import { MissionRepository } from 'src/app/repositories/mission.repository';
 
 @NgModule({
@@ -19,8 +20,9 @@ import { MissionRepository } from 'src/app/repositories/mission.repository';
     ReactiveFormsModule,
   ],
   providers: [
-    MissionRepository,
+    MissionService,
     CounterRepository,
+    MissionRepository,
     FormBuilder
   ],
   declarations: [CountersPage]

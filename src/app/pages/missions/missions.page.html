@@ -22,7 +22,7 @@
   <ion-searchbar (ionChange)="onSearchChange($event)" placeholder="Search"></ion-searchbar>
   <swiper class="custom-swiper" (slideChange)="onSlideChange()" (swiper)="setSwiperInstance($event)">
     <ng-template swiperSlide>
-      <ng-container *ngFor="let mission of missions; let i = index;">
+      <ng-container *ngFor="let mission of missions$ | async; let i = index; ">
         <ion-card-content>
           <app-flipper [customFrontCss]="mission.countersAmountTotal >= mission.endAmount ? 'card-completed' : ''">
             <div front>
@@ -62,7 +62,7 @@
       </ng-container>
     </ng-template>
     <ng-template swiperSlide>
-      <ng-container *ngFor="let x of missions">
+      <ng-container *ngFor="let x of missions$ | async">
         <p class="ion-margin" [routerLink]="['counters', x.id]">
           {{x.name}} {{x.countersAmountTotal}}/{{x.endAmount}}
           <ng-container *ngIf="x.countersAmountTotal >= x.endAmount">

@@ -11,12 +11,12 @@ export class MapperService {
 
   constructor() { }
 
-  toDto(mission: Mission): MissionDto {
+  mapMissionToDto(mission: Mission): MissionDto {
     var dto: MissionDto = {
       id: mission.id,
       name: mission.name,
       description: mission.description,
-      countersAmountTotal: mission.countersAmountTotal,
+      countersAmountTotal: mission.countersAmountTotal ?? 0,
       endAmount: mission.endAmount,
     };
 
