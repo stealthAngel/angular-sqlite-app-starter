@@ -10,7 +10,8 @@ import { MapperService } from './mapper.service';
   providedIn: 'root'
 })
 export class MissionService {
-  public missionsSubject = new BehaviorSubject<MissionDto[]>([]);
+
+  private missionsSubject = new BehaviorSubject<MissionDto[]>([]);
   public missions$ = this.missionsSubject.asObservable();
 
   async createMission(mission: Mission) {
