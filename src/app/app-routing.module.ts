@@ -161,7 +161,11 @@ const routes: Routes = [
   {
     path: 'counters/:id',
     loadChildren: () => import('./pages/counters/counters.module').then( m => m.CountersPageModule)
+  },  {
+    path: 'settings',
+    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
   },
+
 
 ];
 
