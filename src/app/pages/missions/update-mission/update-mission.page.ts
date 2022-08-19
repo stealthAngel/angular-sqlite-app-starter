@@ -31,7 +31,7 @@ export class UpdateMissionPage implements OnInit {
 
   async init() {
     this.activatedRoute.params.subscribe(params => {
-      this.missionId = params.id;
+      this.missionId = +params.id;
     });
 
     this.missionService.getMissions()

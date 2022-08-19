@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { calculatePercentage } from '../helpers/maths';
 import { Mission } from '../models/Mission';
 import { MissionDto } from '../models/MissionDto';
 import { MissionRepository } from '../repositories/mission.repository';
@@ -28,22 +27,25 @@ export class MissionService {
   }
 
   async deleteMission(id: number) {
-    this.missionsSubject.next(this.missionsSubject.getValue().filter(mission => mission.id !== id));
     await this.missionRepository.deleteMissionById(id);
+
+    this.missionsSubject.next(this.missionsSubject.getValue().filter(mission => mission.id !== id));
   }
 
-  async updateMission(missionDto: MissionDto) {
-    let mission: Mission = this.mapperService.mapDtoToMission(missionDto);
+  async updateMission(dto: MissionDto) {
+    let mission = this.mapperService.mapDtoToMission(dto);
 
     await this.missionRepository.updateMission(mission);
 
-    await this.reloadMission(mission.id);
+    this.reloadMission(mission.id);
   }
 
   async reloadMission(id: number) {
     let mission = await this.missionRepository.getMissionById(id);
+
     let missionDto = this.mapperService.mapMissionToDto(mission);
-    this.missionsSubject.next(this.missionsSubject.getValue().map(mission => mission.id === id ? missionDto : mission));
+
+    this.missionsSubject.next(this.missionsSubject.getValue().map(m => m.id === missionDto.id ? missionDto : m));
   }
 
   async init() {
