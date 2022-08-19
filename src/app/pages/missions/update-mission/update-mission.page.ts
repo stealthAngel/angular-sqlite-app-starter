@@ -34,10 +34,8 @@ export class UpdateMissionPage implements OnInit {
       this.missionId = params.id;
     });
 
-    //todo fix relaod issue
-    this.missionService.missions$
+    this.missionService.getMissions()
       .subscribe(missions => {
-        console.log("🚀 ~ file: update-mission.page.ts ~ line 40 ~ UpdateMissionPage ~ init ~ missions", missions)
         this.missionDto = missions.find(mission => mission.id == this.missionId);
 
         this.form.patchValue({
@@ -46,22 +44,20 @@ export class UpdateMissionPage implements OnInit {
           description: this.missionDto.description,
         });
       });
-
-    console.log(this.missionDto);
   }
 
-  submit() {
+  async submit() {
     let formValues = this.form.value;
 
-    let mission: Mission = {
+    let mission: MissionDto = {
       name: formValues.name,
       endAmount: +formValues.endAmount,
       description: formValues.description,
-      id: null,
+      id: this.missionId,
       countersAmountTotal: null,
     };
 
-    this.missionService.createMission(mission);
+    await this.missionService.updateMission(mission);
 
     this.toastService.show('Successfully updated!');
 

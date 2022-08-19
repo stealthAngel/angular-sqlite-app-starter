@@ -25,4 +25,16 @@ export class MapperService {
     return dto;
   }
 
+  mapDtoToMission(missionDto: MissionDto): Mission {
+    var mission: Mission = {
+      id: missionDto.id,
+      name: missionDto.name,
+      description: missionDto.description,
+      countersAmountTotal: missionDto.countersAmountTotal,
+      endAmount: missionDto.endAmount,
+    };
+
+    return mission;
+  }
+
 }

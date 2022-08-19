@@ -24,7 +24,7 @@ export class CreateMissionPage implements OnInit {
     this.toastService.show('weiofjwfeowfej');
   }
 
-  submit() {
+  async submit() {
     let formValues = this.form.value;
 
     let mission: Mission = {
@@ -35,7 +35,7 @@ export class CreateMissionPage implements OnInit {
       countersAmountTotal: null,
     };
 
-    this.missionService.createMission(mission);
+    await this.missionService.createMission(mission);
 
     this.toastService.show('Successfully created!');
 

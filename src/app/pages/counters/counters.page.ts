@@ -40,7 +40,7 @@ export class CountersPage implements OnInit {
       this.missionId = +params.id;
     });
 
-    this.missionService.missions$.subscribe(async (missions) => {
+    this.missionService.getMissions().subscribe(async (missions) => {
       this.mission = missions.find(mission => mission.id === this.missionId);
       this.counters = await this.counterRepository.getCountersByMissionId(this.missionId);
       this.countersCalculated = this.getCountersExtentionObject(this.counters);

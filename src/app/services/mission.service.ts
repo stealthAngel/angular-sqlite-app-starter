@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { calculatePercentage } from '../helpers/maths';
 import { Mission } from '../models/Mission';
 import { MissionDto } from '../models/MissionDto';
@@ -12,7 +12,10 @@ import { MapperService } from './mapper.service';
 export class MissionService {
 
   private missionsSubject = new BehaviorSubject<MissionDto[]>([]);
-  public missions$ = this.missionsSubject.asObservable();
+
+  getMissions(): Observable<MissionDto[]> {
+    return this.missionsSubject.asObservable();
+  }
 
   async createMission(mission: Mission) {
     let missionDto = this.mapperService.mapMissionToDto(mission);
@@ -24,14 +27,19 @@ export class MissionService {
 
   async deleteMission(id: number) {
     this.missionsSubject.next(this.missionsSubject.getValue().filter(mission => mission.id !== id));
-    this.missionRepository.deleteMissionById(id);
+    await this.missionRepository.deleteMissionById(id);
   }
 
-  async updateMission(mission: Mission) {
-    let missionDto = this.mapperService.mapMissionToDto(mission);
-    const updatedMission = await this.missionRepository.updateMission(mission);
-    missionDto.id = updatedMission.id;
-    this.missionsSubject.next(this.missionsSubject.getValue().map(m => m.id === missionDto.id ? missionDto : m));
+  async updateMission(missionDto: MissionDto) {
+    let mission: Mission = this.mapperService.mapDtoToMission(missionDto);
+
+    await this.missionRepository.updateMission(mission);
+
+    mission = await this.missionRepository.getMissionById(mission.id);
+
+    let newMissionDto = this.mapperService.mapMissionToDto(mission);
+
+    this.missionsSubject.next(this.missionsSubject.getValue().map(m => m.id === newMissionDto.id ? newMissionDto : m));
   }
 
   async addCountersAmountTotalToMissionObservable(id: number, amount: number) {
