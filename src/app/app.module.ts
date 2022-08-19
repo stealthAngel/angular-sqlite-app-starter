@@ -20,6 +20,8 @@ import { MapperService } from './services/mapper.service';
 import { MissionService } from './services/mission.service';
 import { MissionRepository } from './repositories/mission.repository';
 import { CounterRepository } from './repositories/counter.repository';
+import { Migration_2022_05_26 } from './migrations/Migration_2022_05_26';
+import { Migration_AppSettings_2022_05_26 } from './migrations/Migration_AppSettings_2022_05_26';
 
 export function initializeFactory(init: InitializeAppService) {
   return () => init.initializeApp();
@@ -51,6 +53,8 @@ export function initializeFactory(init: InitializeAppService) {
     CounterRepository,
     MapperService,
     MissionService,
+    Migration_2022_05_26,
+    Migration_AppSettings_2022_05_26,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent],

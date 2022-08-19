@@ -12,8 +12,9 @@ export class MissionRepository {
 
   async getMissions(): Promise<Mission[]> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      var missions: DBSQLiteValues = await db.query(`select missions.* , COALESCE(SUM(counters.amount), 0) as countersAmountTotal from missions left join counters on counters.missionId = missions.id group by missions.id`);
-      return missions.values as Mission[];
+      var sqlValues: DBSQLiteValues = await db.query(`select missions.* , COALESCE(SUM(counters.amount), 0) as countersAmountTotal from missions left join counters on counters.missionId = missions.id group by missions.id`);
+      let missions: Mission[] = sqlValues.values;
+      return missions;
     }, 'get misions');
   }
 
@@ -23,13 +24,13 @@ export class MissionRepository {
       let values: Array<any> = [mission.name, mission.description, mission.endAmount];
       let ret: any = await db.run(sqlcmd, values);
       if (ret.changes.lastId > 0) {
-        return ret.changes as number;
+        return ret.changes.lastId;
       }
       throw Error('create mission failed');
     });
   }
 
-  async updateMission(mission: Mission) {
+  async updateMission(mission: Mission): Promise<Mission> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       let sqlcmd: string = "update missions set name = ?, description = ?, endAmount = ? where id = ?";
       let values: Array<any> = [mission.name, mission.description, mission.endAmount, mission.id];
@@ -50,7 +51,7 @@ export class MissionRepository {
       throw Error('get mission by id failed');
     });
   }
-  
+
   async deleteMissionById(id: number): Promise<void> {
     this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       await db.query(`delete from missions where id = ${id};`);

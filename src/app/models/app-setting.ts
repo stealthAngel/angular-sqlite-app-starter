@@ -2,7 +2,6 @@ export interface AppSetting {
   id: number;
   name: string;
   value: any;
-  orderIndex: number;
 }
 
 export interface AppSettingsFindAGoodName {
@@ -50,9 +49,4 @@ let startUpSettings: SettingsType = {
   }
 };
 
-// let startUpSettings: AppSetting[] = [
-//   { id: 1, name: settingTypes.SHOULD_SCROLL_UP, value: 'false', orderIndex: 1 },
-//   { id: 2, name: settingTypes.SHOW_MISSION_COMPLETED_COLOR, value: 'false', orderIndex: 2 },
-//   { id: 3, name: settingTypes.THEME, value: colorThemes.DEFAULT, orderIndex: 3 },
-//   { id: 4, name: settingTypes.FONT, value: fontThemes.DEFAULT, orderIndex: 4 }
-// ];
+export { startUpSettings };

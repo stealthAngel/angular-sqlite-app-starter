@@ -17,7 +17,6 @@ export class InitializeAppService {
       try {
         //execute startup queries
         await this.migrationService.migrate();
-
       } catch (error) {
         throw Error(`initializeAppError: ${error}`);
       }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DBSQLiteValues, SQLiteDBConnection } from '@capacitor-community/sqlite';
-import { AppSetting } from '../models/app-setting';
+import { AppSetting, startUpSettings } from '../models/app-setting';
 import { DatabaseService } from '../services/database.service';
 
 @Injectable({
@@ -13,28 +13,26 @@ export class AppSettingRepository {
 
   async getAppSettings(): Promise<AppSetting[]> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      var x: DBSQLiteValues = await db.query(`select * from appSettings order by orderIndex;`);
+      var x: DBSQLiteValues = await db.query(`select * from appSettings;`);
       return x.values as AppSetting[];
     }, 'get appsettings');
   }
 
   initAppSettings = async (): Promise<void> => {
-
-    // let startUpSettings: AppSetting[] = [
-    //   { id: 1, name: settingTypes.SHOULD_SCROLL_UP, value: 'false', orderIndex: 1 },
-    //   { id: 2, name: settingTypes.SHOW_MISSION_COMPLETED_COLOR, value: 'false', orderIndex: 2 },
-    //   { id: 3, name: settingTypes.THEME, value: colorThemes.DEFAULT, orderIndex: 3 },
-    //   { id: 4, name: settingTypes.FONT, value: fontThemes.DEFAULT, orderIndex: 4 }
-    // ];
+    let appSettings = await this.getAppSettings();
 
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      let appSettings = await this.getAppSettings();
-      for (let x of appSettings) {
-        if (!appSettings.map(x => x.name).includes(x.name)) {
-          await db.run("INSERT INTO appSettings (name, value, orderIndex) VALUES (?, ?, ?);", [x.name, x.value, x.orderIndex]);
+      console.log(appSettings);
+      for (const [key, value] of Object.entries(startUpSettings)) {
+        let hasName = appSettings.map(x => x.name).includes(key);
+        if (!hasName) {
+          await db.run("INSERT INTO appSettings (name, value) VALUES (?, ?);", [key, value.value]);
         }
       }
     });
+
+    let x = await this.getAppSettings();
+    console.log(x);
 
   }
 

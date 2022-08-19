@@ -15,9 +15,11 @@ export class MissionService {
   public missions$ = this.missionsSubject.asObservable();
 
   async createMission(mission: Mission) {
-    const missionDto = this.mapperService.mapMissionToDto(mission);
+    let missionDto = this.mapperService.mapMissionToDto(mission);
+    var id = await this.missionRepository.createMission(mission);
+    missionDto.id = id;
+
     this.missionsSubject.next([...this.missionsSubject.getValue(), missionDto]);
-    this.missionRepository.createMission(mission);
   }
 
   async deleteMission(id: number) {
@@ -26,9 +28,10 @@ export class MissionService {
   }
 
   async updateMission(mission: Mission) {
-    const missionDto = this.mapperService.mapMissionToDto(mission);
+    let missionDto = this.mapperService.mapMissionToDto(mission);
+    const updatedMission = await this.missionRepository.updateMission(mission);
+    missionDto.id = updatedMission.id;
     this.missionsSubject.next(this.missionsSubject.getValue().map(m => m.id === missionDto.id ? missionDto : m));
-    this.missionRepository.updateMission(mission);
   }
 
   async addCountersAmountTotalToMissionObservable(id: number, amount: number) {
