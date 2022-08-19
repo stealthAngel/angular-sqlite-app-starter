@@ -15,6 +15,7 @@ import { CreateMissionPage } from './create-mission/create-mission.page';
 import { UpdateMissionPage } from './update-mission/update-mission.page';
 import { MissionService } from 'src/app/services/mission.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { AlertService } from 'src/app/alert.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -36,6 +37,7 @@ import { ToastService } from 'src/app/services/toast.service';
     MissionService,
     ToastService,
     FormBuilder,
+    AlertService,
   ]
 })
 export class MissionsPageModule { }

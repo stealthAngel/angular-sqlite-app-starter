@@ -1,10 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit, QueryList, TemplateRef, ViewChild, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
+import { AlertService } from 'src/app/alert.service';
 import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
 import { MissionDto } from 'src/app/models/MissionDto';
 import { MapperService } from 'src/app/services/mapper.service';
 import { MissionService } from 'src/app/services/mission.service';
+import { ToastService } from 'src/app/services/toast.service';
 import { Swiper } from 'swiper';
 @Component({
   selector: 'app-missions',
@@ -22,7 +25,7 @@ export class MissionsPage implements OnInit {
   swiper: Swiper;
 
 
-  constructor(private missionService: MissionService, private changeDetectorRef: ChangeDetectorRef, private router: Router) { }
+  constructor(private missionService: MissionService, private changeDetectorRef: ChangeDetectorRef, private alertService: AlertService, private toastService: ToastService, private router: Router) { }
 
   ngOnInit() {
     this.missions$ = this.missionService.missions$;
@@ -44,8 +47,13 @@ export class MissionsPage implements OnInit {
     console.log("onSearchChange", $event.detail.value);
   }
 
-  onDeleteMissionClick(id: number) {
-    console.log("onDeleteMissionClick", id);
+  async onDeleteMissionClick(id: number) {
+    let shouldDelete = await this.alertService.presentCancelOkAlert("Delete Mission", "Are you sure you want to delete this mission?");
+    if (shouldDelete) {
+      this.missionService.deleteMission(id);
+      this.toastService.show("Mission deleted");
+    }
+
   }
 
   onSlideChange() {
