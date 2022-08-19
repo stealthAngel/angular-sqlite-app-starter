@@ -4,11 +4,6 @@ export interface AppSetting {
   value: any;
 }
 
-export interface AppSettingsFindAGoodName {
-  value: any;
-  userText: string;
-}
-
 export enum ColorThemes {
   DEFAULT,
   DARK,
@@ -23,30 +18,23 @@ export enum FontThemes {
   DANCING_SCRIPT
 }
 
-export interface SettingsType {
-  SHOULD_SCROLL_UP: AppSettingsFindAGoodName;
-  SHOW_MISSION_COMPLETED_COLOR: AppSettingsFindAGoodName;
-  THEME: AppSettingsFindAGoodName;
-  FONT: AppSettingsFindAGoodName;
+export enum SettingTypes {
+  SHOULD_SCROLL_UP,
+  SHOW_MISSION_COMPLETED_COLOR,
+  THEME,
+  FONT
 }
 
-let startUpSettings: SettingsType = {
-  SHOULD_SCROLL_UP: {
-    value: 'false',
-    userText: 'Should scroll up'
-  },
-  SHOW_MISSION_COMPLETED_COLOR: {
-    value: 'false',
-    userText: 'Show mission completed color'
-  },
-  THEME: {
-    value: ColorThemes[ColorThemes.DEFAULT],
-    userText: 'Default'
-  },
-  FONT: {
-    value: FontThemes[FontThemes.DEFAULT],
-    userText: 'Default'
-  }
-};
+export interface startUpSetting {
+  name: string;
+  value: any;
+}
+
+let startUpSettings: startUpSetting[] = [
+  { name: SettingTypes[SettingTypes.SHOULD_SCROLL_UP], value: false },
+  { name: SettingTypes[SettingTypes.SHOW_MISSION_COMPLETED_COLOR], value: false },
+  { name: SettingTypes[SettingTypes.THEME], value: ColorThemes[ColorThemes.DEFAULT] },
+  { name: SettingTypes[SettingTypes.FONT], value: FontThemes[FontThemes.DEFAULT] }
+];
 
 export { startUpSettings };

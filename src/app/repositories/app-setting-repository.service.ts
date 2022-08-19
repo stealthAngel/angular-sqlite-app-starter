@@ -21,19 +21,33 @@ export class AppSettingRepository {
   initAppSettings = async (): Promise<void> => {
     let appSettings = await this.getAppSettings();
 
-    return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      console.log(appSettings);
-      for (const [key, value] of Object.entries(startUpSettings)) {
-        let hasName = appSettings.map(x => x.name).includes(key);
-        if (!hasName) {
-          await db.run("INSERT INTO appSettings (name, value) VALUES (?, ?);", [key, value.value]);
-        }
+    for (const startUpSetting of startUpSettings) {
+      let hasName = appSettings.map(x => x.name).includes(startUpSetting.name);
+
+      if (!hasName) {
+        let appSetting: AppSetting = {
+          id: null,
+          name: startUpSetting.name,
+          value: startUpSetting.value,
+        };
+
+        await this.createAppSetting(appSetting);
       }
-    });
+    }
+  }
 
-    let x = await this.getAppSettings();
-    console.log(x);
+  async createAppSetting(appSetting: AppSetting): Promise<void> {
+    return this.databaseService.executeQuery(async (db: SQLiteDBConnection) => {
+      await db.run("INSERT INTO appSettings (name, value) VALUES (?, ?);", [appSetting.name, appSetting.value]);
+    }, 'create appsetting');
+  }
 
+  async updateAppSettings(appSettings: AppSetting[]): Promise<void> {
+    return this.databaseService.executeQuery(async (db: SQLiteDBConnection) => {
+      for (const appSetting of appSettings) {
+        await db.run("UPDATE appSettings SET value = ? WHERE name = ?;", [appSetting.value, appSetting.name]);
+      }
+    }, 'update appsettings');
   }
 
   // updateAppSettings = async (settings: AppSetting[]): Promise<void> => {

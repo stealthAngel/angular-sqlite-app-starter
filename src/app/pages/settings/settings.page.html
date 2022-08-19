@@ -1,49 +1,50 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>settings</ion-title>
+  <ion-toolbar color="title">
+    <ion-title>Settings</ion-title>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/missions']">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <!-- <ion-list>
-
-    <div>
-      <ion-item key={x.name}>
-        <ion-label>scrolls up on tab switch mission view</ion-label>
+  <ion-list>
+    <div *ngFor="let appSetting of appSettings">
+      <ion-item *ngIf="appSetting.name == SettingTypes[SettingTypes.SHOULD_SCROLL_UP]">
+        <ion-label>Scrolls up on tab switch mission view</ion-label>
         <ion-toggle> [checked]="setting.value" (ionChange)="updateSetting(setting)"></ion-toggle>
-      </ion-item> -->
-      <!-- {x.name === settingTypes.SHOW_MISSION_COMPLETED_COLOR &&
-          <ion-item key={x.name}>
-            <ion-label>Show color if a mission is complete</ion-label>
-            <ion-toggle checked={x.value === 'true'}/>
-          </ion-item>
-        }
-        {x.name === settingTypes.THEME &&
-          <ion-item key={x.name}>
-            <ion-label>Color Themes:</ion-label>
-            <ion-select value={x.value}>
-              {Object.keys(colorThemes).map((key) =>
-                <ion-select-option key={key} value={colorThemes[key as keyof ColorThemes]}>{colorThemesUserText[key as keyof ColorThemes]}</ion-select-option>
-              )}
-            </ion-select>
-          </ion-item>
-        }
-          <ion-item key={x.name}>
-            <ion-label>Color Themes:</ion-label>
-            <ion-select value={x.value} onIonChange={e => updateSetting(x, e.detail.value)}>
-              {Object.keys(fontThemes).map((key) =>
-                <ion-select-option key={key} value={fontThemes[key as keyof FontThemes]}>{fontThemes[key as keyof FontThemes]}</ion-select-option>
-              )}
-            </ion-select>
-          </ion-item>
-        } -->
-    <!-- </div> -->
+      </ion-item>
 
-    <!-- </IonList>
-    <div className="ion-padding">
-      <IonButton expand="block" class="ion-no-margin" onClick={()=> onSubmitForm()}
-        >
-        Update Settings
-      </IonButton>
-    </div> -->
+      <ion-item *ngIf="appSetting.name == SettingTypes[SettingTypes.SHOW_MISSION_COMPLETED_COLOR]">
+        <ion-label>Show color if a mission is complete</ion-label>
+        <ion-toggle> [checked]="setting.value" (ionChange)="updateSetting(setting)"></ion-toggle>
+      </ion-item>
+
+      <ion-item *ngIf="appSetting.name == SettingTypes[SettingTypes.THEME]">
+        <ion-label>Color Themes:</ion-label>
+        <ion-select placeholder="{{appSetting.value}}" [value]="appSetting.value">
+          <ion-select-option *ngFor="let theme of ColorThemes | enumToArray" [value]="theme.name">{{theme.name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item *ngIf="appSetting.name == SettingTypes[SettingTypes.FONT]">
+        <ion-label>Font Themes:</ion-label>
+        <ion-select placeholder="{{appSetting.value}}" [value]="appSetting.value">
+          <ion-select-option *ngFor="let theme of FontThemes | enumToArray" [value]="theme.name">{{theme.name}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+
+  </ion-list>
+
+  <div className="ion-padding">
+    <ion-button expand="block" class="ion-no-margin" (click)="submit()">
+      Update Settings
+    </ion-button>
+  </div>
+
 </ion-content>

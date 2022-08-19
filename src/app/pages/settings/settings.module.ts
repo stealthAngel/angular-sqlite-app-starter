@@ -8,6 +8,7 @@ import { SettingsPageRoutingModule } from './settings-routing.module';
 
 import { SettingsPage } from './settings.page';
 import { AppSettingRepository } from 'src/app/repositories/app-setting-repository.service';
+import { EnumToArrayPipe } from 'src/app/enum-to-array.pipe';
 
 @NgModule({
   imports: [
@@ -16,8 +17,8 @@ import { AppSettingRepository } from 'src/app/repositories/app-setting-repositor
     IonicModule,
     SettingsPageRoutingModule,
   ],
-  declarations: [SettingsPage],
+  declarations: [SettingsPage, EnumToArrayPipe],
 
-  providers: [AppSettingRepository,],
+  providers: [AppSettingRepository],
 })
 export class SettingsPageModule { }
