@@ -42,13 +42,61 @@ export class CountersPage implements OnInit {
 
     this.missionService.getMissions().subscribe(async (missions) => {
       this.mission = missions.find(mission => mission.id === this.missionId);
-      this.counters = await this.counterRepository.getCountersByMissionId(this.missionId);
-      this.countersCalculated = this.getCountersExtentionObject(this.counters);
-      this.isLoaded = true;
     });
+
+    this.counters = await this.counterRepository.getCountersByMissionId(this.missionId);
+
+    this.counters.sort((a, b) => {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    }).reverse();
+
+    this.countersCalculated = this.getCountersExtentionObject(this.counters);
+
+    this.isLoaded = true;
   }
 
-  getCountersExtentionObject(counters: Counter[]) {
+  async onCreateCounter(amount: number) {
+    this.createCounter(amount);
+  }
+
+  onAddDifferentCounter() {
+    let amount = this.differentAmountForm.get('amount').value;
+
+    this.differentAmountForm.reset();
+
+    this.createCounter(+amount);
+  }
+
+  async createCounter(amount: number) {
+    let counter: Counter = {
+      id: null,
+      amount: amount,
+      missionId: this.missionId,
+      createdAt: null
+    };
+
+    let lastId = await this.counterRepository.createCounter(counter);
+
+    this.missionService.reloadMission(this.missionId);
+
+    let addedCounter = await this.counterRepository.getCounterById(lastId);
+
+    this.counters.unshift(addedCounter);
+
+    this.countersCalculated = this.getCountersExtentionObject(this.counters);
+  }
+
+  async deleteCounter(id: number) {
+    await this.counterRepository.deleteCounterById(id);
+
+    this.counters = this.counters.filter(counter => counter.id !== id);
+  }
+
+  onDeleteClick(id: number) {
+    this.deleteCounter(id);
+  }
+
+  getCountersExtentionObject(counters: Counter[]): CountersCalculation {
     let countersToday = counters.filter(counter => new Date(counter.createdAt).getDate() === new Date().getDate());
     let x: CountersCalculation = {} as CountersCalculation;//x is counters calculated
     x.total = counters.reduce((acc, curr) => acc + curr.amount, 0);
@@ -74,47 +122,5 @@ export class CountersPage implements OnInit {
     }
     return null;
   }
-
-  async onCreateCounter(amount: number) {
-    this.createCounter(amount);
-  }
-
-  onAddDifferentCounter() {
-    let amount = this.differentAmountForm.get('amount').value;
-
-    this.differentAmountForm.reset();
-
-    this.createCounter(+amount);
-  }
-
-  async createCounter(amount: number) {
-    let counter: Counter = {
-      id: null,
-      amount: amount,
-      missionId: this.missionId,
-      createdAt: null
-    };
-    let lastId = await this.counterRepository.createCounter(counter);
-
-    this.missionService.addCountersAmountTotalToMissionObservable(this.missionId, amount);
-
-    let addedCounter = await this.counterRepository.getCounterById(lastId);
-
-    this.counters.unshift(addedCounter);
-
-    this.countersCalculated = this.getCountersExtentionObject(this.counters);
-  }
-
-  async deleteCounter(id: number) {
-    await this.counterRepository.deleteCounterById(id);
-
-    this.counters = this.counters.filter(counter => counter.id !== id);
-  }
-
-  onDeleteClick(id: number) {
-    this.deleteCounter(id);
-  }
-
-
 
 }

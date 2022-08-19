@@ -18,9 +18,11 @@ export class MissionService {
   }
 
   async createMission(mission: Mission) {
-    let missionDto = this.mapperService.mapMissionToDto(mission);
     var id = await this.missionRepository.createMission(mission);
-    missionDto.id = id;
+
+    let storedMission = await this.missionRepository.getMissionById(id);
+
+    let missionDto = this.mapperService.mapMissionToDto(storedMission);
 
     this.missionsSubject.next([...this.missionsSubject.getValue(), missionDto]);
   }
@@ -35,17 +37,13 @@ export class MissionService {
 
     await this.missionRepository.updateMission(mission);
 
-    mission = await this.missionRepository.getMissionById(mission.id);
-
-    let newMissionDto = this.mapperService.mapMissionToDto(mission);
-
-    this.missionsSubject.next(this.missionsSubject.getValue().map(m => m.id === newMissionDto.id ? newMissionDto : m));
+    await this.reloadMission(mission.id);
   }
 
-  async addCountersAmountTotalToMissionObservable(id: number, amount: number) {
-    const mission = this.missionsSubject.getValue().find(m => m.id === id);
-    mission.countersAmountTotal += amount;
-    mission.percentage = calculatePercentage(mission.countersAmountTotal, mission.endAmount);
+  async reloadMission(id: number) {
+    let mission = await this.missionRepository.getMissionById(id);
+    let missionDto = this.mapperService.mapMissionToDto(mission);
+    this.missionsSubject.next(this.missionsSubject.getValue().map(mission => mission.id === id ? missionDto : mission));
   }
 
   async init() {
