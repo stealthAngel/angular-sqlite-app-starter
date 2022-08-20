@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 import { AlertService } from 'src/app/alert.service';
 import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
 import { MissionDto } from 'src/app/models/MissionDto';
@@ -18,7 +19,7 @@ export class MissionsPage implements OnInit {
 
   selectedSegment: string = this.segments[0];
 
-  searchTerm: string;
+  searchTerm: string = '';
 
   @ViewChildren(FlipperComponent) flippers: QueryList<FlipperComponent>;
 
@@ -30,6 +31,14 @@ export class MissionsPage implements OnInit {
     this.missionService.getMissions().subscribe(missions => {
       this.missions = missions;
     });
+  }
+
+  getMissions() {
+    if (this.searchTerm != '') {
+      return this.missions.filter(mission => mission.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+    }
+    
+    return this.missions;
   }
 
   onFlip(index: number) {
