@@ -1,15 +1,14 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
 import { CountersPageRoutingModule } from './counters-routing.module';
 
-import { CountersPage } from './counters.page';
 import { CounterRepository } from 'src/app/repositories/counter.repository';
-import { MissionService } from 'src/app/services/mission.service';
 import { MissionRepository } from 'src/app/repositories/mission.repository';
+import { CountersPage } from './counters.page';
 
 @NgModule({
   imports: [
@@ -20,7 +19,6 @@ import { MissionRepository } from 'src/app/repositories/mission.repository';
     ReactiveFormsModule,
   ],
   providers: [
-    MissionService,
     CounterRepository,
     MissionRepository,
     FormBuilder

@@ -1,15 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { first, map } from 'rxjs/operators';
 import { calculatePercentage } from 'src/app/helpers/maths';
 import { Counter } from 'src/app/models/counter';
 import { CountersCalculation } from 'src/app/models/counters-calculation';
-import { Mission } from 'src/app/models/Mission';
 import { MissionDto } from 'src/app/models/MissionDto';
 import { CounterRepository } from 'src/app/repositories/counter.repository';
 import { MissionRepository } from 'src/app/repositories/mission.repository';
-import { MissionService } from 'src/app/services/mission.service';
 
 @Component({
   selector: 'app-counters',
@@ -22,27 +19,24 @@ export class CountersPage implements OnInit {
   mission: MissionDto = {} as MissionDto;
   counters: Counter[] = [];
   isLoaded = false;
-  countersCalculated: CountersCalculation = {} as CountersCalculation;
+  countersExtentionObject: CountersCalculation = {} as CountersCalculation;
 
   differentAmountForm = this.formBuilder.group({
     amount: null
   });
 
-  constructor(private activatedRoute: ActivatedRoute, private counterRepository: CounterRepository, private missionService: MissionService, private formBuilder: FormBuilder) { }
+  constructor(private activatedRoute: ActivatedRoute, private counterRepository: CounterRepository, private missionRepository: MissionRepository, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.init();
   }
 
   async init() {
-
     this.activatedRoute.params.subscribe(params => {
       this.missionId = +params.id;
     });
 
-    this.missionService.getMissions().subscribe(async (missions) => {
-      this.mission = missions.find(mission => mission.id === this.missionId);
-    });
+    this.mission = await this.missionRepository.getMissionById(this.missionId);
 
     this.counters = await this.counterRepository.getCountersByMissionId(this.missionId);
 
@@ -50,7 +44,7 @@ export class CountersPage implements OnInit {
       return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     }).reverse();
 
-    this.countersCalculated = this.getCountersExtentionObject(this.counters);
+    this.countersExtentionObject = this.getCountersExtentionObject(this.counters);
 
     this.isLoaded = true;
   }
@@ -77,13 +71,11 @@ export class CountersPage implements OnInit {
 
     let lastId = await this.counterRepository.createCounter(counter);
 
-    this.missionService.reloadMission(this.missionId);
-
     let addedCounter = await this.counterRepository.getCounterById(lastId);
 
     this.counters.unshift(addedCounter);
 
-    this.countersCalculated = this.getCountersExtentionObject(this.counters);
+    this.countersExtentionObject = this.getCountersExtentionObject(this.counters);
   }
 
   async deleteCounter(id: number) {

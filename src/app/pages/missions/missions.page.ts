@@ -1,14 +1,15 @@
 import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { PickerController } from '@ionic/angular';
-import { filter } from 'rxjs/operators';
 import { AlertService } from 'src/app/alert.service';
 import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
 import { MissionDto } from 'src/app/models/MissionDto';
 import { MissionFilters } from 'src/app/models/missionFilter';
-import { MissionService } from 'src/app/services/mission.service';
+import { MissionRepository } from 'src/app/repositories/mission.repository';
+import { MapperService } from 'src/app/services/mapper.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { Swiper } from 'swiper';
+
 @Component({
   selector: 'app-missions',
   templateUrl: './missions.page.html',
@@ -17,6 +18,7 @@ import { Swiper } from 'swiper';
 export class MissionsPage implements OnInit {
 
   missions: MissionDto[] = [];
+  filteredMissions: MissionDto[] = [];
 
   segments: string[] = ['Card View', 'Notepad View'];
 
@@ -31,25 +33,25 @@ export class MissionsPage implements OnInit {
 
   swiper: Swiper;
 
-  constructor(private missionService: MissionService, private changeDetectorRef: ChangeDetectorRef, private pickerController: PickerController, private alertService: AlertService, private toastService: ToastService, private router: Router) { }
+  constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private changeDetectorRef: ChangeDetectorRef, private pickerController: PickerController, private alertService: AlertService, private toastService: ToastService, private router: Router) { }
 
   ngOnInit() {
-    this.missionService.getMissions().subscribe(missions => {
-      this.missions = missions;
+    this.missionRepository.getMissions().then(missions => {
+      this.missions = missions.map(x => this.mapperService.mapMissionToDto(x));
+      this.filteredMissions = this.missions;
     });
   }
 
-  getMissions() {
-    console.log(this.missions);
-    let filteredMissions = this.missions;
-    if (this.searchTerm) {
-      filteredMissions = filteredMissions.filter(mission => mission.name.toLowerCase().includes(this.searchTerm.toLowerCase()));
+  filterMissions(missions: MissionDto[], searchTerm: string, orderBy: string, orderValue: string) {
+    let filteredMissions = missions;
+    if (searchTerm) {
+      filteredMissions = filteredMissions.filter(mission => mission.name.toLowerCase().includes(searchTerm.toLowerCase()));
     }
-    if (this.orderValue) {
+    if (orderValue) {
       filteredMissions = filteredMissions.sort((a, b) => {
         let valueA: any;
         let valueB: any;
-        switch (this.orderValue) {
+        switch (orderValue) {
           case MissionFilters[MissionFilters.Name]:
             valueA = a.name;
             valueB = b.name;
@@ -69,7 +71,7 @@ export class MissionsPage implements OnInit {
           default:
             break;
         }
-        if (this.orderBy === MissionFilters[MissionFilters.Ascending]) {
+        if (orderBy === MissionFilters[MissionFilters.Ascending]) {
           return valueA > valueB ? 1 : -1;
         } else {
           return valueA < valueB ? 1 : -1;
@@ -90,12 +92,14 @@ export class MissionsPage implements OnInit {
 
   onSearchChange($event) {
     this.searchTerm = $event.detail.value;
+    this.filteredMissions = this.filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue);
   }
 
   async onDeleteMissionClick(id: number) {
     let shouldDelete = await this.alertService.presentCancelOkAlert("Delete Mission", "Are you sure you want to delete this mission?");
     if (shouldDelete) {
-      await this.missionService.deleteMission(id);
+      await this.missionRepository.deleteMissionById(id);
+      this.missions = this.missions.filter(mission => mission.id !== id);
       this.toastService.show("Mission deleted");
     }
   }
@@ -120,6 +124,7 @@ export class MissionsPage implements OnInit {
           handler: (selected) => {
             this.orderBy = selected.orderBy.value;
             this.orderValue = selected.orderValue.value;
+            this.filteredMissions = this.filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue);
             this.changeDetectorRef.detectChanges();
           },
         }

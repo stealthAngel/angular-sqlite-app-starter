@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Mission } from 'src/app/models/Mission';
-import { MissionService } from 'src/app/services/mission.service';
+import { MissionRepository } from 'src/app/repositories/mission.repository';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -32,7 +32,7 @@ export class CreateMissionPage implements OnInit {
     ],
   }
 
-  constructor(private formBuilder: FormBuilder, private toastService: ToastService, private missionService: MissionService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private toastService: ToastService, private missionRepository: MissionRepository, private router: Router) { }
 
   ngOnInit() {
   }
@@ -48,7 +48,7 @@ export class CreateMissionPage implements OnInit {
       countersAmountTotal: null,
     };
 
-    await this.missionService.createMission(mission);
+    await this.missionRepository.createMission(mission);
 
     this.toastService.show('Successfully created!');
 

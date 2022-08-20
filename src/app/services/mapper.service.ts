@@ -25,7 +25,7 @@ export class MapperService {
     return dto;
   }
 
-  mapDtoToMission(missionDto: MissionDto): Mission {
+  mapMissionToMissionDto(missionDto: MissionDto): Mission {
     var mission: Mission = {
       id: missionDto.id,
       name: missionDto.name,

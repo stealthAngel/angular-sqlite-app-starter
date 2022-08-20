@@ -4,24 +4,23 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
-import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { SQLiteService } from './services/sqlite.service';
+import { AppComponent } from './app.component';
 import { DetailService } from './services/detail.service';
 import { InitializeAppService } from './services/initialize.app.service';
+import { SQLiteService } from './services/sqlite.service';
 
-import { MigrationService } from './services/migrations.service';
+import { ProductDefaultQueryRepository } from './repositories/product.default.query.repository';
 import { ProductRepository } from './repositories/product.repository';
 import { DatabaseService } from './services/database.service';
-import { ProductDefaultQueryRepository } from './repositories/product.default.query.repository';
+import { MigrationService } from './services/migrations.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MapperService } from './services/mapper.service';
-import { MissionService } from './services/mission.service';
-import { MissionRepository } from './repositories/mission.repository';
-import { CounterRepository } from './repositories/counter.repository';
 import { Migration_2022_05_26 } from './migrations/Migration_2022_05_26';
 import { Migration_AppSettings_2022_05_26 } from './migrations/Migration_AppSettings_2022_05_26';
+import { CounterRepository } from './repositories/counter.repository';
+import { MissionRepository } from './repositories/mission.repository';
+import { MapperService } from './services/mapper.service';
 
 export function initializeFactory(init: InitializeAppService) {
   return () => init.initializeApp();
@@ -52,7 +51,6 @@ export function initializeFactory(init: InitializeAppService) {
     MissionRepository,
     CounterRepository,
     MapperService,
-    MissionService,
     Migration_2022_05_26,
     Migration_AppSettings_2022_05_26,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

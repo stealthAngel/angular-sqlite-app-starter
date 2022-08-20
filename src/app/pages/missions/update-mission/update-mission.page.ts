@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Mission } from 'src/app/models/Mission';
 import { MissionDto } from 'src/app/models/MissionDto';
-import { MissionService } from 'src/app/services/mission.service';
+import { MissionRepository } from 'src/app/repositories/mission.repository';
+import { MapperService } from 'src/app/services/mapper.service';
 import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
@@ -39,32 +38,27 @@ export class UpdateMissionPage implements OnInit {
   }
 
 
-  constructor(private missionService: MissionService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private toastService: ToastService, private router: Router) { }
+  constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private toastService: ToastService, private router: Router) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe(params => {
       this.missionId = +params.id;
     });
 
-    this.missionService.getMissions()
-      .subscribe(missions => {
-        if (missions.length === 0) {
-          this.router.navigate(['/missions']);
-        }
-        this.missionDto = missions.find(mission => mission.id == this.missionId);
+    this.missionRepository.getMissionById(this.missionId).then(mission => {
+      if (!mission) {
+        this.router.navigate(['/missions']);
+      }
+      this.missionDto = this.mapperService.mapMissionToMissionDto(mission);
+      this.form.patchValue(this.missionDto);
+    });
 
-        this.form.patchValue({
-          name: this.missionDto.name,
-          endAmount: this.missionDto.endAmount,
-          description: this.missionDto.description,
-        });
-      });
   }
 
   async submit() {
     let formValues = this.form.value;
 
-    let mission: MissionDto = {
+    let mission: Mission = {
       name: formValues.name,
       endAmount: +formValues.endAmount,
       description: formValues.description,
@@ -72,7 +66,7 @@ export class UpdateMissionPage implements OnInit {
       countersAmountTotal: null,
     };
 
-    await this.missionService.updateMission(mission);
+    await this.missionRepository.updateMission(mission);
 
     this.toastService.show('Successfully updated!');
 
