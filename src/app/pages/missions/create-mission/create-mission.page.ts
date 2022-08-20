@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Mission } from 'src/app/models/Mission';
 import { MissionService } from 'src/app/services/mission.service';
@@ -13,15 +13,28 @@ import { ToastService } from 'src/app/services/toast.service';
 export class CreateMissionPage implements OnInit {
 
   form = this.formBuilder.group({
-    name: '',
-    endAmount: null,
-    description: '',
-  });
+    name: new FormControl('', [
+      Validators.required,
+    ]),
+    endAmount: new FormControl(null, [
+      Validators.required,
+      Validators.pattern("^[0-9]*$"),
+    ]),
+    description: new FormControl(''),
+  });;
+
+  validation_messages = {
+    'name': [
+      { type: 'required', message: 'Name is required.' },
+    ],
+    'endAmount': [
+      { type: 'required', message: 'endAmount is required.' },
+    ],
+  }
 
   constructor(private formBuilder: FormBuilder, private toastService: ToastService, private missionService: MissionService, private router: Router) { }
 
   ngOnInit() {
-    this.toastService.show('weiofjwfeowfej');
   }
 
   async submit() {

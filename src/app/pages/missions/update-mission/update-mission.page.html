@@ -18,12 +18,28 @@
         </ion-label>
         <ion-input required type="text" formControlName="name"></ion-input>
       </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.name">
+          <div class="error-message"
+            *ngIf="form.get('name').hasError(validation.type) && (form.get('name').dirty || form.get('name').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
       <ion-item>
         <ion-label position="stacked">
           Amount To Reach <ion-text color="danger">*</ion-text>
         </ion-label>
         <ion-input required type="number" formControlName="endAmount"></ion-input>
       </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.endAmount">
+          <div class="error-message"
+            *ngIf="form.get('endAmount').hasError(validation.type) && (form.get('endAmount').dirty || form.get('endAmount').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
       <ion-item>
         <ion-label position="stacked">
           Description
@@ -32,7 +48,7 @@
       </ion-item>
     </ion-list>
     <div className="ion-padding">
-      <ion-button expand="block" type="submit">
+      <ion-button expand="block" type="submit" [disabled]="form.invalid">
         Update mission
       </ion-button>
     </div>

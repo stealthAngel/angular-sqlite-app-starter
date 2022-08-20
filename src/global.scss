@@ -28,3 +28,12 @@
 /* swiper */
 @import '~swiper/scss';
 @import 'scss/custom-swiper.scss';
+
+
+.validation-errors {
+  //child error
+  .error-message {
+    color: red;
+  }
+
+}

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,25 +17,40 @@ export class UpdateMissionPage implements OnInit {
 
   missionId: number;
   missionDto: MissionDto;
+
   form = this.formBuilder.group({
-    name: '',
-    endAmount: null,
-    description: '',
+    name: new FormControl('', [
+      Validators.required,
+    ]),
+    endAmount: new FormControl(null, [
+      Validators.required,
+      Validators.pattern("^[0-9]*$"),
+    ]),
+    description: new FormControl(''),
   });
+
+  validation_messages = {
+    'name': [
+      { type: 'required', message: 'Name is required.' },
+    ],
+    'endAmount': [
+      { type: 'required', message: 'endAmount is required.' },
+    ],
+  }
+
 
   constructor(private missionService: MissionService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private toastService: ToastService, private router: Router) { }
 
   ngOnInit() {
-    this.init();
-  }
-
-  async init() {
     this.activatedRoute.params.subscribe(params => {
       this.missionId = +params.id;
     });
 
     this.missionService.getMissions()
       .subscribe(missions => {
+        if (missions.length === 0) {
+          this.router.navigate(['/missions']);
+        }
         this.missionDto = missions.find(mission => mission.id == this.missionId);
 
         this.form.patchValue({
