@@ -28,26 +28,39 @@ export class MissionsPage implements OnInit {
   searchTerm: string = '';
   orderValue: string = '';
   orderBy: string = '';
+  completedOrNah: string = '';
 
   @ViewChildren(FlipperComponent) flippers: QueryList<FlipperComponent>;
 
   swiper: Swiper;
 
-  constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private changeDetectorRef: ChangeDetectorRef, private pickerController: PickerController, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) { }
+  constructor(private missionRepository: MissionRepository, private changeDetectorRef: ChangeDetectorRef, private pickerController: PickerController,
+    private alertService: AlertService, private toastService: ToastService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.activatedRoute.data.subscribe(({ missionDtos }) => {
-      console.log(missionDtos);
       this.missions = missionDtos;
       this.filteredMissions = this.missions;
     });
   }
 
-  filterMissions(missions: MissionDto[], searchTerm: string, orderBy: string, orderValue: string) {
+  filterMissions(missions: MissionDto[], searchTerm: string, orderBy: string, orderValue: string, completedOrNah: string) {
     let filteredMissions = missions;
+    //filter by search text;
     if (searchTerm) {
       filteredMissions = filteredMissions.filter(mission => mission.name.toLowerCase().includes(searchTerm.toLowerCase()));
     }
+
+    //filter by completed 
+    if (completedOrNah == 'completed') {
+      filteredMissions = filteredMissions.filter(mission => mission.countersAmountTotal >= mission.endAmount);
+    }
+    else if (completedOrNah == 'notCompleted') {
+      filteredMissions = filteredMissions.filter(mission => mission.countersAmountTotal < mission.endAmount);
+    }
+
+    //filter by order value
     if (orderValue) {
       filteredMissions = filteredMissions.sort((a, b) => {
         let valueA: any;
@@ -93,14 +106,16 @@ export class MissionsPage implements OnInit {
 
   onSearchChange($event) {
     this.searchTerm = $event.detail.value;
-    this.filteredMissions = this.filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue);
+    this.filteredMissions = this.filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedOrNah);
   }
 
   async onDeleteMissionClick(id: number) {
     let shouldDelete = await this.alertService.presentCancelOkAlert("Delete Mission", "Are you sure you want to delete this mission?");
     if (shouldDelete) {
       await this.missionRepository.deleteMissionById(id);
+
       this.missions = this.missions.filter(mission => mission.id !== id);
+
       this.toastService.show("Mission deleted");
     }
   }
@@ -119,7 +134,36 @@ export class MissionsPage implements OnInit {
     document.querySelector('ion-content').scrollToTop(500);
   }
 
-  async presentPicker() {
+  async filterOptionsPicker() {
+    const picker = await this.pickerController.create({
+      buttons: [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Confirm',
+          handler: (selected) => {
+            this.completedOrNah = selected.completedOrNah.value;
+            this.filteredMissions = this.filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedOrNah);
+          },
+        }
+      ],
+
+      columns: [
+        {
+          name: 'completedOrNah',
+          options: [
+            { text: 'All Missions', value: '' },
+            { text: 'Completed Missions', value: 'completed' },
+            { text: 'Not Completed Missions', value: 'notCompleted' },
+          ],
+        },
+      ],
+    });
+    await picker.present();
+  }
+
+  async orderOptionsPicker() {
     const picker = await this.pickerController.create({
       buttons: [
         {
@@ -130,8 +174,7 @@ export class MissionsPage implements OnInit {
           handler: (selected) => {
             this.orderBy = selected.orderBy.value;
             this.orderValue = selected.orderValue.value;
-            this.filteredMissions = this.filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue);
-            this.changeDetectorRef.detectChanges();
+            this.filteredMissions = this.filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedOrNah);
           },
         }
       ],
@@ -157,7 +200,6 @@ export class MissionsPage implements OnInit {
       ],
     });
     await picker.present();
-
   }
 
 }

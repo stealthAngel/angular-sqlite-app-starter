@@ -83,8 +83,8 @@
     <ion-content>
       <ion-list>
         <ion-item [button]="true" [detail]="false" [routerLink]="['create']">Add new Mission</ion-item>
-        <ion-item [button]="true" [detail]="false" (click)="presentPicker()">Filter Options</ion-item>
-        <ion-item [button]="true" [detail]="false" (click)="presentPicker()">Order Options</ion-item>
+        <ion-item [button]="true" [detail]="false" (click)="filterOptionsPicker()">Filter Options</ion-item>
+        <ion-item [button]="true" [detail]="false" (click)="orderOptionsPicker()">Order Options</ion-item>
         <ion-item [button]="true" [detail]="false" [routerLink]="['/settings']">Settings</ion-item>
       </ion-list>
     </ion-content>
