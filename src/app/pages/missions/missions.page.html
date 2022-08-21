@@ -20,7 +20,7 @@
 <!-- ion search -->
 <ion-searchbar (ionChange)="onSearchChange($event)" placeholder="Search"></ion-searchbar>
 
-<ion-content>
+<ion-content scrollEvents="true">
   <swiper (slideChange)="onSlideChange()" (swiper)="setSwiperInstance($event)">
     <ng-template swiperSlide>
       <ng-container *ngFor="let mission of filteredMissions; let i = index;">

@@ -10,6 +10,10 @@ export class FlipperComponent implements OnInit {
   data: boolean = false;
   @Input()
   customFrontCss: string;
+  
+  @Input()
+  customBackCss: string;
+
   ngOnInit(): void {
   }
 

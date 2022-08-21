@@ -109,7 +109,7 @@ export class MissionsPage implements OnInit {
   onSlideChange() {
     this.selectedSegment = this.segments[this.swiper.activeIndex];
     this.changeDetectorRef.detectChanges();
-    this.scrollToTop();
+    //this.scrollToTop();
   }
 
   setSwiperInstance(swiper: Swiper) {
