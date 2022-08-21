@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PickerController } from '@ionic/angular';
 import { AlertService } from 'src/app/alert.service';
 import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
@@ -33,13 +33,11 @@ export class MissionsPage implements OnInit {
 
   swiper: Swiper;
 
-  constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private changeDetectorRef: ChangeDetectorRef, private pickerController: PickerController, private alertService: AlertService, private toastService: ToastService, private router: Router) { }
+  constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private changeDetectorRef: ChangeDetectorRef, private pickerController: PickerController, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.missionRepository.getMissions().then(missions => {
-      this.missions = missions.map(x => this.mapperService.mapMissionToDto(x));
-      this.filteredMissions = this.missions;
-    });
+    this.missions = this.activatedRoute.snapshot.data["missions"].map(x => this.mapperService.mapMissionToDto(x));
+    this.filteredMissions = this.missions;
   }
 
   filterMissions(missions: MissionDto[], searchTerm: string, orderBy: string, orderValue: string) {

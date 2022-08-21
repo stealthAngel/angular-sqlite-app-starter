@@ -21,6 +21,7 @@ import { Migration_AppSettings_2022_05_26 } from './migrations/Migration_AppSett
 import { CounterRepository } from './repositories/counter.repository';
 import { MissionRepository } from './repositories/mission.repository';
 import { MapperService } from './services/mapper.service';
+import { MissionResolverService } from './services/mission-resolver.service';
 
 export function initializeFactory(init: InitializeAppService) {
   return () => init.initializeApp();
@@ -51,6 +52,7 @@ export function initializeFactory(init: InitializeAppService) {
     MissionRepository,
     CounterRepository,
     MapperService,
+    MissionResolverService,
     Migration_2022_05_26,
     Migration_AppSettings_2022_05_26,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

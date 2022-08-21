@@ -9,18 +9,19 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="selectedSegment" id="segment">
+  <ion-segment-button value="Card View">
+    <ion-label>Card View</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="Notepad View">
+    <ion-label>Notepad View</ion-label>
+  </ion-segment-button>
+</ion-segment>
+<!-- ion search -->
+<ion-searchbar (ionChange)="onSearchChange($event)" placeholder="Search"></ion-searchbar>
+
 <ion-content>
-  <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="selectedSegment" id="segment">
-    <ion-segment-button value="Card View">
-      <ion-label>Card View</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Notepad View">
-      <ion-label>Notepad View</ion-label>
-    </ion-segment-button>
-  </ion-segment>
-  <!-- ion search -->
-  <ion-searchbar (ionChange)="onSearchChange($event)" placeholder="Search"></ion-searchbar>
-  <swiper class="custom-swiper" (slideChange)="onSlideChange()" (swiper)="setSwiperInstance($event)">
+  <swiper (slideChange)="onSlideChange()" (swiper)="setSwiperInstance($event)">
     <ng-template swiperSlide>
       <ng-container *ngFor="let mission of filteredMissions; let i = index;">
         <ion-card-content>

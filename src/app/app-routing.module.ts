@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { MissionResolverService } from './services/mission-resolver.service';
 
 const routes: Routes = [
   {
@@ -9,6 +10,9 @@ const routes: Routes = [
   },
   {
     path: 'missions',
+    resolve: {
+      missions: MissionResolverService
+    },
     loadChildren: () => import('./pages/missions/missions.module')
       .then(m => m.MissionsPageModule)
   },
@@ -160,10 +164,11 @@ const routes: Routes = [
   },
   {
     path: 'counters/:id',
-    loadChildren: () => import('./pages/counters/counters.module').then( m => m.CountersPageModule)
-  },  {
+    loadChildren: () => import('./pages/counters/counters.module').then(m => m.CountersPageModule)
+  },
+  {
     path: 'settings',
-    loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
+    loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsPageModule)
   },
 
 
