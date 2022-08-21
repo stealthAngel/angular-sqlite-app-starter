@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { MissionResolverService } from './services/mission-resolver.service';
 let tests = [{
   path: 'hometests',
   loadChildren: () => import('./test/hometests/hometests.module')
@@ -153,9 +152,6 @@ const routes: Routes = [
   },
   {
     path: 'missions',
-    resolve: {
-      missionDtos: MissionResolverService
-    },
     loadChildren: () => import('./pages/missions/missions.module')
       .then(m => m.MissionsPageModule)
   },

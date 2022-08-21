@@ -15,6 +15,7 @@ import { SwiperModule } from 'swiper/angular';
 import { CreateMissionPage } from './create-mission/create-mission.page';
 import { MissionsPage } from './missions.page';
 import { UpdateMissionPage } from './update-mission/update-mission.page';
+import { MissionResolverService } from 'src/app/services/mission-resolver.service';
 @NgModule({
   imports: [
     CommonModule,
@@ -36,6 +37,7 @@ import { UpdateMissionPage } from './update-mission/update-mission.page';
     ToastService,
     FormBuilder,
     AlertService,
+    MissionResolverService
   ]
 })
 export class MissionsPageModule { }

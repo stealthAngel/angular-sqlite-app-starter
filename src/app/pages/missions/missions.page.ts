@@ -40,7 +40,6 @@ export class MissionsPage implements OnInit {
       console.log(missionDtos);
       this.missions = missionDtos;
       this.filteredMissions = this.missions;
-
     });
   }
 

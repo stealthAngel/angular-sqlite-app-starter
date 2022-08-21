@@ -18,7 +18,6 @@ export class CountersPage implements OnInit {
   missionId: number;
   mission: MissionDto = {} as MissionDto;
   counters: Counter[] = [];
-  isLoaded = false;
   countersExtentionObject: CountersCalculation = {} as CountersCalculation;
 
   differentAmountForm = this.formBuilder.group({
@@ -45,8 +44,6 @@ export class CountersPage implements OnInit {
     }).reverse();
 
     this.countersExtentionObject = this.getCountersExtentionObject(this.counters);
-
-    this.isLoaded = true;
   }
 
   async onCreateCounter(amount: number) {
