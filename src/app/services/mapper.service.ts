@@ -18,6 +18,7 @@ export class MapperService {
       description: mission.description,
       countersAmountTotal: mission.countersAmountTotal ?? 0,
       endAmount: mission.endAmount,
+      percentage: 0
     };
 
     dto.percentage = calculatePercentage(dto.countersAmountTotal, dto.endAmount);
@@ -25,7 +26,7 @@ export class MapperService {
     return dto;
   }
 
-  mapMissionToMissionDto(missionDto: MissionDto): Mission {
+  mapDtoToMission(missionDto: MissionDto): Mission {
     var mission: Mission = {
       id: missionDto.id,
       name: missionDto.name,

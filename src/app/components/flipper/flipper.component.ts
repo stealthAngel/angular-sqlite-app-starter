@@ -1,12 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  animate,
-  transition,
-} from '@angular/animations';
-
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-flipper',

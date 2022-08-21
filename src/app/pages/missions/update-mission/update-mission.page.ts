@@ -49,10 +49,9 @@ export class UpdateMissionPage implements OnInit {
       if (!mission) {
         this.router.navigate(['/missions']);
       }
-      this.missionDto = this.mapperService.mapMissionToMissionDto(mission);
+      this.missionDto = this.mapperService.mapDtoToMission(mission);
       this.form.patchValue(this.missionDto);
     });
-
   }
 
   async submit() {

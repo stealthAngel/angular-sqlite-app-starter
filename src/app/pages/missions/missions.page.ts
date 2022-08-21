@@ -36,8 +36,12 @@ export class MissionsPage implements OnInit {
   constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private changeDetectorRef: ChangeDetectorRef, private pickerController: PickerController, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    this.missions = this.activatedRoute.snapshot.data["missions"].map(x => this.mapperService.mapMissionToDto(x));
-    this.filteredMissions = this.missions;
+    this.activatedRoute.data.subscribe(({ missionDtos }) => {
+      console.log(missionDtos);
+      this.missions = missionDtos;
+      this.filteredMissions = this.missions;
+
+    });
   }
 
   filterMissions(missions: MissionDto[], searchTerm: string, orderBy: string, orderValue: string) {
@@ -105,10 +109,15 @@ export class MissionsPage implements OnInit {
   onSlideChange() {
     this.selectedSegment = this.segments[this.swiper.activeIndex];
     this.changeDetectorRef.detectChanges();
+    this.scrollToTop();
   }
 
   setSwiperInstance(swiper: Swiper) {
     this.swiper = swiper;
+  }
+
+  scrollToTop() {
+    document.querySelector('ion-content').scrollToTop(500);
   }
 
   async presentPicker() {

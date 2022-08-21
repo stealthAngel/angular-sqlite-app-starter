@@ -22,11 +22,17 @@ export class SettingsPage implements OnInit {
     this.init();
   }
 
+  test($event) {
+    console.log($event);
+  }
+
   async init() {
     this.appSettings = await this.appSettingRepository.getAppSettings();
+    console.log("🚀 ~ file: settings.page.ts ~ line 27 ~ SettingsPage ~ init ~ this.appSettings", this.appSettings)
   }
 
   async submit() {
+    console.log(this.appSettings);
     await this.appSettingRepository.updateAppSettings(this.appSettings);
     this.toastService.show("Settings saved");
     this.router.navigate(['/missions']);
