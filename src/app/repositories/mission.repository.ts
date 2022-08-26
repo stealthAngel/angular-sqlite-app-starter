@@ -18,7 +18,7 @@ export class MissionRepository {
     }, 'get misions');
   }
 
-  async createMission(mission: Mission): Promise<number> {
+  async insertMission(mission: Mission): Promise<number> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       let sqlcmd: string = "insert into missions (name, description, endAmount) values (?, ?, ?)";
       let values: Array<any> = [mission.name, mission.description, mission.endAmount];

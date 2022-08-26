@@ -66,7 +66,7 @@ export class CountersPage implements OnInit {
       createdAt: null
     };
 
-    let lastId = await this.counterRepository.createCounter(counter);
+    let lastId = await this.counterRepository.insertCounter(counter);
 
     let addedCounter = await this.counterRepository.getCounterById(lastId);
 

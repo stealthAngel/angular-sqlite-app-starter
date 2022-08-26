@@ -48,7 +48,7 @@ export class CreateMissionPage implements OnInit {
       countersAmountTotal: null,
     };
 
-    await this.missionRepository.createMission(mission);
+    await this.missionRepository.insertMission(mission);
 
     this.toastService.show('Successfully created!');
 

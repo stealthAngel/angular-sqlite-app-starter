@@ -33,7 +33,7 @@ export class CounterRepository {
     });
   }
 
-  async createCounter(counter: Counter): Promise<number> {
+  async insertCounter(counter: Counter): Promise<number> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       let sqlcmd: string = "insert into counters (amount, missionId) values (?, ?)";
       let values: Array<any> = [counter.amount, counter.missionId];
