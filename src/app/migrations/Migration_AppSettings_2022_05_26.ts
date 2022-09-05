@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AppSettingRepository } from '../repositories/app-setting-repository.service';
-import { DatabaseService } from '../services/database.service';
+import { AppSettingRepository } from '../repositories/app-setting-repository';
 @Injectable()
 
 export class Migration_AppSettings_2022_05_26 {

@@ -11,7 +11,7 @@
 
 <ion-content>
   <ion-list>
-    <div *ngFor="let appSetting of appSettings">
+    <div *ngFor="let appSetting of appSettings; let i = index;">
       <ion-item *ngIf="appSetting.name == SettingTypes[SettingTypes.SHOULD_SCROLL_UP]">
         <ion-label>Scrolls up on tab switch mission view</ion-label>
         <ion-toggle [checked]="appSetting.value == '1'"
@@ -29,8 +29,8 @@
       <ion-item *ngIf="appSetting.name == SettingTypes[SettingTypes.THEME]">
         <ion-label>Color Themes:</ion-label>
         <ion-select placeholder="{{appSetting.value}}" [value]="appSetting.value"
-          (ionChange)="appSetting.value = $event.target.value">
-          <ion-select-option *ngFor="let theme of ColorThemes | enumToArray" [value]="theme.name">{{theme.name}}
+          (ionChange)="onChangeColorTheme($event, i)">
+          <ion-select-option *ngFor="let theme of ColorThemes | keyvalue: originalOrder" [value]="theme.value">{{theme.value}}
           </ion-select-option>
         </ion-select>
       </ion-item>
@@ -39,7 +39,7 @@
         <ion-label>Font Themes:</ion-label>
         <ion-select placeholder="{{appSetting.value}}" [value]="appSetting.value"
           (ionChange)="appSetting.value = $event.target.value">
-          <ion-select-option *ngFor="let theme of FontThemes | enumToArray" [value]="theme.name">{{theme.name}}
+          <ion-select-option *ngFor="let theme of FontThemes | keyvalue: originalOrder" [value]="theme.value">{{theme.value}}
           </ion-select-option>
         </ion-select>
       </ion-item>

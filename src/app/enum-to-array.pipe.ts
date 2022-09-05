@@ -6,6 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class EnumToArrayPipe implements PipeTransform {
 
   transform(value): Object {
+    console.log(value);
     return Object.keys(value).filter(e => !isNaN(+e)).map(o => { return { index: +o, name: value[o] } });
   }
 

@@ -5,24 +5,24 @@ export interface AppSetting {
 }
 
 export enum ColorThemes {
-  DEFAULT,
-  DARK,
-  LOLLYPOP,
-  BROWN_BOY,
-  BOOTSTRAP,
+  DEFAULT = "default",
+  DARK = "dark",
+  LOLLYPOP = "lollypop",
+  BROWN_BOY = "brown-boy",
+  BOOTSTRAP = "bootstrap"
 }
 
 export enum FontThemes {
-  DEFAULT,
-  BAHN_SCRIPT,
-  DANCING_SCRIPT
+  DEFAULT = "default",
+  BAHN_SCRIPT = "bahn-script",
+  DANCING_SCRIP = "dancing-script"
 }
 
 export enum SettingTypes {
-  SHOULD_SCROLL_UP,
-  SHOW_MISSION_COMPLETED_COLOR,
-  THEME,
-  FONT
+  SHOULD_SCROLL_UP = "SHOULD_SCROLL_UP",
+  SHOW_MISSION_COMPLETED_COLOR = "SHOW_MISSION_COMPLETED_COLOR",
+  THEME = "THEME",
+  FONT = "FONT",
 }
 
 export interface startUpSetting {
@@ -31,10 +31,10 @@ export interface startUpSetting {
 }
 
 let startUpSettings: startUpSetting[] = [
-  { name: SettingTypes[SettingTypes.SHOULD_SCROLL_UP], value: false },
-  { name: SettingTypes[SettingTypes.SHOW_MISSION_COMPLETED_COLOR], value: false },
-  { name: SettingTypes[SettingTypes.THEME], value: ColorThemes[ColorThemes.DEFAULT] },
-  { name: SettingTypes[SettingTypes.FONT], value: FontThemes[FontThemes.DEFAULT] }
+  { name: SettingTypes.SHOULD_SCROLL_UP, value: false },
+  { name: SettingTypes.SHOW_MISSION_COMPLETED_COLOR, value: false },
+  { name: SettingTypes.THEME, value: ColorThemes.DEFAULT },
+  { name: SettingTypes.FONT, value: FontThemes.DEFAULT }
 ];
 
 export { startUpSettings };

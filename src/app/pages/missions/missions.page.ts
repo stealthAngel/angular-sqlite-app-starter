@@ -6,10 +6,9 @@ import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
 import { MissionDto } from 'src/app/models/MissionDto';
 import { MissionFilters } from 'src/app/models/missionFilter';
 import { MissionRepository } from 'src/app/repositories/mission.repository';
-import { MapperService } from 'src/app/services/mapper.service';
 import { ToastService } from 'src/app/services/toast.service';
-import { Swiper } from 'swiper';
-
+import { Autoplay, Keyboard, Pagination, Scrollbar, Swiper, Zoom } from 'swiper';
+Swiper.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
 @Component({
   selector: 'app-missions',
   templateUrl: './missions.page.html',

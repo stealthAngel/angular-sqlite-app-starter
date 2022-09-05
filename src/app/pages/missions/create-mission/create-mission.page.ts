@@ -21,7 +21,7 @@ export class CreateMissionPage implements OnInit {
       Validators.pattern("^[0-9]*$"),
     ]),
     description: new FormControl(''),
-  });;
+  });
 
   validation_messages = {
     'name': [
