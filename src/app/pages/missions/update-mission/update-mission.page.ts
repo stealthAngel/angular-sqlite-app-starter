@@ -41,6 +41,7 @@ export class UpdateMissionPage implements OnInit {
   constructor(private missionRepository: MissionRepository, private mapperService: MapperService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private toastService: ToastService, private router: Router) { }
 
   ngOnInit() {
+    this.form.reset();
     this.activatedRoute.params.subscribe(params => {
       this.missionId = +params.id;
     });

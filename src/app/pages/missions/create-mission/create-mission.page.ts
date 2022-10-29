@@ -35,6 +35,7 @@ export class CreateMissionPage implements OnInit {
   constructor(private formBuilder: FormBuilder, private toastService: ToastService, private missionRepository: MissionRepository, private router: Router) { }
 
   ngOnInit() {
+    this.form.reset();
   }
 
   async submit() {
