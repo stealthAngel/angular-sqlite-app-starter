@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import testbedBase from 'src/testbed-configs';
 
-import { DownloadToCacheAndMove } from './downloadtocacheandmove.page';
+import { DownloadFromHTTP} from './downloadfromhttp.page';
 
-describe('ExistingconnectionPage', () => {
-  let component: DownloadToCacheAndMove;
-  let fixture: ComponentFixture<DownloadToCacheAndMove>;
+describe('DownloadFromHTTPPage', () => {
+  let component: DownloadFromHTTP;
+  let fixture: ComponentFixture<DownloadFromHTTP>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule(testbedBase).compileComponents();
 
-    fixture = TestBed.createComponent(DownloadToCacheAndMove);
+    fixture = TestBed.createComponent(DownloadFromHTTP);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

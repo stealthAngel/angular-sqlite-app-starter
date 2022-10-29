@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'angular-sqlite-app-starter',
   webDir: 'www',
   bundledWebRuntime: false,
-//  hideLogs: true,
+  loggingBehavior: 'debug',
   plugins: {
     CapacitorSQLite: {
       iosDatabaseLocation: 'Library/CapacitorDatabase',
@@ -17,7 +17,7 @@ const config: CapacitorConfig = {
       },
       androidIsEncryption: true,
       androidBiometric: {
-        biometricAuth : true,
+        biometricAuth : false,
         biometricTitle : "Biometric login for capacitor sqlite",
         biometricSubTitle : "Log in using your biometric"
       },
