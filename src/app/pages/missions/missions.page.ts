@@ -25,8 +25,8 @@ export class MissionsPage implements OnInit {
 
   //filters
   searchTerm: string = "";
-  orderValue: string = "";
-  orderBy: string = "";
+  orderValueFilter: string = "";
+  orderByFilter: string = "";
   completedFilter: string = "";
 
   @ViewChildren(FlipperComponent) flippers: QueryList<FlipperComponent>;
@@ -51,7 +51,7 @@ export class MissionsPage implements OnInit {
 
   onSearchChange($event) {
     this.searchTerm = $event.detail.value;
-    this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedFilter);
+    this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderByFilter, this.orderValueFilter, this.completedFilter);
   }
 
   async onDeleteMissionClick(id: number) {
@@ -82,7 +82,7 @@ export class MissionsPage implements OnInit {
   filterOptionsPicker() {
     var handler = (selected) => {
       this.completedFilter = selected.completedFilter.value;
-      this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedFilter);
+      this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderByFilter, this.orderValueFilter, this.completedFilter);
     };
 
     var columns = [
@@ -100,14 +100,14 @@ export class MissionsPage implements OnInit {
 
   async orderOptionsPicker() {
     var handler = (selected) => {
-      this.orderBy = selected.orderBy.value;
-      this.orderValue = selected.orderValue.value;
-      this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedFilter);
+      this.orderByFilter = selected.orderByFilter.value;
+      this.orderValueFilter = selected.orderValueFilter.value;
+      this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderByFilter, this.orderValueFilter, this.completedFilter);
     };
 
     var columns = [
       {
-        name: "orderValue",
+        name: "orderValueFilter",
         options: [
           { text: "None", value: MissionFilters[MissionFilters.None] },
           { text: "Name", value: MissionFilters[MissionFilters.Name] },
@@ -117,7 +117,7 @@ export class MissionsPage implements OnInit {
         ],
       },
       {
-        name: "orderBy",
+        name: "orderByFilter",
         options: [
           { text: "Ascending", value: MissionFilters[MissionFilters.Ascending] },
           { text: "Descending", value: MissionFilters[MissionFilters.Descending] },

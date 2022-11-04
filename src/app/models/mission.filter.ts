@@ -20,27 +20,27 @@ export function filterMissions(missions: MissionClass[], searchTerm: string, ord
     filteredMissions = filteredMissions.sort((a, b) => {
       let valueA: any;
       let valueB: any;
-      switch (orderValue) {
-        case MissionFilters[MissionFilters.Name]:
+      switch (MissionFilters[orderValue]) {
+        case MissionFilters.Name:
           valueA = a.name;
           valueB = b.name;
           break;
-        case MissionFilters[MissionFilters.amountToDo]:
+        case MissionFilters.amountToDo:
           valueA = a.countersAmountTotal;
           valueB = b.countersAmountTotal;
           break;
-        case MissionFilters[MissionFilters.AmountDone]:
+        case MissionFilters.AmountDone:
           valueA = a.endAmount;
           valueB = b.endAmount;
           break;
-        case MissionFilters[MissionFilters.Percentage]:
+        case MissionFilters.Percentage:
           valueA = a.percentage;
           valueB = b.percentage;
           break;
         default:
           break;
       }
-      if (orderBy === MissionFilters[MissionFilters.Ascending]) {
+      if (MissionFilters[orderBy] === MissionFilters.Ascending) {
         return valueA > valueB ? 1 : -1;
       } else {
         return valueA < valueB ? 1 : -1;
