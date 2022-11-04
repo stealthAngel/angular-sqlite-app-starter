@@ -3,7 +3,7 @@ import { UrlSerializer } from "@angular/router";
 import { IonicModule } from "@ionic/angular";
 import { AppComponent } from "./app/app.component";
 import { DetailService } from "./app/services/detail.service";
-import { SQLiteService } from "./app/services/sqlite.service";
+import { SQLiteService } from "./app/database/services/sqlite.service";
 
 const testbedBase = {
   declarations: [AppComponent],

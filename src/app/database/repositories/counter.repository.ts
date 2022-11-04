@@ -1,19 +1,16 @@
-
-import { DBSQLiteValues, SQLiteDBConnection } from '@capacitor-community/sqlite';
-import { Injectable } from '@angular/core';
-import { DatabaseService } from '../services/database.service';
-import { Counter } from '../models/counter';
+import { DBSQLiteValues, SQLiteDBConnection } from "@capacitor-community/sqlite";
+import { Injectable } from "@angular/core";
+import { Counter } from "src/app/database/models/database-models";
+import { DatabaseService } from "../services/database.service";
 @Injectable()
 export class CounterRepository {
-
-  constructor(private databaseService: DatabaseService) {
-  }
+  constructor(private databaseService: DatabaseService) {}
 
   async getCountersByMissionId(id: number): Promise<Counter[]> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       var counters: DBSQLiteValues = await db.query(`select counters.* from counters where missionId = ${id}`);
       return counters.values as Counter[];
-    }, 'get counters by mission id');
+    }, "get counters by mission id");
   }
 
   async getCounterById(id: number): Promise<Counter> {
@@ -23,7 +20,7 @@ export class CounterRepository {
       if (ret.values.length > 0) {
         return ret.values[0] as Counter;
       }
-      throw Error('get counter by id failed');
+      throw Error("get counter by id failed");
     });
   }
 
@@ -41,8 +38,8 @@ export class CounterRepository {
       if (ret.changes.lastId > 0) {
         return ret.changes.lastId as Number;
       }
-      throw Error('create counter failed');
-    })
+      throw Error("create counter failed");
+    });
   }
 
   async deleteCounterById(id: number): Promise<void> {

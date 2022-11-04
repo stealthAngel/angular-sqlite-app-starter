@@ -1,7 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { setUsers } from '../utils/no-encryption-utils';
 import { createSchemaMessages, setMessages } from '../utils/encrypted-set-utils';
-import { SQLiteService } from '../../services/sqlite.service';
+import { SQLiteService } from '../../database/services/sqlite.service';
 import { DetailService } from '../../services/detail.service';
 import { Dialog } from '@capacitor/dialog';
 

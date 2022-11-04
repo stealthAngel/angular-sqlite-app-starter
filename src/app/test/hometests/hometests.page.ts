@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { DetailService } from '../../services/detail.service';
-import { SQLiteService } from '../../services/sqlite.service';
+import { SQLiteService } from '../../database/services/sqlite.service';
 import { ChangeDetectorRef } from '@angular/core';
 
 import config from 'capacitor.config';

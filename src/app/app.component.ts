@@ -1,24 +1,24 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
-import { StatusBar } from '@awesome-cordova-plugins/status-bar';
-import { App } from '@capacitor/app';
-import { Capacitor } from '@capacitor/core';
-import { Platform } from '@ionic/angular';
-
+import { StatusBar } from "@awesome-cordova-plugins/status-bar";
+import { App } from "@capacitor/app";
+import { Capacitor } from "@capacitor/core";
+import { Platform } from "@ionic/angular";
+import { SettingRepository } from "./database/repositories/setting.repository";
+import { ColorTheme, SettingType } from "./models/app-setting";
+import { ThemeService } from "./services/theme-service.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  selector: "app-root",
+  templateUrl: "app.component.html",
+  styleUrls: ["app.component.scss"],
 })
 export class AppComponent {
-
-  constructor(private platform: Platform) {
+  constructor(private platform: Platform, private SettingRepository: SettingRepository, private themeService: ThemeService) {
     this.platform.ready().then(async () => {
-      this.platform.backButton.subscribeWithPriority(
-        666666, () => {
-          App.exitApp();
-        });
+      this.platform.backButton.subscribeWithPriority(666666, () => {
+        App.exitApp();
+      });
 
       this.setStatusBarOverlayWebView();
     });
@@ -32,4 +32,10 @@ export class AppComponent {
     }
   }
 
+  async loadAppSettings() {
+    var settings = await this.SettingRepository.getSettings();
+    var setting = settings.find((x) => x.name == SettingType.COLORTHEME);
+    var theme = setting.value as ColorTheme;
+    this.themeService.activeTheme(theme);
+  }
 }

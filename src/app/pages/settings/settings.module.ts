@@ -1,25 +1,20 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
-import { IonicModule } from '@ionic/angular';
+import { IonicModule } from "@ionic/angular";
 
-import { SettingsPageRoutingModule } from './settings-routing.module';
+import { SettingsPageRoutingModule } from "./settings-routing.module";
 
-import { SettingsPage } from './settings.page';
-import { AppSettingRepository } from 'src/app/repositories/app-setting-repository';
-import { EnumToArrayPipe } from 'src/app/enum-to-array.pipe';
-import { ThemeService } from 'src/app/services/theme-service.service';
+import { SettingsPage } from "./settings.page";
+import { EnumToArrayPipe } from "src/app/enum-to-array.pipe";
+import { ThemeService } from "src/app/services/theme-service.service";
+import { SettingRepository } from "src/app/database/repositories/setting.repository";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    SettingsPageRoutingModule,
-  ],
+  imports: [CommonModule, FormsModule, IonicModule, SettingsPageRoutingModule],
   declarations: [SettingsPage, EnumToArrayPipe],
 
-  providers: [AppSettingRepository, ThemeService],
+  providers: [SettingRepository, ThemeService],
 })
-export class SettingsPageModule { }
+export class SettingsPageModule {}

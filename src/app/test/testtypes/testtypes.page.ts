@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { SQLiteService } from '../../services/sqlite.service';
+import { SQLiteService } from '../../database/services/sqlite.service';
 import { DetailService } from '../../services/detail.service';
 
 import { createSchema, firstTeachers, partialImport } from '../utils/types-test-utils';

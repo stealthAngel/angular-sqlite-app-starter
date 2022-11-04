@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Directory, Filesystem } from '@capacitor/filesystem';
-import { SQLiteService } from '../../services/sqlite.service';
+import { SQLiteService } from '../../database/services/sqlite.service';
 import { Dialog } from '@capacitor/dialog';
 
 @Component({

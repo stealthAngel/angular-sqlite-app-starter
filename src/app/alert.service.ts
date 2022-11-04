@@ -1,12 +1,15 @@
-import { Injectable } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { Injectable } from "@angular/core";
+import { AlertController, PickerColumn, PickerController } from "@ionic/angular";
+import { MissionFilters } from "./models/missionFilter";
+interface cb {
+  (selected: any): void;
+}
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AlertService {
-
-  constructor(private alertController: AlertController) { }
+  constructor(private alertController: AlertController, private pickerController: PickerController) {}
 
   async presentCancelOkAlert(header: string, message: string): Promise<boolean> {
     const alert = await this.alertController.create({
@@ -14,15 +17,15 @@ export class AlertService {
       message,
       buttons: [
         {
-          text: 'Cancel',
-          role: 'cancel',
+          text: "Cancel",
+          role: "cancel",
           handler: () => {
             return false;
           },
         },
         {
-          text: 'OK',
-          role: 'confirm',
+          text: "OK",
+          role: "confirm",
           handler: () => {
             return true;
           },
@@ -34,6 +37,24 @@ export class AlertService {
 
     const { role } = await alert.onDidDismiss();
     console.log(role);
-    return role == 'confirm';
+    return role == "confirm";
+  }
+
+  async showPicker(handler: cb, columns: PickerColumn[]) {
+    const picker = await this.pickerController.create({
+      buttons: [
+        {
+          text: "Cancel",
+        },
+        {
+          text: "Confirm",
+          handler: (selected) => {
+            handler(selected);
+          },
+        },
+      ],
+      columns: columns,
+    });
+    await picker.present();
   }
 }

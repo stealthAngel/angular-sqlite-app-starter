@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { SQLiteService } from '../../services/sqlite.service';
+import { SQLiteService } from '../../database/services/sqlite.service';
 import { schemaToImport245V1, schemaToImport245V2} from '../utils/import-json-utils';
 import { Dialog } from '@capacitor/dialog';
 

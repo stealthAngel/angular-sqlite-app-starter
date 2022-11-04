@@ -1,20 +1,21 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { Mission } from '../models/Mission';
-import { MissionDto } from '../models/MissionDto';
-import { MissionRepository } from '../repositories/mission.repository';
-import { MapperService } from './mapper.service';
+import { Injectable } from "@angular/core";
+import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from "@angular/router";
+import { MissionRepository } from "../database/repositories/mission.repository";
+import { Mission } from "../database/models/database-models";
+import { MissionClass } from "../models/mission";
+import { MissionGate } from "../gate/mission.servant";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
-export class MissionResolverService implements Resolve<Promise<MissionDto[]>>{
+export class MissionResolverService implements Resolve<MissionClass[]> {
+  constructor(private missionRepository: MissionRepository, private missionGate: MissionGate) {}
 
-  constructor(private missionRepository: MissionRepository, private mapperService: MapperService) { }
-
-  async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<MissionDto[]> {
+  async resolve(): Promise<MissionClass[]> {
     var missions: Mission[] = await this.missionRepository.getMissions();
-    var missiondtos = missions.map(mission => this.mapperService.mapMissionToDto(mission));
-    return missiondtos;
+
+    var missionClasses = this.missionGate.toClasses(missions);
+
+    return missionClasses;
   }
 }

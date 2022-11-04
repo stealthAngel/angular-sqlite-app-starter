@@ -1,10 +1,5 @@
-export interface AppSetting {
-  id: number;
-  name: string;
-  value: any;
-}
 
-export enum ColorThemes {
+export enum ColorTheme {
   DEFAULT = "default",
   DARK = "dark",
   LOLLYPOP = "lollypop",
@@ -12,29 +7,31 @@ export enum ColorThemes {
   BOOTSTRAP = "bootstrap"
 }
 
-export enum FontThemes {
-  DEFAULT = "default",
-  BAHN_SCRIPT = "bahn-script",
-  DANCING_SCRIP = "dancing-script"
+export enum FontTheme {
+  DEFAULT = "DEFAULT",
+  BAHN_SCRIPT = "BAHN_SCRIPT",
+  DANCING_SCRIPT = "DANCING_SCRIPT"
 }
 
-export enum SettingTypes {
-  SHOULD_SCROLL_UP = "SHOULD_SCROLL_UP",
-  SHOW_MISSION_COMPLETED_COLOR = "SHOW_MISSION_COMPLETED_COLOR",
-  THEME = "THEME",
-  FONT = "FONT",
+export enum SettingType {
+  SHOULD_SCROLL_TO_TOP = "SHOULD_SCROLL_TO_TOP",
+  SHOULD_SHOW_MISSION_COMPLETED_COLOR = "SHOW_MISSION_COMPLETED_COLOR",
+  COLORTHEME = "THEME",
+  FONTTHEME = "FONT",
 }
 
-export interface startUpSetting {
+export class Setting {
+  id: number;
+  name: SettingType;
+  value: FontTheme | ColorTheme | boolean;
+
+  constructor(settingType: SettingType, value: FontTheme | ColorTheme | boolean){
+    this.name = settingType;
+    this.value = value;
+  }
+}
+
+export interface StartUpSetting {
   name: string;
-  value: any;
+  value: FontTheme | ColorTheme | boolean;
 }
-
-let startUpSettings: startUpSetting[] = [
-  { name: SettingTypes.SHOULD_SCROLL_UP, value: false },
-  { name: SettingTypes.SHOW_MISSION_COMPLETED_COLOR, value: false },
-  { name: SettingTypes.THEME, value: ColorThemes.DEFAULT },
-  { name: SettingTypes.FONT, value: FontThemes.DEFAULT }
-];
-
-export { startUpSettings };

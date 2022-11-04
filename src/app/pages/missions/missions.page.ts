@@ -1,98 +1,44 @@
-import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PickerController } from '@ionic/angular';
-import { AlertService } from 'src/app/alert.service';
-import { FlipperComponent } from 'src/app/components/flipper/flipper.component';
-import { MissionDto } from 'src/app/models/MissionDto';
-import { MissionFilters } from 'src/app/models/missionFilter';
-import { MissionRepository } from 'src/app/repositories/mission.repository';
-import { ToastService } from 'src/app/services/toast.service';
-import { Autoplay, Keyboard, Pagination, Scrollbar, Swiper, Zoom } from 'swiper';
+import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { PickerController } from "@ionic/angular";
+import { AlertService } from "src/app/alert.service";
+import { FlipperComponent } from "src/app/components/flipper/flipper.component";
+import { MissionFilters } from "src/app/models/missionFilter";
+import { MissionRepository } from "src/app/database/repositories/mission.repository";
+import { ToastService } from "src/app/services/toast.service";
+import { Autoplay, Keyboard, Pagination, Scrollbar, Swiper, Zoom } from "swiper";
+import { MissionClass } from "src/app/models/mission";
+import { MissionGate } from "src/app/gate/mission.servant";
+import { filterMissions } from "src/app/models/mission.filter";
 Swiper.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
 @Component({
-  selector: 'app-missions',
-  templateUrl: './missions.page.html',
-  styleUrls: ['./missions.page.scss'],
+  selector: "app-missions",
+  templateUrl: "./missions.page.html",
+  styleUrls: ["./missions.page.scss"],
 })
 export class MissionsPage implements OnInit {
+  missions: MissionClass[] = [];
+  filteredMissions: MissionClass[] = [];
 
-  missions: MissionDto[] = [];
-  filteredMissions: MissionDto[] = [];
-
-  segments: string[] = ['Card View', 'Notepad View'];
-
+  segments: string[] = ["Card View", "Notepad View"];
   selectedSegment: string = this.segments[0];
 
   //filters
-  searchTerm: string = '';
-  orderValue: string = '';
-  orderBy: string = '';
-  completedOrNah: string = '';
+  searchTerm: string = "";
+  orderValue: string = "";
+  orderBy: string = "";
+  completedFilter: string = "";
 
   @ViewChildren(FlipperComponent) flippers: QueryList<FlipperComponent>;
-
   swiper: Swiper;
 
-  constructor(private missionRepository: MissionRepository, private changeDetectorRef: ChangeDetectorRef, private pickerController: PickerController,
-    private alertService: AlertService, private toastService: ToastService,
-    private activatedRoute: ActivatedRoute) { }
+  constructor(private missionRepository: MissionRepository, private missionGate: MissionGate, private changeDetectorRef: ChangeDetectorRef, private pickerController: PickerController, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    this.activatedRoute.data.subscribe(({ missionDtos }) => {
-      this.missions = missionDtos;
+    this.activatedRoute.data.subscribe((data) => {
+      this.missions = (<{ missionClasses: MissionClass[] }>data).missionClasses;
       this.filteredMissions = this.missions;
     });
-  }
-
-  filterMissions(missions: MissionDto[], searchTerm: string, orderBy: string, orderValue: string, completedOrNah: string) {
-    let filteredMissions = missions;
-    //filter by search text;
-    if (searchTerm) {
-      filteredMissions = filteredMissions.filter(mission => mission.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    }
-
-    //filter by completed 
-    if (completedOrNah == 'completed') {
-      filteredMissions = filteredMissions.filter(mission => mission.countersAmountTotal >= mission.endAmount);
-    }
-    else if (completedOrNah == 'notCompleted') {
-      filteredMissions = filteredMissions.filter(mission => mission.countersAmountTotal < mission.endAmount);
-    }
-
-    //filter by order value
-    if (orderValue) {
-      filteredMissions = filteredMissions.sort((a, b) => {
-        let valueA: any;
-        let valueB: any;
-        switch (orderValue) {
-          case MissionFilters[MissionFilters.Name]:
-            valueA = a.name;
-            valueB = b.name;
-            break;
-          case MissionFilters[MissionFilters.amountToDo]:
-            valueA = a.countersAmountTotal;
-            valueB = b.countersAmountTotal;
-            break;
-          case MissionFilters[MissionFilters.AmountDone]:
-            valueA = a.endAmount;
-            valueB = b.endAmount;
-            break;
-          case MissionFilters[MissionFilters.Percentage]:
-            valueA = a.percentage;
-            valueB = b.percentage;
-            break;
-          default:
-            break;
-        }
-        if (orderBy === MissionFilters[MissionFilters.Ascending]) {
-          return valueA > valueB ? 1 : -1;
-        } else {
-          return valueA < valueB ? 1 : -1;
-        }
-      });
-    }
-
-    return filteredMissions;
   }
 
   onFlip(index: number) {
@@ -105,7 +51,7 @@ export class MissionsPage implements OnInit {
 
   onSearchChange($event) {
     this.searchTerm = $event.detail.value;
-    this.filteredMissions = this.filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedOrNah);
+    this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedFilter);
   }
 
   async onDeleteMissionClick(id: number) {
@@ -113,7 +59,7 @@ export class MissionsPage implements OnInit {
     if (shouldDelete) {
       await this.missionRepository.deleteMissionById(id);
 
-      this.missions = this.missions.filter(mission => mission.id !== id);
+      this.missions = this.missions.filter((mission) => mission.id !== id);
 
       this.toastService.show("Mission deleted");
     }
@@ -130,75 +76,55 @@ export class MissionsPage implements OnInit {
   }
 
   scrollToTop() {
-    document.querySelector('ion-content').scrollToTop(500);
+    document.querySelector("ion-content").scrollToTop(500);
   }
 
-  async filterOptionsPicker() {
-    const picker = await this.pickerController.create({
-      buttons: [
-        {
-          text: 'Cancel',
-        },
-        {
-          text: 'Confirm',
-          handler: (selected) => {
-            this.completedOrNah = selected.completedOrNah.value;
-            this.filteredMissions = this.filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedOrNah);
-          },
-        }
-      ],
+  filterOptionsPicker() {
+    var handler = (selected) => {
+      this.completedFilter = selected.completedFilter.value;
+      this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedFilter);
+    };
 
-      columns: [
-        {
-          name: 'completedOrNah',
-          options: [
-            { text: 'All Missions', value: '' },
-            { text: 'Completed Missions', value: 'completed' },
-            { text: 'Not Completed Missions', value: 'notCompleted' },
-          ],
-        },
-      ],
-    });
-    await picker.present();
+    var columns = [
+      {
+        name: "completedFilter",
+        options: [
+          { text: "All Missions", value: "" },
+          { text: "Completed Missions", value: "completed" },
+          { text: "Not Completed Missions", value: "notCompleted" },
+        ],
+      },
+    ];
+    this.alertService.showPicker(handler, columns);
   }
 
   async orderOptionsPicker() {
-    const picker = await this.pickerController.create({
-      buttons: [
-        {
-          text: 'Cancel',
-        },
-        {
-          text: 'Confirm',
-          handler: (selected) => {
-            this.orderBy = selected.orderBy.value;
-            this.orderValue = selected.orderValue.value;
-            this.filteredMissions = this.filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedOrNah);
-          },
-        }
-      ],
+    var handler = (selected) => {
+      this.orderBy = selected.orderBy.value;
+      this.orderValue = selected.orderValue.value;
+      this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderBy, this.orderValue, this.completedFilter);
+    };
 
-      columns: [
-        {
-          name: 'orderValue',
-          options: [
-            { text: 'None', value: MissionFilters[MissionFilters.None] },
-            { text: 'Name', value: MissionFilters[MissionFilters.Name] },
-            { text: 'Amount to do', value: MissionFilters[MissionFilters.amountToDo] },
-            { text: 'Amount done', value: MissionFilters[MissionFilters.AmountDone] },
-            { text: 'Percentage', value: MissionFilters[MissionFilters.Percentage] },
-          ],
-        },
-        {
-          name: 'orderBy',
-          options: [
-            { text: 'Ascending', value: MissionFilters[MissionFilters.Ascending] },
-            { text: 'Descending', value: MissionFilters[MissionFilters.Descending] },
-          ],
-        },
-      ],
-    });
-    await picker.present();
+    var columns = [
+      {
+        name: "orderValue",
+        options: [
+          { text: "None", value: MissionFilters[MissionFilters.None] },
+          { text: "Name", value: MissionFilters[MissionFilters.Name] },
+          { text: "Amount to do", value: MissionFilters[MissionFilters.amountToDo] },
+          { text: "Amount done", value: MissionFilters[MissionFilters.AmountDone] },
+          { text: "Percentage", value: MissionFilters[MissionFilters.Percentage] },
+        ],
+      },
+      {
+        name: "orderBy",
+        options: [
+          { text: "Ascending", value: MissionFilters[MissionFilters.Ascending] },
+          { text: "Descending", value: MissionFilters[MissionFilters.Descending] },
+        ],
+      },
+    ];
+
+    this.alertService.showPicker(handler, columns);
   }
-
 }

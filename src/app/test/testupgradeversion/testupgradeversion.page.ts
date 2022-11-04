@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { SQLiteService } from '../../services/sqlite.service';
+import { SQLiteService } from '../../database/services/sqlite.service';
 import { userMessages } from '../utils/upgrade-version-utils';
 import { versionUpgrades } from '../utils/upgrade-database-version';
 import { deleteDatabase } from '../utils/db-utils';

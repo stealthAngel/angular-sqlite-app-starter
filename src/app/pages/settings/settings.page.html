@@ -11,35 +11,36 @@
 
 <ion-content>
   <ion-list>
-    <div *ngFor="let appSetting of appSettings; let i = index;">
-      <ion-item *ngIf="appSetting.name == SettingTypes[SettingTypes.SHOULD_SCROLL_UP]">
+    <div *ngFor="let setting of settings; let i = index;">
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_SCROLL_TO_TOP]">
         <ion-label>Scrolls up on tab switch mission view</ion-label>
-        <ion-toggle [checked]="appSetting.value == '1'"
-          (ionChange)="appSetting.value = $event.detail.checked ? '1' : '0'">
+        <ion-toggle [checked]="setting.value == '1'" (ionChange)="setting.value = $event.detail.checked ? '1' : '0'">
         </ion-toggle>
       </ion-item>
 
-      <ion-item *ngIf="appSetting.name == SettingTypes[SettingTypes.SHOW_MISSION_COMPLETED_COLOR]">
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_SHOW_MISSION_COMPLETED_COLOR]">
         <ion-label>Show color if a mission is complete</ion-label>
-        <ion-toggle [checked]="appSetting.value == '1'"
-          (ionChange)="appSetting.value = $event.detail.checked ? '1' : '0'">
+        <ion-toggle [checked]="setting.value == '1'" (ionChange)="setting.value = $event.detail.checked ? '1' : '0'">
         </ion-toggle>
       </ion-item>
 
-      <ion-item *ngIf="appSetting.name == SettingTypes[SettingTypes.THEME]">
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.COLORTHEME]">
         <ion-label>Color Themes:</ion-label>
-        <ion-select placeholder="{{appSetting.value}}" [value]="appSetting.value"
-          (ionChange)="onChangeColorTheme($event, i)">
-          <ion-select-option *ngFor="let theme of ColorThemes | keyvalue: originalOrder" [value]="theme.value">{{theme.value}}
+        <ion-select placeholder="{{setting.value}}" [value]="setting.value"
+          (ionChange)="onChangeColorTheme($event.target.value, i)">
+          <ion-select-option *ngFor="let colorTheme of ColorThemes | keyvalue: originalOrder"
+            [value]="colorTheme.value">
+            {{colorTheme.value}}
           </ion-select-option>
         </ion-select>
       </ion-item>
 
-      <ion-item *ngIf="appSetting.name == SettingTypes[SettingTypes.FONT]">
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.FONTTHEME]">
         <ion-label>Font Themes:</ion-label>
-        <ion-select placeholder="{{appSetting.value}}" [value]="appSetting.value"
-          (ionChange)="appSetting.value = $event.target.value">
-          <ion-select-option *ngFor="let theme of FontThemes | keyvalue: originalOrder" [value]="theme.value">{{theme.value}}
+        <ion-select placeholder="{{setting.value}}" [value]="setting.value"
+          (ionChange)="setting.value = $event.target.value">
+          <ion-select-option *ngFor="let theme of FontThemes | keyvalue: originalOrder" [value]="theme.value">
+            {{theme.value}}
           </ion-select-option>
         </ion-select>
       </ion-item>

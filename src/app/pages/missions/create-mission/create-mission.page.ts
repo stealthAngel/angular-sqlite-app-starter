@@ -1,38 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Mission } from 'src/app/models/Mission';
-import { MissionRepository } from 'src/app/repositories/mission.repository';
-import { ToastService } from 'src/app/services/toast.service';
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormControl, Validators } from "@angular/forms";
+import { Router } from "@angular/router";
+import { MissionRepository } from "src/app/database/repositories/mission.repository";
+import { Mission } from "src/app/database/models/database-models";
+import { ToastService } from "src/app/services/toast.service";
 
 @Component({
-  selector: 'app-create-mission',
-  templateUrl: './create-mission.page.html',
-  styleUrls: ['./create-mission.page.scss'],
+  selector: "app-create-mission",
+  templateUrl: "./create-mission.page.html",
+  styleUrls: ["./create-mission.page.scss"],
 })
 export class CreateMissionPage implements OnInit {
-
   form = this.formBuilder.group({
-    name: new FormControl('', [
-      Validators.required,
-    ]),
-    endAmount: new FormControl(null, [
-      Validators.required,
-      Validators.pattern("^[0-9]*$"),
-    ]),
-    description: new FormControl(''),
+    name: new FormControl("", [Validators.required]),
+    endAmount: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
+    description: new FormControl(""),
   });
 
   validation_messages = {
-    'name': [
-      { type: 'required', message: 'Name is required.' },
-    ],
-    'endAmount': [
-      { type: 'required', message: 'endAmount is required.' },
-    ],
-  }
+    name: [{ type: "required", message: "Name is required." }],
+    endAmount: [{ type: "required", message: "endAmount is required." }],
+  };
 
-  constructor(private formBuilder: FormBuilder, private toastService: ToastService, private missionRepository: MissionRepository, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private toastService: ToastService, private missionRepository: MissionRepository, private router: Router) {}
 
   ngOnInit() {
     this.form.reset();
@@ -51,9 +41,8 @@ export class CreateMissionPage implements OnInit {
 
     await this.missionRepository.insertMission(mission);
 
-    this.toastService.show('Successfully created!');
+    this.toastService.show("Successfully created!");
 
-    this.router.navigate(['/missions']);
+    this.router.navigate(["/missions"]);
   }
-
 }

@@ -1,51 +1,45 @@
-import { KeyValue } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AppSetting, ColorThemes, FontThemes, SettingTypes } from 'src/app/models/app-setting';
-import { AppSettingRepository } from 'src/app/repositories/app-setting-repository';
-import { ThemeService } from 'src/app/services/theme-service.service';
-import { ToastService } from 'src/app/services/toast.service';
+import { KeyValue } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { SettingRepository } from "src/app/database/repositories/setting.repository";
+import { Setting, ColorTheme, FontTheme, SettingType } from "src/app/models/app-setting";
+import { ThemeService } from "src/app/services/theme-service.service";
+import { ToastService } from "src/app/services/toast.service";
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.page.html',
-  styleUrls: ['./settings.page.scss'],
+  selector: "app-settings",
+  templateUrl: "./settings.page.html",
+  styleUrls: ["./settings.page.scss"],
 })
 export class SettingsPage implements OnInit {
+  settings: Setting[];
+  SettingTypes = SettingType;
+  FontThemes = FontTheme;
+  ColorThemes = ColorTheme;
 
-  appSettings: AppSetting[];
-  SettingTypes = SettingTypes;
-  FontThemes = FontThemes;
-  ColorThemes = ColorThemes;
-
-  constructor(
-    private appSettingRepository: AppSettingRepository,
-    private toastService: ToastService,
-    private router: Router,
-    private themeService: ThemeService
-  ) { }
+  constructor(private SettingRepository: SettingRepository, private toastService: ToastService, private router: Router, private themeService: ThemeService) {}
 
   ngOnInit() {
     this.init();
   }
 
   async init() {
-    this.appSettings = await this.appSettingRepository.getAppSettings();
+    this.settings = await this.SettingRepository.getSettings();
   }
 
-  onChangeColorTheme($event: any, index: number) {
-    this.appSettings[index].value = $event.target.value;
-    this.themeService.activeTheme(this.appSettings[index].value);
+  onChangeColorTheme($event: ColorTheme, index: number) {
+    this.settings[index].value = $event;
+    this.themeService.activeTheme($event);
   }
 
   async submit() {
-    console.log(this.appSettings);
-    await this.appSettingRepository.updateAppSettings(this.appSettings);
+    console.log(this.settings);
+    await this.SettingRepository.updateSettings(this.settings);
     this.toastService.show("Settings saved");
-    this.router.navigate(['/missions']);
+    this.router.navigate(["/missions"]);
   }
 
   originalOrder = (a: KeyValue<string, string>, b: KeyValue<string, string>): number => {
     return 0;
-  }
+  };
 }

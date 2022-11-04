@@ -1,8 +1,8 @@
 
-import { SQLiteService } from './sqlite.service';
+import { SQLiteService } from '../database/services/sqlite.service';
 
 import { Injectable } from '@angular/core';
-import { MigrationService } from './migrations.service';
+import { MigrationService } from '../database/migrations/migrations.service';
 
 
 @Injectable()
@@ -16,7 +16,7 @@ export class InitializeAppService {
     await this.sqliteService.initializePlugin().then(async (ret) => {
       try {
         //execute startup queries
-        await this.migrationService.migrate();
+        await this.migrationService.executeMigrations();
       } catch (error) {
         throw Error(`initializeAppError: ${error}`);
       }

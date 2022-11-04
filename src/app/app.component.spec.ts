@@ -6,6 +6,8 @@ import { Capacitor, CapacitorGlobal } from '@capacitor/core';
 import { Platform } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
+import { DatabaseService } from './database/services/database.service';
+import { SQLiteService } from './database/services/sqlite.service';
 
 describe('AppComponent', () => {
   let statusBarSpy: jasmine.SpyObj<StatusBarOriginal>;
@@ -32,6 +34,8 @@ describe('AppComponent', () => {
         { provide: StatusBar, useValue: statusBarSpy },
         { provide: Capacitor, useValue: capacitorSpy },
         { provide: Platform, useValue: platformSpy },
+        DatabaseService,
+        SQLiteService,
       ],
     }).compileComponents();
 

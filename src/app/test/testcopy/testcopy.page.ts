@@ -1,5 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
-import { SQLiteService } from '../../services/sqlite.service';
+import { SQLiteService } from '../../database/services/sqlite.service';
 import { DetailService } from '../../services/detail.service';
 import { createSchema82 } from '../utils/no-encryption-utils';
 import { Dialog } from '@capacitor/dialog';

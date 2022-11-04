@@ -1,21 +1,18 @@
-
-import { DBSQLiteValues, SQLiteDBConnection } from '@capacitor-community/sqlite';
-import { Injectable } from '@angular/core';
-import { DatabaseService } from '../services/database.service';
-import { Mission } from '../models/Mission';
-import { CounterRepository } from './counter.repository';
+import { DBSQLiteValues, SQLiteDBConnection } from "@capacitor-community/sqlite";
+import { Injectable } from "@angular/core";
+import { CounterRepository } from "./counter.repository";
+import { DatabaseService } from "../services/database.service";
+import { Mission } from "src/app/database/models/database-models";
 @Injectable()
 export class MissionRepository {
-
-  constructor(private databaseService: DatabaseService, private counterRepository: CounterRepository) {
-  }
+  constructor(private databaseService: DatabaseService, private counterRepository: CounterRepository) {}
 
   async getMissions(): Promise<Mission[]> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       var sqlValues: DBSQLiteValues = await db.query(`select missions.* , COALESCE(SUM(counters.amount), 0) as countersAmountTotal from missions left join counters on counters.missionId = missions.id group by missions.id`);
       let missions: Mission[] = sqlValues.values;
       return missions;
-    }, 'get misions');
+    }, "get misions");
   }
 
   async insertMission(mission: Mission): Promise<number> {
