@@ -14,13 +14,13 @@ export class SettingRepository {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       var x: DBSQLiteValues = await db.query(`select * from settings;`);
       return x.values as Setting[];
-    }, "get settings");
+    });
   }
 
   async createSetting(appSetting: Setting): Promise<void> {
     return this.databaseService.executeQuery(async (db: SQLiteDBConnection) => {
       await db.run("INSERT INTO settings (name, value) VALUES (?, ?);", [appSetting.name, appSetting.value]);
-    }, "create appsetting");
+    });
   }
 
   async updateSettings(settings: Setting[]): Promise<void> {
@@ -28,6 +28,6 @@ export class SettingRepository {
       for (const appSetting of settings) {
         await db.run("UPDATE settings SET value = ? WHERE name = ?;", [appSetting.value, appSetting.name]);
       }
-    }, "update settings");
+    });
   }
 }

@@ -10,7 +10,7 @@ export class CounterRepository {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
       var counters: DBSQLiteValues = await db.query(`select counters.* from counters where missionId = ${id} ORDER BY createdAt DESC;`);
       return counters.values as Counter_DB[];
-    }, "get counters by mission id");
+    });
   }
 
   async getCounterById(id: number): Promise<Counter_DB> {

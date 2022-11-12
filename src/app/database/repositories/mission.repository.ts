@@ -12,7 +12,7 @@ export class MissionRepository {
       var sqlValues: DBSQLiteValues = await db.query(`select missions.* , COALESCE(SUM(counters.amount), 0) as countersAmountTotal from missions left join counters on counters.missionId = missions.id group by missions.id`);
       let missions: Mission_DB[] = sqlValues.values;
       return missions;
-    }, "get misions");
+    });
   }
 
   async insertMission(mission: Mission_DB): Promise<number> {

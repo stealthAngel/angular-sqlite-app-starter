@@ -10,7 +10,6 @@ import { DetailService } from "./services/detail.service";
 import { InitializeAppService } from "./services/initialize.app.service";
 import { SQLiteService } from "./database/services/sqlite.service";
 
-import { DatabaseService } from "./database/services/database.service";
 import { MigrationService } from "./database/migrations/migrations.service";
 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
@@ -22,6 +21,8 @@ import { MissionService } from "./models/mission/mission.service";
 import { CounterService } from "./models/counter/counter.service";
 import { CounterServant } from "./models/counter/counter.servant";
 import { CountersCalculationServant } from "./models/counter/counters-calculation.servant";
+import { DatabaseService } from "./database/services/database.service";
+import { DatabaseImplementationService } from "./database/services/database-implementation.service";
 
 export function initializeFactory(init: InitializeAppService) {
   return () => init.initializeApp();
@@ -33,7 +34,7 @@ export function initializeFactory(init: InitializeAppService) {
   providers: [
     SQLiteService,
     DetailService,
-    DatabaseService,
+    { provide: DatabaseService, useClass: DatabaseImplementationService },
     InitializeAppService,
     {
       provide: APP_INITIALIZER,
