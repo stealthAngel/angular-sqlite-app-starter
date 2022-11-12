@@ -31,10 +31,14 @@
 @import 'scss/custom-picker.scss';
 
 
+html,body {
+  height: 100%;
+  width: 100%;
+}
+
 .validation-errors {
   //child error
   .error-message {
     color: red;
   }
-
 }

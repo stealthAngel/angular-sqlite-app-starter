@@ -11,21 +11,15 @@
 
 <ion-content>
   <ion-grid class="ion-margin ion-text-center">
-    <ion-row>
-      <!-- todo in one array -->
-      <ion-col *ngFor="let x of [1,2,3,4,5]">
-        <ion-button (click)="onNumberButton(x)">
-          {{x}}
-        </ion-button>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col *ngFor="let x of [6,7,8,9,10]">
-        <ion-button (click)="onNumberButton(x)">
-          {{x}}
-        </ion-button>
-      </ion-col>
-    </ion-row>
+    <ng-container *ngFor="let numbers of numberButtons">
+      <ion-row size="5">
+        <ion-col *ngFor="let x of numbers">
+          <ion-button (click)="onNumberButton(x)" expand="block">
+            {{x}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ng-container>
     <ion-row>
       <ion-col>
         <ion-item>
@@ -37,12 +31,11 @@
       </ion-col>
     </ion-row>
 
-
     <ion-row>
       <ion-col>
         <ion-card>
           <ion-card-content>
-            <h1>{{countersExtentionObject.total}}</h1>
+            <h1>{{countersCalculation.total}}</h1>
           </ion-card-content>
         </ion-card>
         <ion-card>
@@ -50,47 +43,47 @@
             <ion-grid class="information-grid">
               <ion-row>
                 <ion-col>
-                  <ion-text>Amount done today: {{countersExtentionObject.amountDoneToday}}</ion-text>
+                  <ion-text>Amount done today: {{countersCalculation.amountDoneToday}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>Start time today: {{countersExtentionObject.startTimeToday | date:'HH:mm'}}</ion-text>
+                  <ion-text>Start time today: {{countersCalculation.startTimeToday | date:'HH:mm'}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>End time today: {{countersExtentionObject.endTimeToday | date:'HH:mm'}}</ion-text>
+                  <ion-text>End time today: {{countersCalculation.endTimeToday | date:'HH:mm'}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>Time spend: {{countersExtentionObject.timeBetweenToday | date:'HH:mm'}}</ion-text>
+                  <ion-text>Time spend: {{countersCalculation.timeBetweenToday | date:'HH:mm'}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>Units left: {{countersExtentionObject.unitsLeft}}</ion-text>
+                  <ion-text>Units left: {{countersCalculation.unitsLeft}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>Experience currently: {{countersExtentionObject.experienceCurrently}}%</ion-text>
+                  <ion-text>Experience currently: {{countersCalculation.experienceCurrently}}%</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>Experience per unit: {{countersExtentionObject.experiencePerUnit}}%</ion-text>
+                  <ion-text>Experience per unit: {{countersCalculation.experiencePerUnit}}%</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>Experience per 10 units: {{countersExtentionObject.experiencePer10Unit}}%</ion-text>
+                  <ion-text>Experience per 10 units: {{countersCalculation.experiencePer10Unit}}%</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>Amount to do for 1%: {{countersExtentionObject.amountToDoFor1Percent}} units</ion-text>
+                  <ion-text>Amount to do for 1%: {{countersCalculation.amountToDoFor1Percent}} units</ion-text>
                 </ion-col>
               </ion-row>
             </ion-grid>

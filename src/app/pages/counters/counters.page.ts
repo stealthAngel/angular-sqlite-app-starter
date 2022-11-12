@@ -16,8 +16,9 @@ import { CountersCalculationServant } from "src/app/models/counter/counters-calc
 export class CountersPage implements OnInit {
   mission: Mission = {} as Mission;
   counters: Counter[] = [];
-  countersExtentionObject: CountersCalculation = {} as CountersCalculation;
+  countersCalculation: CountersCalculation = {} as CountersCalculation;
   missionId: number;
+  numberButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   differentAmountForm = this.formBuilder.group({
     amount: null,
@@ -26,6 +27,19 @@ export class CountersPage implements OnInit {
   constructor(private activatedRoute: ActivatedRoute, private missionService: MissionService, private counterService: CounterService, private countersCalculationServant: CountersCalculationServant, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
+    //into chunks of 5
+    this.numberButtons = this.numberButtons.reduce((resultArray, item, index) => {
+      const chunkIndex = Math.floor(index / 5);
+
+      if (!resultArray[chunkIndex]) {
+        resultArray[chunkIndex] = [];
+      }
+
+      resultArray[chunkIndex].push(item);
+
+      return resultArray;
+    }, []);
+
     this.activatedRoute.params.subscribe((params) => {
       this.init(+params.id);
     });
@@ -37,7 +51,7 @@ export class CountersPage implements OnInit {
 
     this.counters = await this.counterService.getCountersByMissionId(missionId);
 
-    this.countersExtentionObject = this.countersCalculationServant.toClass(this.mission, this.counters);
+    this.countersCalculation = this.countersCalculationServant.toClass(this.mission, this.counters);
   }
 
   async onNumberButton(number: number) {
@@ -63,7 +77,7 @@ export class CountersPage implements OnInit {
 
     this.counters.unshift(insertedCounter);
 
-    //this.countersExtentionObject = this.getCountersExtentionObject(this.counters);
+    this.countersCalculation = this.countersCalculationServant.toClass(this.mission, this.counters);
   }
 
   async onDeleteClick(id: number) {
