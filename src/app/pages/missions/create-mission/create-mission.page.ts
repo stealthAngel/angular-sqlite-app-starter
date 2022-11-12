@@ -1,10 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { MissionRepository } from "src/app/database/repositories/mission.repository";
-import { Mission_DB } from "src/app/database/models/database-models";
 import { ToastService } from "src/app/services/toast.service";
-import { MissionServant } from "src/app/models/mission/mission.servant";
 import { MissionService } from "src/app/models/mission/mission.service";
 import { Mission } from "src/app/models/mission/mission";
 

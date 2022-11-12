@@ -2,13 +2,12 @@ import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from "@
 import { ActivatedRoute } from "@angular/router";
 import { AlertService } from "src/app/alert.service";
 import { FlipperComponent } from "src/app/components/flipper/flipper.component";
-import { MissionRepository } from "src/app/database/repositories/mission.repository";
 import { ToastService } from "src/app/services/toast.service";
 import { Autoplay, Keyboard, Pagination, Scrollbar, Swiper, Zoom } from "swiper";
-import { MissionServant } from "src/app/models/mission/mission.servant";
 import { Mission } from "src/app/models/mission/mission";
 import { filterMissions } from "src/app/models/mission/mission.filter";
 import { MissionFilters } from "src/app/models/mission/missionFilter";
+import { MissionService } from "src/app/models/mission/mission.service";
 Swiper.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
 @Component({
   selector: "app-missions",
@@ -31,7 +30,7 @@ export class MissionsPage implements OnInit {
   @ViewChildren(FlipperComponent) flippers: QueryList<FlipperComponent>;
   swiper: Swiper;
 
-  constructor(private missionRepository: MissionRepository, private changeDetectorRef: ChangeDetectorRef, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
+  constructor(private missionService: MissionService, private changeDetectorRef: ChangeDetectorRef, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe((data) => {
@@ -56,7 +55,7 @@ export class MissionsPage implements OnInit {
   async onDeleteMissionClick(id: number) {
     let shouldDelete = await this.alertService.presentCancelOkAlertForDeleteMision();
     if (shouldDelete) {
-      await this.missionRepository.deleteMissionById(id);
+      await this.missionService.deleteMissionById(id);
 
       this.missions = this.missions.filter((mission) => mission.id !== id);
 

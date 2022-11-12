@@ -2,7 +2,7 @@ import { Directive, ElementRef, Input, OnInit } from "@angular/core";
 import { IonInput } from "@ionic/angular";
 
 @Directive({
-  selector: "[autoFocus]"
+  selector: "[autoFocus]",
 })
 export class AutoFocusDirective implements OnInit {
   @Input() setAutofocus: boolean = true;
@@ -10,7 +10,6 @@ export class AutoFocusDirective implements OnInit {
   private inputElement: IonInput;
 
   constructor(private elementRef: IonInput) {
-    console.log('hello world')
     this.elementRef.setFocus();
   }
 

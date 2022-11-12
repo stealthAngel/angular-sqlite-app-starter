@@ -29,7 +29,6 @@ export class DatabaseImplementationService implements DatabaseService {
       //imagine 10 calls at the same time async calling at the same time
       if (!isRetryExecution) {
         this.amountCalled++; // keep track of how many times this method is called
-        console.log("amount called " + this.amountCalled);
       }
 
       if (!this.databaseIsOpen && !this.databaseIsOpenCalled) {
@@ -58,7 +57,6 @@ export class DatabaseImplementationService implements DatabaseService {
 
       //regardless of the amount of calls, we need to decrease the amountCalled
       this.amountCalled--;
-      console.log("amount called end " + this.amountCalled);
 
       return cb;
     } catch (error) {

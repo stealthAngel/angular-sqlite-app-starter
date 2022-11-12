@@ -14,24 +14,9 @@ export class FirstMigration extends MigrationBase {
       createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );`;
 
-    this.databaseService.executeQuery((db) => {
-      db.execute("select * from migrations");
+    await this.databaseService.executeQuery(async (db) => {
+      await db.execute(query);
     });
-
-    this.databaseService.executeQuery((db) => {
-      db.execute("select * from migrations");
-    });
-
-    // await this.databaseService.executeQuery(async (db) => {
-    //   await db.execute(query);
-    // });
-    // await this.databaseService.executeQuery(async (db) => {
-    //   await db.execute(query);
-    //   await this.databaseService.executeQuery(async (db2) => {
-    //     var x = await db2.execute("select * from migrations;");
-    //     console.log(x);
-    //   });
-    // });
   }
 
   down() {

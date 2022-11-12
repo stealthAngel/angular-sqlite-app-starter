@@ -40,7 +40,6 @@ export class AlertService {
     await alert.present();
 
     const { role } = await alert.onDidDismiss();
-    console.log(role);
     return role == "confirm";
   }
 
