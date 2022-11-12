@@ -13,20 +13,28 @@ export class DatabaseImplementationService implements DatabaseService {
 
   constructor(private sqlite: SQLiteService) {}
 
-  async executeQuery<T>(callback: myCallbackType<T>, executedAgain = false): Promise<T> {
+  async openDatabase() {
+    this.db = await this.sqlite.createConnection(environment.databaseName, false, "no-encryption", 1);
+
+    await this.db.open();
+  }
+
+  async closeDatabase() {
+    await this.db.close();
+    await this.sqlite.closeConnection(environment.databaseName);
+  }
+
+  async executeQuery<T>(callback: myCallbackType<T>, isRetryExecution = false): Promise<T> {
     try {
       //imagine 10 calls at the same time async calling at the same time
-
-      if (!executedAgain) {
+      if (!isRetryExecution) {
         this.amountCalled++; // keep track of how many times this method is called
+        console.log("amount called " + this.amountCalled);
       }
 
       if (!this.databaseIsOpen && !this.databaseIsOpenCalled) {
         this.databaseIsOpenCalled = true;
-        this.db = await this.sqlite.createConnection(environment.databaseName, false, "no-encryption", 1);
-
-        await this.db.open();
-
+        await this.openDatabase();
         this.databaseIsOpen = true;
         this.databaseIsOpenCalled = false;
       }
@@ -44,13 +52,13 @@ export class DatabaseImplementationService implements DatabaseService {
       //only close the database when the last call is done
 
       if (this.databaseIsOpen && this.amountCalled === 1) {
-        await this.db.close();
-        await this.sqlite.closeConnection(environment.databaseName);
+        await this.closeDatabase();
         this.databaseIsOpen = false;
       }
 
       //regardless of the amount of calls, we need to decrease the amountCalled
       this.amountCalled--;
+      console.log("amount called end " + this.amountCalled);
 
       return cb;
     } catch (error) {
