@@ -17,7 +17,7 @@ export class Setting {
     return this;
   }
 
-  private getSettingType(name: string) {
+  private getSettingType(name: string): SettingType {
     return SettingType[name];
   }
 

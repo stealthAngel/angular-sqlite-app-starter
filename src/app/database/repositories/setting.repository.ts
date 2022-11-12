@@ -30,4 +30,12 @@ export class SettingRepository {
       }
     });
   }
+
+  async deleteSettings(): Promise<void> {
+    this.databaseService.executeQuery(async (db: SQLiteDBConnection) => {
+      await db.run("DELETE FROM settings;");
+    });
+
+    
+  }
 }

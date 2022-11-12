@@ -23,6 +23,8 @@ import { CounterServant } from "./models/counter/counter.servant";
 import { CountersCalculationServant } from "./models/counter/counters-calculation.servant";
 import { DatabaseService } from "./database/services/database.service";
 import { DatabaseImplementationService } from "./database/services/database-implementation.service";
+import { SettingService } from "./models/setting/setting.service";
+import { SettingServant } from "./models/setting/setting.servant";
 
 export function initializeFactory(init: InitializeAppService) {
   return () => init.initializeApp();
@@ -48,11 +50,13 @@ export function initializeFactory(init: InitializeAppService) {
     // services
     MissionService,
     CounterService,
+    SettingService,
 
     //servants
     CounterServant,
     MissionServant,
     CountersCalculationServant,
+    SettingServant,
 
     //repositories
     MissionRepository,
