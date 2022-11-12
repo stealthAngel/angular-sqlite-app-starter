@@ -3,7 +3,6 @@ import { DBSQLiteValues, SQLiteDBConnection } from "@capacitor-community/sqlite"
 import { Setting_DB } from "../models/database-models";
 import { DatabaseService } from "../services/database.service";
 
-//todo fix settings with enum type check
 @Injectable({
   providedIn: "root",
 })
@@ -35,7 +34,5 @@ export class SettingRepository {
     this.databaseService.executeQuery(async (db: SQLiteDBConnection) => {
       await db.run("DELETE FROM settings;");
     });
-
-    
   }
 }
