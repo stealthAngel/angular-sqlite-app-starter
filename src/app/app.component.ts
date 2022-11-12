@@ -7,6 +7,7 @@ import { Platform } from "@ionic/angular";
 import { settings_migration_2022_05_26 } from "./database/migrations/migrations/settings.migration.2022-05-26";
 import { SettingRepository } from "./database/repositories/setting.repository";
 import { DatabaseService } from "./database/services/database.service";
+import { SettingService } from "./models/setting/setting.service";
 import { ColorTheme, SettingType } from "./models/setting/settings.enum";
 import { ThemeService } from "./services/theme-service.service";
 
@@ -16,13 +17,15 @@ import { ThemeService } from "./services/theme-service.service";
   styleUrls: ["app.component.scss"],
 })
 export class AppComponent {
-  constructor(private platform: Platform, private SettingRepository: SettingRepository, private a: DatabaseService, private themeService: ThemeService) {
+  constructor(private platform: Platform, private settingService: SettingService, private a: DatabaseService, private themeService: ThemeService) {
     this.platform.ready().then(async () => {
       this.platform.backButton.subscribeWithPriority(666666, () => {
         App.exitApp();
       });
 
       this.setStatusBarOverlayWebView();
+
+      this.loadSettings();
     });
     this.do();
   }
@@ -41,8 +44,8 @@ export class AppComponent {
     }
   }
 
-  async loadAppSettings() {
-    var settings = await this.SettingRepository.getSettings();
+  async loadSettings() {
+    var settings = await this.settingService.getSettings();
     var setting = settings.find((x) => x.name == SettingType.COLOR_THEME);
     var theme = setting.value as ColorTheme;
     this.themeService.activeTheme(theme);
