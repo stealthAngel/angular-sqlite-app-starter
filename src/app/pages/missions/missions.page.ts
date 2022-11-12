@@ -1,15 +1,14 @@
 import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { PickerController } from "@ionic/angular";
+import { ActivatedRoute } from "@angular/router";
 import { AlertService } from "src/app/alert.service";
 import { FlipperComponent } from "src/app/components/flipper/flipper.component";
-import { MissionFilters } from "src/app/models/missionFilter";
 import { MissionRepository } from "src/app/database/repositories/mission.repository";
 import { ToastService } from "src/app/services/toast.service";
 import { Autoplay, Keyboard, Pagination, Scrollbar, Swiper, Zoom } from "swiper";
-import { MissionClass } from "src/app/models/mission";
-import { MissionGate } from "src/app/gate/mission.servant";
-import { filterMissions } from "src/app/models/mission.filter";
+import { MissionServant } from "src/app/models/mission/mission.servant";
+import { Mission } from "src/app/models/mission/mission";
+import { filterMissions } from "src/app/models/mission/mission.filter";
+import { MissionFilters } from "src/app/models/mission/missionFilter";
 Swiper.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
 @Component({
   selector: "app-missions",
@@ -17,8 +16,8 @@ Swiper.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
   styleUrls: ["./missions.page.scss"],
 })
 export class MissionsPage implements OnInit {
-  missions: MissionClass[] = [];
-  filteredMissions: MissionClass[] = [];
+  missions: Mission[] = [];
+  filteredMissions: Mission[] = [];
 
   segments: string[] = ["Card View", "Notepad View"];
   selectedSegment: string = this.segments[0];
@@ -32,11 +31,11 @@ export class MissionsPage implements OnInit {
   @ViewChildren(FlipperComponent) flippers: QueryList<FlipperComponent>;
   swiper: Swiper;
 
-  constructor(private missionRepository: MissionRepository, private missionGate: MissionGate, private changeDetectorRef: ChangeDetectorRef, private pickerController: PickerController, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
+  constructor(private missionRepository: MissionRepository, private changeDetectorRef: ChangeDetectorRef, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
     this.activatedRoute.data.subscribe((data) => {
-      this.missions = (<{ missionClasses: MissionClass[] }>data).missionClasses;
+      this.missions = (<{ missionClasses: Mission[] }>data).missionClasses;
       this.filteredMissions = this.missions;
     });
   }
@@ -55,13 +54,13 @@ export class MissionsPage implements OnInit {
   }
 
   async onDeleteMissionClick(id: number) {
-    let shouldDelete = await this.alertService.presentCancelOkAlert("Delete Mission", "Are you sure you want to delete this mission?");
+    let shouldDelete = await this.alertService.presentCancelOkAlertForDeleteMision();
     if (shouldDelete) {
       await this.missionRepository.deleteMissionById(id);
 
       this.missions = this.missions.filter((mission) => mission.id !== id);
 
-      this.toastService.show("Mission deleted");
+      this.toastService.showSuccessfullyDeleted();
     }
   }
 

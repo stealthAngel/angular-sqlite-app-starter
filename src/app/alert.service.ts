@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { AlertController, PickerColumn, PickerController } from "@ionic/angular";
-import { MissionFilters } from "./models/missionFilter";
 interface cb {
   (selected: any): void;
 }
@@ -10,6 +9,10 @@ interface cb {
 })
 export class AlertService {
   constructor(private alertController: AlertController, private pickerController: PickerController) {}
+
+  async presentCancelOkAlertForDeleteMision() {
+    return await this.presentCancelOkAlert("Delete mission", "Are you sure you want to delete this mission?");
+  }
 
   async presentCancelOkAlert(header: string, message: string): Promise<boolean> {
     const alert = await this.alertController.create({

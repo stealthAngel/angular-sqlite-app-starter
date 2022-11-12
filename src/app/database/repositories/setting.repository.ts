@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { DBSQLiteValues, SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { Setting } from "src/app/models/app-setting";
+import { Setting } from "src/app/models/setting/setting";
 import { DatabaseService } from "../services/database.service";
 
 //todo fix settings with enum type check

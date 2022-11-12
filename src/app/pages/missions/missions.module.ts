@@ -7,7 +7,7 @@ import { SwiperModule } from "swiper/angular";
 import { CreateMissionPage } from "./create-mission/create-mission.page";
 import { MissionsPage } from "./missions.page";
 import { UpdateMissionPage } from "./update-mission/update-mission.page";
-import { MissionResolverService } from "src/app/services/mission-resolver.service";
+import { MissionResolverService } from "src/app/models/mission/mission-resolver.service";
 import { LibSharedModule } from "src/app/lib/lib-shared.module";
 @NgModule({
   imports: [MissionsPageRoutingModule, SwiperModule, LibSharedModule],

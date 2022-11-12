@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { MissionResolverService } from "src/app/services/mission-resolver.service";
+import { MissionResolverService } from "src/app/models/mission/mission-resolver.service";
 import { CreateMissionPage } from "./create-mission/create-mission.page";
 
 import { MissionsPage } from "./missions.page";

@@ -2,7 +2,7 @@ import { KeyValue } from "@angular/common";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { SettingRepository } from "src/app/database/repositories/setting.repository";
-import { Setting, ColorTheme, FontTheme, SettingType } from "src/app/models/app-setting";
+import { Setting, ColorTheme, FontTheme, SettingType } from "src/app/models/setting/setting";
 import { ThemeService } from "src/app/services/theme-service.service";
 import { ToastService } from "src/app/services/toast.service";
 
@@ -35,7 +35,7 @@ export class SettingsPage implements OnInit {
   async submit() {
     console.log(this.settings);
     await this.SettingRepository.updateSettings(this.settings);
-    this.toastService.show("Settings saved");
+    this.toastService.showSettingsSuccessfullySaved();
     this.router.navigate(["/missions"]);
   }
 

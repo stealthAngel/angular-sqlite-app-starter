@@ -5,7 +5,7 @@ import { App } from "@capacitor/app";
 import { Capacitor } from "@capacitor/core";
 import { Platform } from "@ionic/angular";
 import { SettingRepository } from "./database/repositories/setting.repository";
-import { ColorTheme, SettingType } from "./models/app-setting";
+import { ColorTheme, SettingType } from "./models/setting/setting";
 import { ThemeService } from "./services/theme-service.service";
 
 @Component({

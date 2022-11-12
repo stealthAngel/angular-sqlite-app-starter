@@ -1,20 +1,21 @@
-export interface Counter {
+export interface Counter_DB {
   id: number;
   amount: number;
   missionId: number;
-  createdAt: Date;
+  createdAt: string;
 }
 
-export interface Mission {
+export interface Mission_DB {
   id: number;
   name: string;
   description: string;
   endAmount: number;
   countersAmountTotal: number;
+  createdAt: string;
 }
 
-export interface Migration {
+export interface Migration_DB {
   id: number;
   name: string;
-  createdAt: Date;
+  createdAt: string;
 }

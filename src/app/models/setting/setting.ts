@@ -30,8 +30,3 @@ export class Setting {
     this.value = value;
   }
 }
-
-export interface StartUpSetting {
-  name: string;
-  value: FontTheme | ColorTheme | boolean;
-}

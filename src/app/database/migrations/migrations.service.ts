@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Migration } from "../models/database-models";
+import { Migration_DB } from "../models/database-models";
 import { MigrationRepository } from "../repositories/migration.repository";
 import { DatabaseService } from "../services/database.service";
 import { FirstMigration } from "./initial-migrations/first.migration";
@@ -29,7 +29,7 @@ export class MigrationService {
     var remaining = this.getRemainingMigrationsToExecute(latestMigration?.id ?? 0);
     remaining.forEach((m) => {
       m.migration.up();
-      this.migrationRepository.insert({ id: m.id, name: m.name } as Migration);
+      this.migrationRepository.insert({ id: m.id, name: m.name } as Migration_DB);
     });
   }
 

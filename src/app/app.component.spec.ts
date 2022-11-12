@@ -1,15 +1,15 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { StatusBar, StatusBarOriginal } from '@awesome-cordova-plugins/status-bar';
-import { Capacitor, CapacitorGlobal } from '@capacitor/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
+import { StatusBar, StatusBarOriginal } from "@awesome-cordova-plugins/status-bar";
+import { Capacitor, CapacitorGlobal } from "@capacitor/core";
 
-import { Platform } from '@ionic/angular';
+import { Platform } from "@ionic/angular";
 
-import { AppComponent } from './app.component';
-import { DatabaseService } from './database/services/database.service';
-import { SQLiteService } from './database/services/sqlite.service';
+import { AppComponent } from "./app.component";
+import { DatabaseService } from "./database/services/database.service";
+import { SQLiteService } from "./database/services/sqlite.service";
 
-describe('AppComponent', () => {
+describe("AppComponent", () => {
   let statusBarSpy: jasmine.SpyObj<StatusBarOriginal>;
   let capacitorSpy: jasmine.SpyObj<CapacitorGlobal>;
   let platformReadySpy: Promise<void>;
@@ -20,43 +20,33 @@ describe('AppComponent', () => {
   beforeEach(waitForAsync(() => {
     statusBarSpy = spyOnAllFunctions<StatusBarOriginal>(StatusBar);
     capacitorSpy = spyOnAllFunctions<CapacitorGlobal>(Capacitor);
-    capacitorSpy.getPlatform.and.returnValue('android');
+    capacitorSpy.getPlatform.and.returnValue("android");
 
     platformReadySpy = Promise.resolve();
-    platformSpy = jasmine.createSpyObj('Platform', { ready: platformReadySpy });
-    platformSpy.backButton = jasmine.createSpyObj('BackButton', { subscribeWithPriority: () => { } });
+    platformSpy = jasmine.createSpyObj("Platform", { ready: platformReadySpy });
+    platformSpy.backButton = jasmine.createSpyObj("BackButton", { subscribeWithPriority: () => {} });
 
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
 
-      providers: [
-        { provide: StatusBar, useValue: statusBarSpy },
-        { provide: Capacitor, useValue: capacitorSpy },
-        { provide: Platform, useValue: platformSpy },
-        DatabaseService,
-        SQLiteService,
-      ],
+      providers: [{ provide: StatusBar, useValue: statusBarSpy }, { provide: Capacitor, useValue: capacitorSpy }, { provide: Platform, useValue: platformSpy }, DatabaseService, SQLiteService],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.debugElement.componentInstance;
     fixture.isStable();
     fixture.detectChanges();
-
   }));
 
-  it('should create the app', () => {
+  it("should create the app", () => {
     expect(app).toBeTruthy();
   });
 
-  it('should check if statusbar is called', async () => {
+  it("should check if statusbar is called", async () => {
     expect(statusBarSpy.overlaysWebView).toHaveBeenCalled();
   });
-  it('should check if the platform ready is called', async () => {
+  it("should check if the platform ready is called", async () => {
     expect(platformSpy.ready).toHaveBeenCalled();
   });
-
-  // TODO: add more tests!
-
 });

@@ -1,7 +1,7 @@
-import { MissionClass } from "./mission";
+import { Mission } from "./mission";
 import { MissionFilters } from "./missionFilter";
 
-export function filterMissions(missions: MissionClass[], searchTerm: string, orderBy: string, orderValue: string, completedOrNah: string) {
+export function filterMissions(missions: Mission[], searchTerm: string, orderBy: string, orderValue: string, completedOrNah: string) {
   let filteredMissions = missions;
   //filter by search text;
   if (searchTerm) {

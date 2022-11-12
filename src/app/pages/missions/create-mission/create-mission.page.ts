@@ -2,8 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { MissionRepository } from "src/app/database/repositories/mission.repository";
-import { Mission } from "src/app/database/models/database-models";
+import { Mission_DB } from "src/app/database/models/database-models";
 import { ToastService } from "src/app/services/toast.service";
+import { MissionServant } from "src/app/models/mission/mission.servant";
+import { MissionService } from "src/app/models/mission/mission.service";
+import { Mission } from "src/app/models/mission/mission";
 
 @Component({
   selector: "app-create-mission",
@@ -22,7 +25,7 @@ export class CreateMissionPage implements OnInit {
     endAmount: [{ type: "required", message: "endAmount is required." }],
   };
 
-  constructor(private formBuilder: FormBuilder, private toastService: ToastService, private missionRepository: MissionRepository, private router: Router) {}
+  constructor(private formBuilder: FormBuilder, private toastService: ToastService, private missionService: MissionService, private router: Router) {}
 
   ngOnInit() {
     this.form.reset();
@@ -31,17 +34,14 @@ export class CreateMissionPage implements OnInit {
   async submit() {
     let formValues = this.form.value;
 
-    let mission: Mission = {
-      name: formValues.name,
-      endAmount: +formValues.endAmount,
-      description: formValues.description,
-      id: null,
-      countersAmountTotal: null,
-    };
+    let mission = new Mission();
+    mission.name = formValues.name;
+    mission.endAmount = +formValues.endAmount;
+    mission.description = formValues.description;
 
-    await this.missionRepository.insertMission(mission);
+    this.missionService.insertMission(mission);
 
-    this.toastService.show("Successfully created!");
+    this.toastService.showSuccessfullyCreated();
 
     this.router.navigate(["/missions"]);
   }
