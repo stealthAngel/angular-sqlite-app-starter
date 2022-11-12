@@ -101,22 +101,30 @@
 
   </ion-grid>
   <div *ngIf="counters.length > 0">
-    <ion-grid>
+    <ion-grid class="ion-margin ion-text-center">
       <ion-row style="border-bottom: groove">
-        <ion-col>
+        <ion-col size="3">
           <ion-label>amount</ion-label>
         </ion-col>
-        <ion-col>
+        <ion-col size="6">
           <ion-label>date</ion-label>
+        </ion-col>
+        <ion-col size="3">
+          <ion-label>Options:</ion-label>
         </ion-col>
       </ion-row>
       <div *ngFor="let counter of counters">
-        <ion-row style="border-bottom: groove" (click)="onDeleteClick(counter.id)">
-          <ion-col>
+        <ion-row style="border-bottom: groove">
+          <ion-col size="3">
             {{counter.amount}}
           </ion-col>
-          <ion-col>
-            {{counter.createdAt}}
+          <ion-col size="6">
+            {{counter.createdAt | date:'dd/MM/yyyy HH:mm'}}
+          </ion-col>
+          <ion-col size="3">
+            <ion-icon name="calendar-outline" class="ion-margin-end" (click)="onEditDateClick(counter.id)"></ion-icon>
+            <ion-icon name="pencil-outline" class="ion-margin-end" (click)="onEditAmountClick(counter.id)"></ion-icon>
+            <ion-icon name="trash-outline" (click)="onDeleteClick(counter.id)"></ion-icon>
           </ion-col>
         </ion-row>
       </div>

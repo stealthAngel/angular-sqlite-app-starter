@@ -11,7 +11,6 @@ export class CounterServant {
   }
 
   toClasses(counters: Counter_DB[]): Counter[] {
-    console.log(counters);
     return counters.map((counter) => this.toClass(counter));
   }
 

@@ -1,8 +1,15 @@
-import { animate, style } from "@angular/animations";
 import { Injectable } from "@angular/core";
-import { AlertController, AnimationBuilder, AnimationController, PickerColumn, PickerController } from "@ionic/angular";
+import { AlertController, AlertInput, AnimationController, PickerColumn, PickerController } from "@ionic/angular";
+
+//cb is a callback function
 interface cb {
   (selected: any): void;
+}
+interface cbNumber {
+  (selected: number): void;
+}
+interface cbDate {
+  (selected: Date): void;
 }
 
 @Injectable({
@@ -13,6 +20,68 @@ export class AlertService {
 
   async presentCancelOkAlertForDeleteMision() {
     return await this.presentCancelOkAlert("Delete mission", "Are you sure you want to delete this mission?");
+  }
+
+  async presentDateTimeInput(handler: cbDate, message?: string, defaultValue?: Date) {
+    return await this.presentCancelSaveWithInputs(
+      (value) => {
+        handler(new Date(value.date));
+      },
+      "Enter Date and Time",
+      message,
+      [
+        {
+          name: "date",
+          type: "datetime-local",
+          placeholder: "Enter date",
+          value: defaultValue.toISOString().slice(0, 16),
+        },
+      ]
+    );
+  }
+
+  async presenNumberInput(handler: cbNumber, message?: string, defaultValue?: number) {
+    return await this.presentCancelSaveWithInputs(
+      (value) => {
+        handler(+value.number);
+      },
+      "Enter number",
+      message,
+      [
+        {
+          name: "number",
+          type: "number",
+          placeholder: "Enter number",
+          value: defaultValue,
+        },
+      ]
+    );
+  }
+
+  async presentCancelSaveWithInputs(handler: cb, header: string, message: string, inputs: AlertInput[]) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: [
+        {
+          text: "Cancel",
+          role: "cancel",
+          handler: () => {
+            return false;
+          },
+        },
+        {
+          text: "Save",
+          role: "save",
+          handler: (value) => {
+            handler(value);
+          },
+        },
+      ],
+      inputs: inputs,
+    });
+
+    await alert.present();
   }
 
   async presentCancelOkAlert(header: string, message: string): Promise<boolean> {

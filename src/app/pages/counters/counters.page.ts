@@ -7,6 +7,7 @@ import { Counter } from "src/app/models/counter/counter";
 import { CountersCalculation } from "src/app/models/counter/counters-calculation";
 import { Mission } from "src/app/models/mission/mission";
 import { CountersCalculationServant } from "src/app/models/counter/counters-calculation.servant";
+import { AlertService } from "src/app/alert.service";
 
 @Component({
   selector: "app-counters",
@@ -24,7 +25,7 @@ export class CountersPage implements OnInit {
     amount: null,
   });
 
-  constructor(private activatedRoute: ActivatedRoute, private missionService: MissionService, private counterService: CounterService, private countersCalculationServant: CountersCalculationServant, private formBuilder: FormBuilder) {}
+  constructor(private activatedRoute: ActivatedRoute, private missionService: MissionService, private counterService: CounterService, private alertService: AlertService, private countersCalculationServant: CountersCalculationServant, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     //into chunks of 5
@@ -84,5 +85,30 @@ export class CountersPage implements OnInit {
     await this.counterService.deleteCounterById(id);
 
     this.counters = this.counters.filter((counter) => counter.id !== id);
+  }
+
+  async onEditDateClick(counterId: number) {
+    let counter = this.counters.find((counter) => counter.id === counterId);
+
+    var handler = async (value: Date) => {
+      counter.createdAt = value;
+
+      await this.counterService.updateCounter(counter);
+
+      this.countersCalculation = this.countersCalculationServant.toClass(this.mission, this.counters);
+    };
+
+    await this.alertService.presentDateTimeInput(handler.bind(this), null, counter.createdAt);
+  }
+
+  async onEditAmountClick(counterId: number) {
+    let counter = this.counters.find((counter) => counter.id === counterId);
+
+    var handler = async (value: number) => {
+      counter.amount = value;
+      await this.counterService.updateCounter(counter);
+    };
+
+    var x = await this.alertService.presenNumberInput(handler.bind(this), `Current Amount ${counter.amount}`);
   }
 }
