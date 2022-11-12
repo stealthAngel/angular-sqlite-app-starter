@@ -22,12 +22,18 @@
     </ng-container>
     <ion-row>
       <ion-col>
-        <ion-item>
-          <form [formGroup]="differentAmountForm" (ngSubmit)="onAddDifferentCounter()">
-            <ion-label position="floating">Click to add a different amount</ion-label>
-            <ion-input type="number" formControlName="amount"></ion-input>
-          </form>
-        </ion-item>
+        <form [formGroup]="differentAmountForm" (ngSubmit)="onAddDifferentCounter()">
+          <ion-list>
+            <ion-item>
+              <ion-label align="center">Add a different amount</ion-label>
+            </ion-item>
+            <ion-item>
+              <ion-input type="number" placeholder="Enter amount" formControlName="amount" [clearInput]="true"
+                align="center">
+              </ion-input>
+            </ion-item>
+          </ion-list>
+        </form>
       </ion-col>
     </ion-row>
 

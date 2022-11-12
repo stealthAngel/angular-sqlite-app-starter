@@ -19,3 +19,10 @@ export interface Migration_DB {
   name: string;
   createdAt: string;
 }
+
+export interface Setting_DB {
+  id: number;
+  name: string;
+  value: string;
+  orderIndex: number;
+}

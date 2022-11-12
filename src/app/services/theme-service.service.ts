@@ -1,6 +1,6 @@
 import { Injectable, Inject, Renderer2, RendererFactory2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { ColorTheme } from '../models/setting/setting';
+import { ColorTheme } from '../models/setting/settings.enum';
 @Injectable({
   providedIn: 'root'
 })

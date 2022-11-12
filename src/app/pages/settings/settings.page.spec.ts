@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 import { IonicModule } from "@ionic/angular";
-import { SettingRepository } from "src/app/database/repositories/app-setting-repository";
+import { SettingRepository } from "src/app/database/repositories/setting.repository";
 import { DatabaseService } from "src/app/database/services/database.service";
 import { SQLiteService } from "src/app/database/services/sqlite.service";
 

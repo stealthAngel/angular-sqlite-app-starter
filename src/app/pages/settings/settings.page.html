@@ -24,22 +24,22 @@
         </ion-toggle>
       </ion-item>
 
-      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.COLORTHEME]">
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.COLOR_THEME]">
         <ion-label>Color Themes:</ion-label>
         <ion-select placeholder="{{setting.value}}" [value]="setting.value"
           (ionChange)="onChangeColorTheme($event.target.value, i)">
-          <ion-select-option *ngFor="let colorTheme of ColorThemes | keyvalue: originalOrder"
+          <ion-select-option *ngFor="let colorTheme of ColorThemes | keyvalue: originalEnumOrder"
             [value]="colorTheme.value">
             {{colorTheme.value}}
           </ion-select-option>
         </ion-select>
       </ion-item>
 
-      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.FONTTHEME]">
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.FONT_THEME]">
         <ion-label>Font Themes:</ion-label>
         <ion-select placeholder="{{setting.value}}" [value]="setting.value"
           (ionChange)="setting.value = $event.target.value">
-          <ion-select-option *ngFor="let theme of FontThemes | keyvalue: originalOrder" [value]="theme.value">
+          <ion-select-option *ngFor="let theme of FontThemes | keyvalue: originalEnumOrder" [value]="theme.value">
             {{theme.value}}
           </ion-select-option>
         </ion-select>

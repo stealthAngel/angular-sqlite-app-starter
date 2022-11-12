@@ -5,7 +5,7 @@ import { App } from "@capacitor/app";
 import { Capacitor } from "@capacitor/core";
 import { Platform } from "@ionic/angular";
 import { SettingRepository } from "./database/repositories/setting.repository";
-import { ColorTheme, SettingType } from "./models/setting/setting";
+import { ColorTheme, SettingType } from "./models/setting/settings.enum";
 import { ThemeService } from "./services/theme-service.service";
 
 @Component({
@@ -34,7 +34,7 @@ export class AppComponent {
 
   async loadAppSettings() {
     var settings = await this.SettingRepository.getSettings();
-    var setting = settings.find((x) => x.name == SettingType.COLORTHEME);
+    var setting = settings.find((x) => x.name == SettingType.COLOR_THEME);
     var theme = setting.value as ColorTheme;
     this.themeService.activeTheme(theme);
   }
