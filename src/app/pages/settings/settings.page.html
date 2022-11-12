@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-toolbar color="title">
+  <ion-toolbar>
     <ion-title>Settings</ion-title>
     <ion-buttons slot="start">
       <ion-button [routerLink]="['/missions']">
@@ -14,13 +14,13 @@
     <div *ngFor="let setting of settings; let i = index;">
       <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_SCROLL_TO_TOP]">
         <ion-label>Scrolls up on tab switch mission view</ion-label>
-        <ion-toggle [checked]="setting.value == '1'" (ionChange)="setting.value = $event.detail.checked ? '1' : '0'">
+        <ion-toggle [checked]="setting.value" (ionChange)="setting.value = $event.detail.checked">
         </ion-toggle>
       </ion-item>
 
       <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_SHOW_MISSION_COMPLETED_COLOR]">
         <ion-label>Show color if a mission is complete</ion-label>
-        <ion-toggle [checked]="setting.value == '1'" (ionChange)="setting.value = $event.detail.checked ? '1' : '0'">
+        <ion-toggle [checked]="setting.value" (ionChange)="setting.value = $event.detail.checked">
         </ion-toggle>
       </ion-item>
 
@@ -49,7 +49,7 @@
   </ion-list>
 
   <div className="ion-padding">
-    <ion-button expand="block" class="ion-no-margin" (click)="submit()">
+    <ion-button expand="block" class="ion-margin" (click)="submit()">
       Update Settings
     </ion-button>
   </div>

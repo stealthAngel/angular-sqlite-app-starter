@@ -18,14 +18,14 @@ export class Setting {
   }
 
   private getSettingType(name: string): SettingType {
-    return SettingType[name];
+    return name as SettingType;
   }
 
   private getSettingvalue(name: SettingType, value: string): FontTheme | ColorTheme | boolean {
     if (name == SettingType.FONT_THEME) {
-      return FontTheme[value];
+      return value as FontTheme;
     } else if (name == SettingType.COLOR_THEME) {
-      return ColorTheme[value];
+      return value as ColorTheme;
     } else if (name == SettingType.SHOULD_SHOW_MISSION_COMPLETED_COLOR) {
       return value == "true";
     } else if (name == SettingType.SHOULD_SCROLL_TO_TOP) {

@@ -28,9 +28,9 @@ export class AppComponent {
   }
 
   async do() {
-    //todo make both calls work in parallel
-    await this.SettingRepository.deleteSettings();
-    await new settings_migration_2022_05_26(this.a).up();
+    // //todo make both calls work in parallel
+    // await this.SettingRepository.deleteSettings();
+    // await new settings_migration_2022_05_26(this.a).up();
   }
 
   setStatusBarOverlayWebView() {

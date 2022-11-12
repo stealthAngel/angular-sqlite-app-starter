@@ -83,16 +83,22 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-title-contrast-rgb: 255, 255, 255;
     --ion-color-title-shade: #fbfffc;
     --ion-color-title-tint: #fdfdfd;
+
+    //custom
+      --ion-color-toolbar-background: var(--ion-color-primary);
+      --ion-color-toolbar-color: #ffffff;
+      --ion-color-button-background:  var(--ion-color-primary);
+      --ion-color-button-color: #ffffff;
 }
 
 
 /*
  * Dark Colors
- * -------------------------------------------
+ * -----------------------
  */
 
  body.dark {
-  --ion-color-primary: #121212;
+  --ion-color-primary: #ffffff;
   --ion-color-primary-rgb: 66, 140, 255;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
@@ -113,7 +119,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-tertiary-shade: #5d58e0;
   --ion-color-tertiary-tint: #7974ff;
 
-  --ion-color-success: #2fdf75;
+  --ion-color-success: #0f4424;
   --ion-color-success-rgb: 47, 223, 117;
   --ion-color-success-contrast: #000000;
   --ion-color-success-contrast-rgb: 0, 0, 0;
@@ -155,17 +161,22 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-light-shade: #1e2023;
   --ion-color-light-tint: #383a3e;
 
-  --ion-color-title: var(--ion-color-primary);
   --ion-color-title-rgb: 105, 187, 123;
   --ion-color-title-contrast: #ffffff;
   --ion-color-title-contrast-rgb: 255, 255, 255;
   --ion-color-title-shade: #fbfffc;
   --ion-color-title-tint: #fdfdfd;
+
+  //custom
+  --ion-color-toolbar-background: #121212;
+  --ion-color-toolbar-color: #ffffff;
+  --ion-color-button-background: #121212;
+  --ion-color-button-color: #ffffff;
 }
 
 /*
  * iOS Dark Theme
- * -------------------------------------------
+ * -----------------------
  */
 
 .ios body.dark {
@@ -209,7 +220,7 @@ http://ionicframework.com/docs/theming/ */
 
 /*
  * Material Design Dark Theme
- * -------------------------------------------
+ * -----------------------
  */
 
 .md body.dark {
@@ -252,7 +263,7 @@ http://ionicframework.com/docs/theming/ */
 
 /*
  * Material Design Dark Theme
- * -------------------------------------------
+ * -----------------------
  */
 
 .md body.dark {
@@ -353,13 +364,17 @@ body.lollypop {
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
-  --ion-color-title: var(--ion-color-primary);
   --ion-color-title-rgb: 105, 187, 123;
   --ion-color-title-contrast: #ffffff;
   --ion-color-title-contrast-rgb: 255, 255, 255;
   --ion-color-title-shade: #fbfffc;
   --ion-color-title-tint: #fdfdfd;
 
+  //custom 
+  --ion-color-toolbar-background: var(--ion-color-primary);
+  --ion-color-toolbar-color: #ffffff;
+  --ion-color-button-background: var(--ion-color-primary);
+  --ion-color-button-color: #ffffff;
 }
 
 body.brown-boy {
@@ -426,12 +441,17 @@ body.brown-boy {
 --ion-color-light-shade: #d7d8da;
 --ion-color-light-tint: #f5f6f9;
 
---ion-color-title: var(--ion-color-primary);
 --ion-color-title-rgb: 105, 187, 123;
 --ion-color-title-contrast: #ffffff;
 --ion-color-title-contrast-rgb: 255, 255, 255;
 --ion-color-title-shade: #fbfffc;
 --ion-color-title-tint: #fdfdfd;
+
+//custom
+--ion-color-toolbar-background: var(--ion-color-primary);
+--ion-color-toolbar-color: #ffffff;
+--ion-color-button-background: var(--ion-color-primary);
+--ion-color-button-color: #ffffff;
 }
 
 
@@ -499,12 +519,17 @@ body.bootstrap {
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 
-  --ion-color-title: var(--ion-color-primary);
   --ion-color-title-rgb: 105, 187, 123;
   --ion-color-title-contrast: #ffffff;
   --ion-color-title-contrast-rgb: 255, 255, 255;
   --ion-color-title-shade: #fbfffc;
   --ion-color-title-tint: #fdfdfd;
+
+  // custom
+  --ion-color-toolbar-background: var(--ion-color-primary);
+  --ion-color-toolbar-color: #ffffff;
+  --ion-color-button-background: var(--ion-color-primary);
+  --ion-color-button-color: #ffffff;
 
 }
 ion-title.title-large {
