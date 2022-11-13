@@ -1,0 +1,10 @@
+.custom-alert {
+  .alert-wrapper.sc-ion-alert-md {
+    font-size:24px;
+  }
+  .alert-input-group .sc-ion-alert-md{
+    font-size: 18px;
+    //no bottom
+    bottom: auto;
+  }
+}

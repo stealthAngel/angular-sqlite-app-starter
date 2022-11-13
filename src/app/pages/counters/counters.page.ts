@@ -17,9 +17,13 @@ import { AlertService } from "src/app/alert.service";
 export class CountersPage implements OnInit {
   mission: Mission = {} as Mission;
   counters: Counter[] = [];
+  filteredCounters: Counter[] = [];
   countersCalculation: CountersCalculation = {} as CountersCalculation;
   missionId: number;
   numberButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  selectedButton: "today" | "week" | "month" | "all" | "custom" = "today";
+  filterStartDate: Date;
+  filterEndDate: Date;
 
   differentAmountForm = this.formBuilder.group({
     amount: null,
@@ -51,6 +55,7 @@ export class CountersPage implements OnInit {
     this.mission = await this.missionService.getMissionById(missionId);
 
     this.counters = await this.counterService.getCountersByMissionId(missionId);
+    this.filteredCounters = this.counters;
 
     this.countersCalculation = this.countersCalculationServant.toClass(this.mission, this.counters);
   }
@@ -109,6 +114,34 @@ export class CountersPage implements OnInit {
       await this.counterService.updateCounter(counter);
     };
 
-    var x = await this.alertService.presenNumberInput(handler.bind(this), `Current Amount ${counter.amount}`);
+    await this.alertService.presenNumberInput(handler.bind(this), `Current Amount ${counter.amount}`);
+  }
+
+  async onFilterButton(filter: string) {
+    switch (filter) {
+      case "today":
+        this.filteredCounters = this.counters.filter((counter) => counter.createdAt.toDateString() === new Date().toDateString());
+        break;
+      case "week":
+        this.filteredCounters = this.counters.filter((counter) => counter.createdAt > new Date(new Date().setDate(new Date().getDate() - 7)));
+        break;
+      case "month":
+        this.filteredCounters = this.counters.filter((counter) => counter.createdAt > new Date(new Date().setDate(new Date().getDate() - 30)));
+        break;
+      case "all":
+        this.filteredCounters = this.counters;
+        break;
+      case "custom":
+        var handler = async (value: any) => {
+          this.filterStartDate = value.startDate;
+          this.filterEndDate = value.endDate;
+
+          this.filteredCounters = this.counters.filter((counter) => counter.createdAt.isBetween(this.filterStartDate, this.filterEndDate));
+        };
+        await this.alertService.presentDateTimeRangeInput(handler.bind(this), null, this.filterStartDate, this.filterEndDate);
+        return;
+    }
+    this.filterStartDate = null;
+    this.filterEndDate = null;
   }
 }

@@ -22,6 +22,30 @@ export class AlertService {
     return await this.presentCancelOkAlert("Delete mission", "Are you sure you want to delete this mission?");
   }
 
+  async presentDateTimeRangeInput(handler: cb, message?: string, startDateDefaultValue?: Date, endDateDefaultValue?: Date) {
+    return await this.presentCancelSaveWithInputs(
+      (value) => {
+        handler({ startDate: value.startDate ? new Date(value.startDate) : null, endDate: value.endDate ? new Date(value.endDate) : null });
+      },
+      "Enter Date and Time Range (empty value means no limit)",
+      message,
+      [
+        {
+          name: "startDate",
+          type: "datetime-local",
+          placeholder: "Enter date",
+          value: startDateDefaultValue ? startDateDefaultValue.toISOString().slice(0, 16) : null,
+        },
+        {
+          name: "endDate",
+          type: "datetime-local",
+          placeholder: "Enter date",
+          value: endDateDefaultValue ? endDateDefaultValue.toISOString().slice(0, 16) : null,
+        },
+      ]
+    );
+  }
+
   async presentDateTimeInput(handler: cbDate, message?: string, defaultValue?: Date) {
     return await this.presentCancelSaveWithInputs(
       (value) => {
@@ -34,7 +58,7 @@ export class AlertService {
           name: "date",
           type: "datetime-local",
           placeholder: "Enter date",
-          value: defaultValue.toISOString().slice(0, 16),
+          value: defaultValue ? defaultValue.toISOString().slice(0, 16) : null,
         },
       ]
     );
@@ -79,6 +103,7 @@ export class AlertService {
         },
       ],
       inputs: inputs,
+      cssClass: "custom-alert",
     });
 
     await alert.present();
