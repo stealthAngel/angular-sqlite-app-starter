@@ -25,6 +25,13 @@
 
 ## Installation
 
+`npm install -g ionic
+
+npm install -g @angular/cli
+
+npm install tslib --save-dev`
+
+
 To start building your App using this Starter App, clone this repo to a new directory:
 
 ```bash

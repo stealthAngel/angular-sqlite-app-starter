@@ -21,7 +21,7 @@ export class MissionServant {
       description: x.description,
       endAmount: x.endAmount,
       countersAmountTotal: x.countersAmountTotal,
-      createdAt: null, //done by database
+      createdAt: x.createdAt.toISOString(),
     };
   }
 }

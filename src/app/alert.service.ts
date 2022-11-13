@@ -38,13 +38,13 @@ export class AlertService {
           name: "startDate",
           type: "datetime-local",
           placeholder: "Enter date",
-          value: startDateDefaultValue ? startDateDefaultValue.toISOString().slice(0, 16) : null,
+          value: startDateDefaultValue ? startDateDefaultValue.toLocalIsoString().slice(0, 16) : null,
         },
         {
           name: "endDate",
           type: "datetime-local",
           placeholder: "Enter date",
-          value: endDateDefaultValue ? endDateDefaultValue.toISOString().slice(0, 16) : null,
+          value: endDateDefaultValue ? endDateDefaultValue.toLocalIsoString().slice(0, 16) : null,
         },
       ]
     );
@@ -62,7 +62,7 @@ export class AlertService {
           name: "date",
           type: "datetime-local",
           placeholder: "Enter date",
-          value: defaultValue ? defaultValue.toISOString().slice(0, 16) : null,
+          value: defaultValue ? defaultValue.toLocalIsoString().slice(0, 16) : null,
         },
       ]
     );

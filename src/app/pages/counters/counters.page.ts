@@ -99,7 +99,7 @@ export class CountersPage implements OnInit {
 
       this.counters = this.counters.filter((x) => x.id !== counterId);
 
-     this.redraw();
+      this.redraw();
     }
   }
 
@@ -150,11 +150,12 @@ export class CountersPage implements OnInit {
           this.filteredCounters = this.counters.filter((counter) => counter.createdAt.isBetween(this.filterStartDate, this.filterEndDate));
         };
         await this.alertService.presentDateTimeRangeInput(handler.bind(this), null, this.filterStartDate, this.filterEndDate);
-        this.selectedFilter = "custom";
-        return;
     }
     this.selectedFilter = filter;
-    this.filterStartDate = null;
-    this.filterEndDate = null;
+
+    if (filter !== "custom") {
+      this.filterStartDate = null;
+      this.filterEndDate = null;
+    }
   }
 }

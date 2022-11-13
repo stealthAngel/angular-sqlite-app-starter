@@ -106,17 +106,17 @@
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button (click)="onFilter('today')" expand="block" [disabled]="selectedFilter === 'all'">
+        <ion-button (click)="onFilter('today')" expand="block" [disabled]="selectedFilter === 'today'">
           Today
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button (click)="onFilter('week')" expand="block" [disabled]="selectedFilter === 'all'">
+        <ion-button (click)="onFilter('week')" expand="block" [disabled]="selectedFilter === 'week'">
           Week
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button (click)="onFilter('month')" expand="block" [disabled]="selectedFilter === 'all'">
+        <ion-button (click)="onFilter('month')" expand="block" [disabled]="selectedFilter === 'month'">
           Month
         </ion-button>
       </ion-col>
@@ -128,16 +128,16 @@
     </ion-row>
   </ion-grid>
   <div *ngIf="filteredCounters.length > 0">
-    <ion-grid class="ion-margin ion-text-center">
+    <ion-grid>
       <ion-row style="border-bottom: groove">
         <ion-col size="3">
-          <ion-label>amount</ion-label>
+          <ion-label>Amount</ion-label>
         </ion-col>
         <ion-col size="6">
-          <ion-label>date</ion-label>
+          <ion-label>Date</ion-label>
         </ion-col>
         <ion-col size="3">
-          <ion-label>Options:</ion-label>
+          <ion-label>Options</ion-label>
         </ion-col>
       </ion-row>
       <div *ngFor="let counter of filteredCounters">
@@ -148,9 +148,9 @@
           <ion-col size="6">
             {{counter.createdAt | date:'dd/MM/yyyy HH:mm'}}
           </ion-col>
-          <ion-col size="3">
-            <ion-icon name="calendar-outline" class="ion-margin-end" (click)="onEditDateClick(counter.id)"></ion-icon>
-            <ion-icon name="pencil-outline" class="ion-margin-end" (click)="onEditAmountClick(counter.id)"></ion-icon>
+          <ion-col>
+            <ion-icon name="calendar-outline" class="option_icon" (click)="onEditDateClick(counter.id)"></ion-icon>
+            <ion-icon name="pencil-outline" class="option_icon" (click)="onEditAmountClick(counter.id)"></ion-icon>
             <ion-icon name="trash-outline" (click)="onDeleteClick(counter.id)"></ion-icon>
           </ion-col>
         </ion-row>

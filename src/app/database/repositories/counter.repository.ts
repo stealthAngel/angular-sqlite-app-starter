@@ -44,8 +44,8 @@ export class CounterRepository {
 
   async updateCounter(counter: Counter_DB): Promise<void> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      let sqlcmd: string = "update counters set amount = ? where id = ?";
-      let values: Array<any> = [counter.amount, counter.id];
+      let sqlcmd: string = "update counters set amount = ?, createdAt = ? where id = ?";
+      let values: Array<any> = [counter.amount, counter.createdAt, counter.id];
       await db.run(sqlcmd, values);
     });
   }

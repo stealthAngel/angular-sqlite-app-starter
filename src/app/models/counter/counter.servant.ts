@@ -19,7 +19,7 @@ export class CounterServant {
       id: x.id,
       amount: x.amount,
       missionId: x.missionId,
-      createdAt: null, //done by database
+      createdAt: x.createdAt.toISOString(),
     };
   }
 }
