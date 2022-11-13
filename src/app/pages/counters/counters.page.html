@@ -101,27 +101,27 @@
     <!-- button filter options -->
     <ion-row>
       <ion-col>
-        <ion-button (click)="onFilterButton('all')" expand="block" [disabled]="selectedButton === 'all'">
+        <ion-button (click)="onFilter('all')" expand="block" [disabled]="selectedFilter === 'all'">
           All
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button (click)="onFilterButton('today')" expand="block" [disabled]="selectedButton === 'all'">
+        <ion-button (click)="onFilter('today')" expand="block" [disabled]="selectedFilter === 'all'">
           Today
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button (click)="onFilterButton('week')" expand="block" [disabled]="selectedButton === 'all'">
+        <ion-button (click)="onFilter('week')" expand="block" [disabled]="selectedFilter === 'all'">
           Week
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button (click)="onFilterButton('month')" expand="block" [disabled]="selectedButton === 'all'">
+        <ion-button (click)="onFilter('month')" expand="block" [disabled]="selectedFilter === 'all'">
           Month
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button (click)="onFilterButton('custom')" expand="block" [disabled]="selectedButton === 'custom'">
+        <ion-button (click)="onFilter('custom')" expand="block" [disabled]="selectedFilter === 'custom'">
           Custom
         </ion-button>
       </ion-col>

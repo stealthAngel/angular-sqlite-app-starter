@@ -12,18 +12,6 @@
 <ion-content>
   <ion-list>
     <div *ngFor="let setting of settings; let i = index;">
-      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_SCROLL_TO_TOP]">
-        <ion-label>Scrolls up on tab switch mission view</ion-label>
-        <ion-toggle [checked]="setting.value" (ionChange)="setting.value = $event.detail.checked">
-        </ion-toggle>
-      </ion-item>
-
-      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_SHOW_MISSION_COMPLETED_COLOR]">
-        <ion-label>Show color if a mission is complete</ion-label>
-        <ion-toggle [checked]="setting.value" (ionChange)="setting.value = $event.detail.checked">
-        </ion-toggle>
-      </ion-item>
-
       <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.COLOR_THEME]">
         <ion-label>Color Themes:</ion-label>
         <ion-select placeholder="{{setting.value}}" [value]="setting.value"
@@ -44,7 +32,36 @@
           </ion-select-option>
         </ion-select>
       </ion-item>
+
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_SCROLL_TO_TOP]">
+        <ion-label>Scrolls up on tab switch mission view</ion-label>
+        <ion-toggle [checked]="setting.value" (ionChange)="setting.value = $event.detail.checked">
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_SHOW_MISSION_COMPLETED_COLOR]">
+        <ion-label>Show color if a mission is complete</ion-label>
+        <ion-toggle [checked]="setting.value" (ionChange)="setting.value = $event.detail.checked">
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_ALERT_DELETE_MISSION]">
+        <ion-label>
+          Alert when deleting a mission
+        </ion-label>
+        <ion-toggle [checked]="setting.value" (ionChange)="setting.value = $event.detail.checked">
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_ALERT_DELETE_COUNTER]">
+        <ion-label>
+          Alert when deleting a counter
+        </ion-label>
+        <ion-toggle [checked]="setting.value" (ionChange)="setting.value = $event.detail.checked">
+        </ion-toggle>
+      </ion-item>
     </div>
+
 
   </ion-list>
 

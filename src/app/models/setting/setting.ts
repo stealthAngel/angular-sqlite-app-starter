@@ -22,15 +22,19 @@ export class Setting {
   }
 
   private getSettingvalue(name: SettingType, value: string): FontTheme | ColorTheme | boolean {
-    if (name == SettingType.FONT_THEME) {
-      return value as FontTheme;
-    } else if (name == SettingType.COLOR_THEME) {
-      return value as ColorTheme;
-    } else if (name == SettingType.SHOULD_SHOW_MISSION_COMPLETED_COLOR) {
-      return value == "true";
-    } else if (name == SettingType.SHOULD_SCROLL_TO_TOP) {
-      return value == "true";
+    switch (name) {
+      case SettingType.FONT_THEME:
+        return value as FontTheme;
+      case SettingType.COLOR_THEME:
+        return value as ColorTheme;
+      case SettingType.SHOULD_SHOW_MISSION_COMPLETED_COLOR:
+        return value == "true";
+      case SettingType.SHOULD_SCROLL_TO_TOP:
+        return value == "true";
+      case SettingType.SHOULD_ALERT_DELETE_COUNTER:
+        return value == "true";
+      case SettingType.SHOULD_ALERT_DELETE_MISSION:
+        return value == "true";
     }
-    throw new Error("SettingType not found");
   }
 }

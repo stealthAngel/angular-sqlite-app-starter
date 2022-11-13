@@ -17,7 +17,7 @@ import { ThemeService } from "./services/theme-service.service";
   styleUrls: ["app.component.scss"],
 })
 export class AppComponent {
-  constructor(private platform: Platform, private settingService: SettingService, private a: DatabaseService, private themeService: ThemeService) {
+  constructor(private platform: Platform, private settingService: SettingService, private s: SettingRepository, private a: DatabaseService, private themeService: ThemeService) {
     this.platform.ready().then(async () => {
       this.platform.backButton.subscribeWithPriority(666666, () => {
         App.exitApp();
@@ -32,7 +32,7 @@ export class AppComponent {
 
   async do() {
     // //todo make both calls work in parallel
-    // await this.SettingRepository.deleteSettings();
+    // await this.s.deleteSettings();
     // await new settings_migration_2022_05_26(this.a).up();
   }
 

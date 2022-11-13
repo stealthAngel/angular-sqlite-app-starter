@@ -7,10 +7,13 @@ export class settings_migration_2022_05_26 extends MigrationBase {
   }
   async up() {
     var query = `
-    INSERT INTO settings (name, value, orderIndex) VALUES ('SHOULD_SCROLL_TO_TOP', 'true', 1);
-    INSERT INTO settings (name, value, orderIndex) VALUES ('SHOULD_SHOW_MISSION_COMPLETED_COLOR', 'true', 2);
-    INSERT INTO settings (name, value, orderIndex) VALUES ('COLOR_THEME', 'default', 3);
-    INSERT INTO settings (name, value, orderIndex) VALUES ('FONT_THEME', 'default', 4);
+    INSERT INTO settings (name, value, orderIndex) VALUES ('COLOR_THEME', 'default', 1);
+    INSERT INTO settings (name, value, orderIndex) VALUES ('FONT_THEME', 'default', 2);
+    INSERT INTO settings (name, value, orderIndex) VALUES ('SHOULD_SCROLL_TO_TOP', 'true', 3);
+    INSERT INTO settings (name, value, orderIndex) VALUES ('SHOULD_SHOW_MISSION_COMPLETED_COLOR', 'true', 4);
+    INSERT INTO settings (name, value, orderIndex) VALUES ('SHOULD_ALERT_DELETE_MISSION', 'true', 5);
+    INSERT INTO settings (name, value, orderIndex) VALUES ('SHOULD_ALERT_DELETE_COUNTER', 'true', 6);
+
     `;
     this.databaseService.executeQuery(async (db) => {
       await db.execute(query);

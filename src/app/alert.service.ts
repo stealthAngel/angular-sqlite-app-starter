@@ -22,6 +22,10 @@ export class AlertService {
     return await this.presentCancelOkAlert("Delete mission", "Are you sure you want to delete this mission?");
   }
 
+  async presentCancelOkAlertForDeleteCounter() {
+    return await this.presentCancelOkAlert("Delete counter", "Are you sure you want to delete this counter?");
+  }
+
   async presentDateTimeRangeInput(handler: cb, message?: string, startDateDefaultValue?: Date, endDateDefaultValue?: Date) {
     return await this.presentCancelSaveWithInputs(
       (value) => {

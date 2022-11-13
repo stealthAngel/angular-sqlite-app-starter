@@ -21,7 +21,7 @@ export class CountersPage implements OnInit {
   countersCalculation: CountersCalculation = {} as CountersCalculation;
   missionId: number;
   numberButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  selectedButton: "today" | "week" | "month" | "all" | "custom" = "today";
+  selectedFilter: "today" | "week" | "month" | "all" | "custom" = "today";
   filterStartDate: Date;
   filterEndDate: Date;
 
@@ -83,13 +83,24 @@ export class CountersPage implements OnInit {
 
     this.counters.unshift(insertedCounter);
 
-    this.countersCalculation = this.countersCalculationServant.toClass(this.mission, this.counters);
+    this.redraw();
   }
 
-  async onDeleteClick(id: number) {
-    await this.counterService.deleteCounterById(id);
+  redraw() {
+    this.countersCalculation = this.countersCalculationServant.toClass(this.mission, this.counters);
 
-    this.counters = this.counters.filter((counter) => counter.id !== id);
+    this.onFilter(this.selectedFilter);
+  }
+
+  async onDeleteClick(counterId: number) {
+    let shouldDelete = await this.alertService.presentCancelOkAlertForDeleteCounter();
+    if (shouldDelete) {
+      await this.counterService.deleteCounterById(counterId);
+
+      this.counters = this.counters.filter((x) => x.id !== counterId);
+
+     this.redraw();
+    }
   }
 
   async onEditDateClick(counterId: number) {
@@ -100,7 +111,7 @@ export class CountersPage implements OnInit {
 
       await this.counterService.updateCounter(counter);
 
-      this.countersCalculation = this.countersCalculationServant.toClass(this.mission, this.counters);
+      this.redraw();
     };
 
     await this.alertService.presentDateTimeInput(handler.bind(this), null, counter.createdAt);
@@ -117,7 +128,7 @@ export class CountersPage implements OnInit {
     await this.alertService.presenNumberInput(handler.bind(this), `Current Amount ${counter.amount}`);
   }
 
-  async onFilterButton(filter: string) {
+  async onFilter(filter: "today" | "week" | "month" | "all" | "custom") {
     switch (filter) {
       case "today":
         this.filteredCounters = this.counters.filter((counter) => counter.createdAt.toDateString() === new Date().toDateString());
@@ -139,8 +150,10 @@ export class CountersPage implements OnInit {
           this.filteredCounters = this.counters.filter((counter) => counter.createdAt.isBetween(this.filterStartDate, this.filterEndDate));
         };
         await this.alertService.presentDateTimeRangeInput(handler.bind(this), null, this.filterStartDate, this.filterEndDate);
+        this.selectedFilter = "custom";
         return;
     }
+    this.selectedFilter = filter;
     this.filterStartDate = null;
     this.filterEndDate = null;
   }
