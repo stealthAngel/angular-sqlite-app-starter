@@ -4,8 +4,8 @@
     flex-direction: row;  
 
     ion-text {
-        margin-right: 10px;
-    border-style:solid 1px;
+      margin-right: 10px;
+      border-style:solid 1px;
 
     }
   }
@@ -20,5 +20,5 @@
 
   .updated-counter {
     //color primary
-    background-color: var(--ion-color-secondary);
+    background-color: var(--ion-color-success);
   }

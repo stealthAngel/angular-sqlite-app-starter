@@ -56,9 +56,8 @@ export class CountersPage implements OnInit {
     this.mission = await this.missionService.getMissionById(missionId);
 
     this.counters = await this.counterService.getCountersByMissionId(missionId);
-    this.filteredCounters = this.counters;
-
-    this.countersCalculation = this.countersCalculationServant.toClass(this.mission, this.counters);
+    
+    this.redraw();
   }
 
   async onNumberButton(number: number) {

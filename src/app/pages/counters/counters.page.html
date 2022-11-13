@@ -99,33 +99,43 @@
 
 
     <!-- button filter options -->
-    <ion-row>
-      <ion-col>
-        <ion-button (click)="onFilter('all')" expand="block" [disabled]="selectedFilter === 'all'">
-          All
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="onFilter('today')" expand="block" [disabled]="selectedFilter === 'today'">
-          Today
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="onFilter('week')" expand="block" [disabled]="selectedFilter === 'week'">
-          Week
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="onFilter('month')" expand="block" [disabled]="selectedFilter === 'month'">
-          Month
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button (click)="onFilter('custom')" expand="block">
-          Custom
-        </ion-button>
-      </ion-col>
-    </ion-row>
+    <ion-accordion-group>
+      <ion-accordion value="first">
+        <ion-item slot="header" color="light">
+          <ion-label>Press for filters</ion-label>
+        </ion-item>
+        <div class="ion-padding" slot="content">
+          <ion-row>
+            <ion-col>
+              <ion-button (click)="onFilter('all')" expand="block" [disabled]="selectedFilter === 'all'">
+                All
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button (click)="onFilter('today')" expand="block" [disabled]="selectedFilter === 'today'">
+                Today
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button (click)="onFilter('week')" expand="block" [disabled]="selectedFilter === 'week'">
+                Week
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button (click)="onFilter('month')" expand="block" [disabled]="selectedFilter === 'month'">
+                Month
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button (click)="onFilter('custom')" expand="block">
+                Custom
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+      </ion-accordion>
+    </ion-accordion-group>
+
   </ion-grid>
   <div *ngIf="filteredCounters.length > 0">
     <ion-grid>
