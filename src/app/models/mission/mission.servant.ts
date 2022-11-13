@@ -19,8 +19,8 @@ export class MissionServant {
       id: x.id,
       name: x.name,
       description: x.description,
-      endAmount: x.endAmount,
-      countersAmountTotal: x.countersAmountTotal,
+      targetAmount: x.targetAmount,
+      currentTotalAmount: x.currentTotalAmount,
       createdAt: x.createdAt.toISOString(),
     };
   }

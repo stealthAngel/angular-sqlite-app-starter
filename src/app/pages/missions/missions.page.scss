@@ -5,17 +5,3 @@
   vertical-align: middle;
  }
 
- @media (prefers-color-scheme: dark) {
-  :root {
-    .segment-button-checked {
-      color: white;
-     }
-  }
-}
-
-body.dark {
-  .segment-button-checked {
-    color: white;
-   }
-}
-

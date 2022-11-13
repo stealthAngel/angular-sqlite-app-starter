@@ -23,51 +23,49 @@
 <ion-content scrollEvents="true">
   <swiper (slideChange)="onSlideChange()" (swiper)="setSwiperInstance($event)">
     <ng-template swiperSlide>
-      <ng-container *ngFor="let mission of filteredMissions; let i = index;">
-        <ion-card-content>
-          <app-flipper [customFrontCss]="mission.countersAmountTotal >= mission.endAmount ? 'card-completed' : ''">
-            <div front>
-              <ion-row>
-                <ion-col size="7" [routerLink]="['/counters', mission.id]">
-                  {{mission.countersAmountTotal}}/{{mission.endAmount}} {{mission.name}}
-                </ion-col>
-                <ion-col size="4" [routerLink]="['/counters', mission.id]">
-                  {{mission.percentage + '%'}}
-                </ion-col>
-                <ion-col size="1" (click)="onFlip(i)">
-                  <ion-icon name="settings-outline"></ion-icon>
-                </ion-col>
-              </ion-row>
-            </div>
-            <div back>
-              <ion-row>
-                <ion-col size="3">
-                  <div [routerLink]="['update', mission.id]">
-                    <ion-icon name="create-outline"></ion-icon>
-                    Edit
-                  </div>
-                </ion-col>
-                <ion-col size="3">
-                  <div (click)="onDeleteMissionClick(mission.id)">
-                    <ion-icon name="trash-outline"></ion-icon>
-                    Delete
-                  </div>
-                </ion-col>
-                <ion-col offset="5" size="1" (click)="onFlip(i)">
-                  <ion-icon name="arrow-undo-outline"></ion-icon>
-                </ion-col>
-              </ion-row>
-            </div>
-          </app-flipper>
-        </ion-card-content>
-      </ng-container>
+      <ion-list>
+        <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
+        <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
+        <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+          <ng-container *ngFor="let mission of filteredMissions; let i = index;">
+            <ion-item>
+              <app-flipper [customFrontCss]="mission.currentTotalAmount >= mission.targtAmount ? 'card-completed' : ''"
+                style="width: 100%">
+                <div front>
+                  <ion-label [routerLink]="['/counters', mission.id]">
+                    {{mission.currentTotalAmount}}/{{mission.targetAmount}} {{mission.name}}
+                  </ion-label>
+                  <ion-label [routerLink]="['/counters', mission.id]">
+                    {{mission.percentage + '%'}}
+                  </ion-label>
+                  <ion-label (click)="onFlip(i)">
+                    <ion-icon name="settings-outline"></ion-icon>
+                  </ion-label>
+                </div>
+                <div back>
+                  <ion-label [routerLink]="['/counters', mission.id]">
+                    {{mission.currentTotalAmount}}/{{mission.targetAmount}} {{mission.name}}
+                  </ion-label>
+                  <ion-label [routerLink]="['/counters', mission.id]">
+                    {{mission.percentage + '%'}}
+                  </ion-label>
+                  <ion-label (click)="onFlip(i)">
+                    <ion-icon name="settings-outline"></ion-icon>
+                  </ion-label>
+                </div>
+              </app-flipper>
+              <ion-reorder slot="end"></ion-reorder>
+            </ion-item>
+          </ng-container>
+        </ion-reorder-group>
+      </ion-list>
     </ng-template>
     <ng-template swiperSlide>
       <ng-container *ngFor="let mission of filteredMissions">
         <div [routerLink]="['/counters', mission.id]">
           <p class="ion-margin">
-            {{mission.name}} {{mission.countersAmountTotal}}/{{mission.endAmount}}
-            <ng-container *ngIf="mission.countersAmountTotal >= mission.endAmount">
+            {{mission.name}} {{mission.currentTotalAmount}}/{{mission.targetAmount}}
+            <ng-container *ngIf="mission.currentTotalAmount >= mission.targetAmount">
               <ion-icon class="icon" name="checkmark-circle-outline"></ion-icon>
             </ng-container>
           </p>

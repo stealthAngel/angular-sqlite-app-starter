@@ -10,9 +10,9 @@ export function filterMissions(missions: Mission[], searchTerm: string, orderBy:
 
   //filter by completed
   if (completedOrNah == "completed") {
-    filteredMissions = filteredMissions.filter((mission) => mission.countersAmountTotal >= mission.endAmount);
+    filteredMissions = filteredMissions.filter((mission) => mission.currentTotalAmount >= mission.targetAmount);
   } else if (completedOrNah == "notCompleted") {
-    filteredMissions = filteredMissions.filter((mission) => mission.countersAmountTotal < mission.endAmount);
+    filteredMissions = filteredMissions.filter((mission) => mission.currentTotalAmount < mission.targetAmount);
   }
 
   //filter by order value
@@ -26,12 +26,12 @@ export function filterMissions(missions: Mission[], searchTerm: string, orderBy:
           valueB = b.name;
           break;
         case MissionFilters.amountToDo:
-          valueA = a.countersAmountTotal;
-          valueB = b.countersAmountTotal;
+          valueA = a.currentTotalAmount;
+          valueB = b.currentTotalAmount;
           break;
         case MissionFilters.AmountDone:
-          valueA = a.endAmount;
-          valueB = b.endAmount;
+          valueA = a.targetAmount;
+          valueB = b.targetAmount;
           break;
         case MissionFilters.Percentage:
           valueA = a.percentage;

@@ -9,8 +9,8 @@ export interface Mission_DB {
   id: number;
   name: string;
   description: string;
-  endAmount: number;
-  countersAmountTotal: number;
+  targetAmount: number;
+  currentTotalAmount: number;
   createdAt: string;
 }
 

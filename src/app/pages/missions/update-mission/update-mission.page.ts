@@ -17,13 +17,13 @@ export class UpdateMissionPage implements OnInit {
 
   form = this.formBuilder.group({
     name: new FormControl("", [Validators.required]),
-    endAmount: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
+    targetAmount: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
     description: new FormControl(""),
   });
 
   validation_messages = {
     name: [{ type: "required", message: "Name is required." }],
-    endAmount: [{ type: "required", message: "endAmount is required." }],
+    targetAmount: [{ type: "required", message: "targetAmount is required." }],
   };
 
   constructor(private missionService: MissionService, private activatedRoute: ActivatedRoute, private formBuilder: FormBuilder, private toastService: ToastService, private router: Router) {}
@@ -54,7 +54,7 @@ export class UpdateMissionPage implements OnInit {
     let formValues = this.form.value;
 
     this.mission.name = formValues.name;
-    this.mission.endAmount = +formValues.endAmount;
+    this.mission.targetAmount = +formValues.targetAmount;
     this.mission.description = formValues.description;
   }
 }

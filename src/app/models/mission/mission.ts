@@ -4,8 +4,8 @@ export class Mission {
   id: number;
   name: string;
   description: string;
-  endAmount: number;
-  countersAmountTotal: number;
+  targetAmount: number;
+  currentTotalAmount: number;
   createdAt: Date;
   percentage?: number;
 
@@ -15,24 +15,24 @@ export class Mission {
     this.id = x.id;
     this.name = x.name;
     this.description = x.description;
-    this.endAmount = x.endAmount;
-    this.countersAmountTotal = x.countersAmountTotal;
+    this.targetAmount = x.targetAmount;
+    this.currentTotalAmount = x.currentTotalAmount;
     this.createdAt = new Date(x.createdAt);
-    this.percentage = this.calculatePercentage(this.countersAmountTotal);
+    this.percentage = this.calculatePercentage(this.currentTotalAmount);
     return this;
   }
 
-  init_insert(name: string, endAmount: number, description: string) {
+  init_insert(name: string, targetAmount: number, description: string) {
     this.name = name;
     this.description = description;
-    this.endAmount = endAmount;
+    this.targetAmount = targetAmount;
     this.createdAt = new Date();
 
     return this;
   }
 
   calculatePercentage(partialAmount: number): number {
-    let x: number = (100 * partialAmount) / this.endAmount;
+    let x: number = (100 * partialAmount) / this.targetAmount;
     return !isNaN(x) ? parseFloat(x.toFixed(2)) : 0;
   }
 }

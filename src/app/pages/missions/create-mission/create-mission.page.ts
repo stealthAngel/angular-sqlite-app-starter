@@ -13,13 +13,13 @@ import { Mission } from "src/app/models/mission/mission";
 export class CreateMissionPage implements OnInit {
   form = this.formBuilder.group({
     name: new FormControl("", [Validators.required]),
-    endAmount: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
+    targetAmount: new FormControl(null, [Validators.required, Validators.pattern("^[0-9]*$")]),
     description: new FormControl(""),
   });
 
   validation_messages = {
     name: [{ type: "required", message: "Name is required." }],
-    endAmount: [{ type: "required", message: "endAmount is required." }],
+    targetAmount: [{ type: "required", message: "targetAmount is required." }],
   };
 
   constructor(private formBuilder: FormBuilder, private toastService: ToastService, private missionService: MissionService, private router: Router) {}
@@ -31,7 +31,7 @@ export class CreateMissionPage implements OnInit {
   async submit() {
     let formValues = this.form.value;
 
-    let mission = new Mission().init_insert(formValues.name, +formValues.endAmount, formValues.description);
+    let mission = new Mission().init_insert(formValues.name, +formValues.targetAmount, formValues.description);
 
     this.missionService.insertMission(mission);
 

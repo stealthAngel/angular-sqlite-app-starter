@@ -9,7 +9,7 @@ export class MissionRepository {
 
   async getMissions(): Promise<Mission_DB[]> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      var sqlValues: DBSQLiteValues = await db.query(`select missions.* , COALESCE(SUM(counters.amount), 0) as countersAmountTotal from missions left join counters on counters.missionId = missions.id group by missions.id`);
+      var sqlValues: DBSQLiteValues = await db.query(`select missions.* , COALESCE(SUM(counters.amount), 0) as currentTotalAmount from missions left join counters on counters.missionId = missions.id group by missions.id`);
       let missions: Mission_DB[] = sqlValues.values;
       return missions;
     });
@@ -17,8 +17,8 @@ export class MissionRepository {
 
   async insertMission(mission: Mission_DB): Promise<number> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      let sqlcmd: string = "insert into missions (name, description, endAmount) values (?, ?, ?)";
-      let values: Array<any> = [mission.name, mission.description, mission.endAmount];
+      let sqlcmd: string = "insert into missions (name, description, targetAmount) values (?, ?, ?)";
+      let values: Array<any> = [mission.name, mission.description, mission.targetAmount];
       let ret: any = await db.run(sqlcmd, values);
       return ret.changes.lastId;
     });
@@ -26,14 +26,14 @@ export class MissionRepository {
 
   async updateMission(mission: Mission_DB): Promise<void> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      let sqlcmd: string = "update missions set name = ?, description = ?, endAmount = ? where id = ?";
-      let values: Array<any> = [mission.name, mission.description, mission.endAmount, mission.id];
+      let sqlcmd: string = "update missions set name = ?, description = ?, targetAmount = ? where id = ?";
+      let values: Array<any> = [mission.name, mission.description, mission.targetAmount, mission.id];
       await db.run(sqlcmd, values);
     });
   }
   async getMissionById(id: number): Promise<Mission_DB> {
     return this.databaseService.executeQuery<any>(async (db: SQLiteDBConnection) => {
-      let sqlcmd: string = `select missions.* , COALESCE(SUM(counters.amount), 0) as countersAmountTotal from missions left join counters on counters.missionId = missions.id where missions.id = ${id} group by missions.id LIMIT 1`;
+      let sqlcmd: string = `select missions.* , COALESCE(SUM(counters.amount), 0) as currentTotalAmount from missions left join counters on counters.missionId = missions.id where missions.id = ${id} group by missions.id LIMIT 1`;
       let ret: any = await db.query(sqlcmd);
       return ret.values[0] as Mission_DB;
     });

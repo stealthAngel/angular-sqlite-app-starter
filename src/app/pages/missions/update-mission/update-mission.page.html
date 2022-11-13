@@ -30,12 +30,12 @@
         <ion-label position="stacked">
           Amount To Reach <ion-text color="danger">*</ion-text>
         </ion-label>
-        <ion-input required type="number" formControlName="endAmount"></ion-input>
+        <ion-input required type="number" formControlName="targetAmount"></ion-input>
       </ion-item>
       <div class="validation-errors">
-        <ng-container *ngFor="let validation of validation_messages.endAmount">
+        <ng-container *ngFor="let validation of validation_messages.targetAmount">
           <div class="error-message"
-            *ngIf="form.get('endAmount').hasError(validation.type) && (form.get('endAmount').dirty || form.get('endAmount').touched)">
+            *ngIf="form.get('targetAmount').hasError(validation.type) && (form.get('targetAmount').dirty || form.get('targetAmount').touched)">
             {{ validation.message }}
           </div>
         </ng-container>

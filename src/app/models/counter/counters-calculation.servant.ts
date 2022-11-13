@@ -20,12 +20,12 @@ export class CountersCalculationServant {
     x.endTimeToday = countersToday.length > 1 ? countersToday[countersToday.length - 1].createdAt : null;
     x.timeBetweenToday = x.startTimeToday && x.endTimeToday ? calculateTimeDifference(x.startTimeToday, x.endTimeToday) : null;
 
-    x.unitsLeft = mission.endAmount - x.total;
+    x.unitsLeft = mission.targetAmount - x.total;
 
     x.experienceCurrently = mission.calculatePercentage(x.total);
     x.experiencePerUnit = mission.calculatePercentage(1);
     x.experiencePer10Unit = mission.calculatePercentage(10);
-    x.amountToDoFor1Percent = mission.endAmount / 100;
+    x.amountToDoFor1Percent = mission.targetAmount / 100;
 
     return x;
   }

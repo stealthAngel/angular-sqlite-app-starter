@@ -5,11 +5,6 @@
 }
 
 
-.flippy-container *
-{
-    box-sizing: border-box;
-}
-
 .flippy-cardContainer-wrapper
 {
 	position: relative;
@@ -19,9 +14,9 @@
 
 .flippy-cardContainer
 {
-    height: 100%;
-    width: 100%;
-    position: relative;
+    // height: 100%;
+    // width: 100%;
+    // position: relative;
 
     -webkit-transition: .6s;
        -moz-transition: .6s;

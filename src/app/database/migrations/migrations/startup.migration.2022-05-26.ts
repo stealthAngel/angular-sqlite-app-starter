@@ -37,8 +37,8 @@ CREATE TABLE IF NOT EXISTS counters (
   CREATE TABLE IF NOT EXISTS missions (
     id INTEGER PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
-    description TEXT NOT NULL,
-    endAmount INTEGER,
+    description TEXT,
+    targetAmount INTEGER,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
