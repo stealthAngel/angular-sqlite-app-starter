@@ -22,6 +22,15 @@ export class Mission {
     return this;
   }
 
+  init_insert(name: string, endAmount: number, description: string) {
+    this.name = name;
+    this.description = description;
+    this.endAmount = endAmount;
+    this.createdAt = new Date();
+
+    return this;
+  }
+
   calculatePercentage(partialAmount: number): number {
     let x: number = (100 * partialAmount) / this.endAmount;
     return !isNaN(x) ? parseFloat(x.toFixed(2)) : 0;

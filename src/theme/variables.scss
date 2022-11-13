@@ -83,12 +83,6 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-title-contrast-rgb: 255, 255, 255;
     --ion-color-title-shade: #fbfffc;
     --ion-color-title-tint: #fdfdfd;
-
-    //custom
-      --ion-color-toolbar-background: var(--ion-color-primary);
-      --ion-color-toolbar-color: #ffffff;
-      --ion-color-button-background:  var(--ion-color-primary);
-      --ion-color-button-color: #ffffff;
 }
 
 
@@ -98,19 +92,20 @@ http://ionicframework.com/docs/theming/ */
  */
 
  body.dark {
+  --custom-is-dark-mode-on: #000000;
   --ion-color-primary: #ffffff;
   --ion-color-primary-rgb: 66, 140, 255;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #3a7be0;
-  --ion-color-primary-tint: #5598ff;
+  --ion-color-primary-shade: #ffffff;
+  --ion-color-primary-tint: #ffffff;
 
-  --ion-color-secondary: #50c8ff;
+  --ion-color-secondary: #ffffff;
   --ion-color-secondary-rgb: 80, 200, 255;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
-  --ion-color-secondary-shade: #46b0e0;
-  --ion-color-secondary-tint: #62ceff;
+  --ion-color-secondary-shade: #ffffff;
+  --ion-color-secondary-tint: #ffffff;
 
   --ion-color-tertiary: #6a64ff;
   --ion-color-tertiary-rgb: 106, 100, 255;
@@ -119,12 +114,12 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-tertiary-shade: #5d58e0;
   --ion-color-tertiary-tint: #7974ff;
 
-  --ion-color-success: #0f4424;
+  --ion-color-success: #12552d;
   --ion-color-success-rgb: 47, 223, 117;
   --ion-color-success-contrast: #000000;
   --ion-color-success-contrast-rgb: 0, 0, 0;
-  --ion-color-success-shade: #29c467;
-  --ion-color-success-tint: #44e283;
+  --ion-color-success-shade: #0f4b29;
+  --ion-color-success-tint: #276938;
 
   --ion-color-warning: #ffd534;
   --ion-color-warning-rgb: 255, 213, 52;
@@ -161,17 +156,22 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-light-shade: #1e2023;
   --ion-color-light-tint: #383a3e;
 
-  --ion-color-title-rgb: 105, 187, 123;
-  --ion-color-title-contrast: #ffffff;
-  --ion-color-title-contrast-rgb: 255, 255, 255;
-  --ion-color-title-shade: #fbfffc;
-  --ion-color-title-tint: #fdfdfd;
+    //custom
+    --ion-color-toolbar-background: #121212;
+    --ion-color-toolbar-color: #ffffff;
+    --ion-color-button-background: #555555;;
+    --ion-color-button-color: #ffffff;
+    
+    //ion-segment-button
+    --ion-color-segment-button-color-checked: #ffffff;
+    --ion-color-segment-button-color: #555555;
 
-  //custom
-  --ion-color-toolbar-background: #121212;
-  --ion-color-toolbar-color: #ffffff;
-  --ion-color-button-background: #121212;
-  --ion-color-button-color: #ffffff;
+    //ion-toggle
+    --ion-color-toggle-background : #555555;
+    --ion-color-toggle-background-checked : #ffffff;
+    --ion-color-toggle-handle-background : #ffffff;
+    --ion-color-toggle-handle-background-checked : #555555;
+    
 }
 
 /*
@@ -369,12 +369,6 @@ body.lollypop {
   --ion-color-title-contrast-rgb: 255, 255, 255;
   --ion-color-title-shade: #fbfffc;
   --ion-color-title-tint: #fdfdfd;
-
-  //custom 
-  --ion-color-toolbar-background: var(--ion-color-primary);
-  --ion-color-toolbar-color: #ffffff;
-  --ion-color-button-background: var(--ion-color-primary);
-  --ion-color-button-color: #ffffff;
 }
 
 body.brown-boy {
@@ -446,12 +440,6 @@ body.brown-boy {
 --ion-color-title-contrast-rgb: 255, 255, 255;
 --ion-color-title-shade: #fbfffc;
 --ion-color-title-tint: #fdfdfd;
-
-//custom
---ion-color-toolbar-background: var(--ion-color-primary);
---ion-color-toolbar-color: #ffffff;
---ion-color-button-background: var(--ion-color-primary);
---ion-color-button-color: #ffffff;
 }
 
 
@@ -524,13 +512,6 @@ body.bootstrap {
   --ion-color-title-contrast-rgb: 255, 255, 255;
   --ion-color-title-shade: #fbfffc;
   --ion-color-title-tint: #fdfdfd;
-
-  // custom
-  --ion-color-toolbar-background: var(--ion-color-primary);
-  --ion-color-toolbar-color: #ffffff;
-  --ion-color-button-background: var(--ion-color-primary);
-  --ion-color-button-color: #ffffff;
-
 }
 ion-title.title-large {
   --color: white;

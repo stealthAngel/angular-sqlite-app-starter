@@ -141,7 +141,7 @@
         </ion-col>
       </ion-row>
       <div *ngFor="let counter of filteredCounters">
-        <ion-row style="border-bottom: groove">
+        <ion-row style="border-bottom: groove" [class.updated-counter]="counter.id === lastUpdatedCounterId">
           <ion-col size="3">
             {{counter.amount}}
           </ion-col>

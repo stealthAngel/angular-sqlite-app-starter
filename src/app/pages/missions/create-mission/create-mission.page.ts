@@ -31,10 +31,7 @@ export class CreateMissionPage implements OnInit {
   async submit() {
     let formValues = this.form.value;
 
-    let mission = new Mission();
-    mission.name = formValues.name;
-    mission.endAmount = +formValues.endAmount;
-    mission.description = formValues.description;
+    let mission = new Mission().init_insert(formValues.name, +formValues.endAmount, formValues.description);
 
     this.missionService.insertMission(mission);
 

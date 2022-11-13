@@ -24,6 +24,7 @@ export class CountersPage implements OnInit {
   selectedFilter: "today" | "week" | "month" | "all" | "custom" = "today";
   filterStartDate: Date;
   filterEndDate: Date;
+  lastUpdatedCounterId: number | null = null;
 
   differentAmountForm = this.formBuilder.group({
     amount: null,
@@ -73,9 +74,7 @@ export class CountersPage implements OnInit {
   }
 
   async createCounter(amount: number, missionId: number) {
-    var counter = new Counter();
-    counter.amount = amount;
-    counter.missionId = missionId;
+    var counter = new Counter().init_insert(amount, missionId);
 
     let lastId = await this.counterService.insertCounter(counter);
 
@@ -83,13 +82,20 @@ export class CountersPage implements OnInit {
 
     this.counters.unshift(insertedCounter);
 
-    this.redraw();
+    this.redraw(lastId);
   }
 
-  redraw() {
+  redraw(lastUpdatedCounterId: number = null) {
+    if (lastUpdatedCounterId) {
+      this.lastUpdatedCounterId = lastUpdatedCounterId;
+    } else {
+      this.lastUpdatedCounterId = null;
+    }
     this.countersCalculation = this.countersCalculationServant.toClass(this.mission, this.counters);
 
     this.onFilter(this.selectedFilter);
+
+    this.filteredCounters = this.filteredCounters.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
 
   async onDeleteClick(counterId: number) {
@@ -111,7 +117,7 @@ export class CountersPage implements OnInit {
 
       await this.counterService.updateCounter(counter);
 
-      this.redraw();
+      this.redraw(counterId);
     };
 
     await this.alertService.presentDateTimeInput(handler.bind(this), null, counter.createdAt);
@@ -123,6 +129,8 @@ export class CountersPage implements OnInit {
     var handler = async (value: number) => {
       counter.amount = value;
       await this.counterService.updateCounter(counter);
+
+      this.redraw(counterId);
     };
 
     await this.alertService.presenNumberInput(handler.bind(this), `Current Amount ${counter.amount}`);

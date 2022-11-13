@@ -14,4 +14,12 @@ export class Counter {
 
     return this;
   }
+
+  init_insert(amount: number, missionId: number) {
+    this.amount = amount;
+    this.missionId = missionId;
+    this.createdAt = new Date();
+
+    return this;
+  }
 }
