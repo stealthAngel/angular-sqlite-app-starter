@@ -35,4 +35,12 @@ export class Mission {
     let x: number = (100 * partialAmount) / this.targetAmount;
     return !isNaN(x) ? parseFloat(x.toFixed(2)) : 0;
   }
+
+  isCompleted(): boolean {
+    return this.currentTotalAmount >= this.targetAmount;
+  }
+
+  getPercentage(): string {
+    return this.percentage + "%";
+  }
 }

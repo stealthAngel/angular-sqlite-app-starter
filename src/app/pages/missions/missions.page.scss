@@ -5,3 +5,34 @@
   vertical-align: middle;
  }
 
+.labelx {
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+//first child
+.labelx > *:first-child {
+  width: 60%;
+  font-size: 5vw;
+}
+
+//second child
+.labelx > *:nth-child(2) {
+  width: 30%;
+  font-size: 5vw;
+  text-align: left;
+}
+
+//third child
+.labelx > *:nth-child(3) {
+  width: 10%;
+  font-size: 5vw;
+  text-align: right;
+}
+
+
+ion-item {
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+}

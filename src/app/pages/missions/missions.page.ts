@@ -28,6 +28,9 @@ export class MissionsPage implements OnInit {
   orderByFilter: string = "";
   completedFilter: string = "";
 
+  //reorder enabled
+  isReorderEnabled: boolean = false;
+
   @ViewChildren(FlipperComponent) flippers: QueryList<FlipperComponent>;
   swiper: Swiper;
 
