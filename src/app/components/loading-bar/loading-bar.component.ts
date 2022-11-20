@@ -5,23 +5,9 @@ import { AfterContentInit, AfterViewInit, Component, Input, OnInit } from '@angu
   templateUrl: './loading-bar.component.html',
   styleUrls: ['./loading-bar.component.scss'],
 })
-export class LoadingBarComponent implements OnInit {
+export class LoadingBarComponent {
 
   @Input() widthPercentage: number;
-
-  ngOnInit(): void {
-  //set .loading-bar:after width to 60%
-    this.updateLoadingBar();
-  }
-
-  ngOnChanges() {
-    this.updateLoadingBar();
-  }
-
-  updateLoadingBar(){
-    document.querySelector('div').style.setProperty('--width-value', this.getWidthPercentage());
-
-  }
 
   getWidthPercentage() {
     if(this.widthPercentage > 100) {

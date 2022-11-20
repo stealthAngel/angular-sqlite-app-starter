@@ -1,6 +1,6 @@
   //https://codepen.io/hopefulcodegirl/pen/WNwmOQX
 
-  .Loading {
+  .loading {
   position: relative;
   display: inline-block;
   width: 100%;
@@ -11,44 +11,15 @@
   overflow: hidden;
 }
 
-.Loading:after {
+.loading-fill {
   content: '';
   position: absolute;
   left: 0;
-  width: 0;
   height: 100%;
-  width: var(--width-value);
   border-radius: 4px;
   box-shadow: 0 0 5px rgba(0, 0, 0, .2);
   background: var(--ion-color-primary);
   animation: pulse 10s infinite;
-}
-
-@keyframes load {
-  0% {
-    width: 0;
-    background: #a28089;
-  }
-  
-  25% {
-    width: 40%;
-    background: #a0d2eb;
-  }
-  
-  50% {
-    width: 60%;
-    background: #ffa8b6;
-  }
-  
-  75% {
-    width: 75%;
-    background: #d0bdf4;
-  }
-  
-  100% {
-    width: 100%;
-    background: #494d5f;
-  }
 }
 
 @keyframes pulse {
