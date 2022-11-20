@@ -2,13 +2,13 @@
   <ion-toolbar>
     <ion-title>Mission List</ion-title>
     <ion-buttons slot="end">
-      <ion-button>
+      <ion-button [routerLink]="['create']">
         <ion-icon icon="add-outline" slot="icon-only"></ion-icon>
       </ion-button>
-      <ion-button>
+      <ion-button (click)="filterOptionsPicker()">
         <ion-icon name="filter-outline"></ion-icon>
       </ion-button>
-      <ion-button>
+      <ion-button (click)="orderOptionsPicker()">
         <ion-icon name="reorder-three-outline"></ion-icon>
       </ion-button>
       <ion-button id="popover-button">
@@ -17,6 +17,19 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<ion-popover trigger="popover-button" [dismissOnSelect]="true">
+  <ng-template>
+    <ion-content>
+      <ion-list>
+        <ion-item [button]="true" [detail]="false" [routerLink]="['create']">Add new Mission</ion-item>
+        <ion-item [button]="true" [detail]="false" (click)="filterOptionsPicker()">Filter Options</ion-item>
+        <ion-item [button]="true" [detail]="false" (click)="orderOptionsPicker()">Order Options</ion-item>
+        <ion-item [button]="true" [detail]="false" [routerLink]="['/settings']">Settings</ion-item>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-popover>
 
 <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="selectedSegment" id="segment">
   <ion-segment-button value="Card View">
@@ -83,17 +96,3 @@
     </ng-template>
   </swiper>
 </ion-content>
-
-
-<ion-popover trigger="popover-button" [dismissOnSelect]="true">
-  <ng-template>
-    <ion-content>
-      <ion-list>
-        <ion-item [button]="true" [detail]="false" [routerLink]="['create']">Add new Mission</ion-item>
-        <ion-item [button]="true" [detail]="false" (click)="filterOptionsPicker()">Filter Options</ion-item>
-        <ion-item [button]="true" [detail]="false" (click)="orderOptionsPicker()">Order Options</ion-item>
-        <ion-item [button]="true" [detail]="false" [routerLink]="['/settings']">Settings</ion-item>
-      </ion-list>
-    </ion-content>
-  </ng-template>
-</ion-popover>
