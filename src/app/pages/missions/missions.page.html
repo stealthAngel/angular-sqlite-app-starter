@@ -2,6 +2,15 @@
   <ion-toolbar>
     <ion-title>Mission List</ion-title>
     <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon icon="add-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="filter-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="reorder-three-outline"></ion-icon>
+      </ion-button>
       <ion-button id="popover-button">
         <ion-icon icon="ellipsis-vertical" slot="icon-only"></ion-icon>
       </ion-button>
@@ -26,12 +35,12 @@
       <ion-list>
         <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
         <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
-        <ion-reorder-group [disabled]="false" (ionItemReorder)="handleReorder($any($event))">
+        <ion-reorder-group [disabled]="true" (ionItemReorder)="handleReorder($any($event))">
           <ng-container *ngFor="let mission of filteredMissions; let i = index;">
             <ion-item>
               <app-flipper [customFrontCss]="mission.currentTotalAmount >= mission.targtAmount ? 'card-completed' : ''"
-                style="width: 100%">
-                <div front>
+                style="width: 100%;">
+                <div front style="display: flex;">
                   <ion-label [routerLink]="['/counters', mission.id]">
                     {{mission.currentTotalAmount}}/{{mission.targetAmount}} {{mission.name}}
                   </ion-label>
@@ -42,7 +51,7 @@
                     <ion-icon name="settings-outline"></ion-icon>
                   </ion-label>
                 </div>
-                <div back>
+                <div back style="display: flex;">
                   <ion-label [routerLink]="['/counters', mission.id]">
                     {{mission.currentTotalAmount}}/{{mission.targetAmount}} {{mission.name}}
                   </ion-label>

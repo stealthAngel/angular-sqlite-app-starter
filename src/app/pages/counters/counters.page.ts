@@ -60,7 +60,7 @@ export class CountersPage implements OnInit {
     this.redraw();
   }
 
-  async onNumberButton(number: number) {
+  async onNumberButtonClick(number: number) {
     this.createCounter(number, this.missionId);
   }
 

@@ -14,7 +14,7 @@
     <ng-container *ngFor="let numbers of numberButtons">
       <ion-row size="5">
         <ion-col *ngFor="let x of numbers">
-          <ion-button (click)="onNumberButton(x)" expand="block">
+          <ion-button (click)="onNumberButtonClick(x)" expand="block">
             {{x}}
           </ion-button>
         </ion-col>
@@ -41,6 +41,7 @@
         <ion-card>
           <ion-card-content>
             <h1>{{countersCalculation.total}}</h1>
+            <loading-bar [widthPercentage]="countersCalculation.experienceCurrently"></loading-bar>
           </ion-card-content>
         </ion-card>
         <ion-card>
@@ -49,6 +50,11 @@
               <ion-row>
                 <ion-col>
                   <ion-text>Amount done today: {{countersCalculation.amountDoneToday}}</ion-text>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-text>Units left: {{countersCalculation.unitsLeft}}</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
@@ -68,12 +74,12 @@
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>Units left: {{countersCalculation.unitsLeft}}</ion-text>
+                  <ion-text>Experience currently: {{countersCalculation.experienceCurrently}}%</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
                 <ion-col>
-                  <ion-text>Experience currently: {{countersCalculation.experienceCurrently}}%</ion-text>
+                  <ion-text>Amount to do for 1%: {{countersCalculation.amountToDoFor1Percent}} units</ion-text>
                 </ion-col>
               </ion-row>
               <ion-row>
@@ -84,11 +90,6 @@
               <ion-row>
                 <ion-col>
                   <ion-text>Experience per 10 units: {{countersCalculation.experiencePer10Unit}}%</ion-text>
-                </ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col>
-                  <ion-text>Amount to do for 1%: {{countersCalculation.amountToDoFor1Percent}} units</ion-text>
                 </ion-col>
               </ion-row>
             </ion-grid>

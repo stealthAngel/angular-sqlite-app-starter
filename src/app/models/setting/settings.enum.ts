@@ -4,6 +4,7 @@ export enum ColorTheme {
   LOLLYPOP = "lollypop",
   BROWN_BOY = "brown-boy",
   BOOTSTRAP = "bootstrap",
+  BABYBLUE = "baby-blue",
 }
 
 export enum FontTheme {

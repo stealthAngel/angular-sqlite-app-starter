@@ -4,10 +4,11 @@ import { MissionRepository } from "src/app/database/repositories/mission.reposit
 import { CountersPage } from "./counters.page";
 import { LibSharedModule } from "src/app/lib/lib-shared.module";
 import { CounterRepository } from "src/app/database/repositories/counter.repository";
+import { LoadingBarComponent } from "src/app/components/loading-bar/loading-bar.component";
 
 @NgModule({
   imports: [CountersPageRoutingModule, LibSharedModule],
   providers: [CounterRepository, MissionRepository],
-  declarations: [CountersPage],
+  declarations: [CountersPage, LoadingBarComponent],
 })
 export class CountersPageModule {}
