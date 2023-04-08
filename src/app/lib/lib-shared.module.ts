@@ -13,8 +13,8 @@ import { AutoFocusDirective } from './directives/auto-focus.directive';
   exports: [
     CommonModule,
     FormsModule,
-    IonicModule,
     ReactiveFormsModule,
+    IonicModule,
     AutoFocusDirective,
   ],
   providers: [

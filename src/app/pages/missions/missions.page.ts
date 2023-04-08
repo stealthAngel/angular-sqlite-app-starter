@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { AlertService } from "src/app/alert.service";
-import { FlipperComponent } from "src/app/components/flipper/flipper.component";
 import { ToastService } from "src/app/services/toast.service";
 import { Autoplay, Keyboard, Pagination, Scrollbar, Swiper, Zoom } from "swiper";
 import { Mission } from "src/app/models/mission/mission";
@@ -31,7 +30,6 @@ export class MissionsPage implements OnInit {
   //reorder enabled
   isReorderEnabled: boolean = false;
 
-  @ViewChildren(FlipperComponent) flippers: QueryList<FlipperComponent>;
   swiper: Swiper;
 
   constructor(private missionService: MissionService, private changeDetectorRef: ChangeDetectorRef, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
@@ -41,10 +39,18 @@ export class MissionsPage implements OnInit {
     // when the drag started and ended, respectively
     console.log("Dragged from index", ev.detail.from, "to", ev.detail.to);
 
+    // Reset the isFlipped property of all missions to false
+    this.filteredMissions.forEach((mission) => (mission.isFlipped = false));
+
     // Finish the reorder and position the item in the DOM based on
     // where the gesture ended. This method can also be called directly
     // by the reorder group
     ev.detail.complete();
+  }
+
+  onMissionSettingsClick(event: any, mission: any) {
+    event.stopPropagation();
+    mission.isFlipped = !mission.isFlipped;
   }
 
   ngOnInit() {
@@ -52,10 +58,6 @@ export class MissionsPage implements OnInit {
       this.missions = (<{ missionClasses: Mission[] }>data).missionClasses;
       this.filteredMissions = this.missions;
     });
-  }
-
-  onFlip(index: number) {
-    this.flippers.get(index).cardClicked();
   }
 
   segmentChanged(ev: any) {
@@ -90,6 +92,10 @@ export class MissionsPage implements OnInit {
 
   scrollToTop() {
     document.querySelector("ion-content").scrollToTop(500);
+  }
+
+  onMissionClick(number: number) {
+    console.log("mission clicked", number);
   }
 
   filterOptionsPicker() {

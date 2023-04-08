@@ -8,6 +8,7 @@ export class Mission {
   currentTotalAmount: number;
   createdAt: Date;
   percentage?: number;
+  isFlipped: boolean = false;
 
   constructor() {}
 

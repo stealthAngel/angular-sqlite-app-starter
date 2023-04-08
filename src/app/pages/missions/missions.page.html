@@ -26,6 +26,7 @@
         <ion-item [button]="true" [detail]="false" (click)="filterOptionsPicker()">Filter Options</ion-item>
         <ion-item [button]="true" [detail]="false" (click)="orderOptionsPicker()">Order Options</ion-item>
         <ion-item [button]="true" [detail]="false" [routerLink]="['/settings']">Settings</ion-item>
+        <ion-item [button]="true" [detail]="false" (click)="isReorderEnabled = !isReorderEnabled">Reorder</ion-item>
       </ion-list>
     </ion-content>
   </ng-template>
@@ -50,21 +51,62 @@
         <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
         <ion-reorder-group [disabled]="!isReorderEnabled" (ionItemReorder)="handleReorder($any($event))">
           <ng-container *ngFor="let mission of filteredMissions; let i = index;">
-            <ion-item lines="none">
-              <div class="marginx">
-                <div>{{mission.name}}</div>
-                <ion-label>
-                  <small [routerLink]="['/counters', mission.id]">
-                    {{mission.currentTotalAmount}}/{{mission.targetAmount}}</small>
-                  <small> {{mission.getPercentage()}}</small>
-                </ion-label>
+            <div class="flip-container">
+              <div class="flipper" [ngClass]="{'flip': mission.isFlipped}">
+                <!-- Front of card -->
+                <div class="front" (click)="onMissionClick(mission)">
+                  <ion-item lines="none">
+                    <div class="marginx">
+                      <div>{{mission.name}}</div>
+                      <ion-label>
+                        <small>{{mission.currentTotalAmount}}/{{mission.targetAmount}}</small>
+                      </ion-label>
+                    </div>
+                    <ion-button *ngIf="!isReorderEnabled" fill="clear" slot="end"
+                      (click)="mission.isFlipped = !mission.isFlipped" class="reorder-icon md hydrated">
+                      <ion-icon name="settings-outline"></ion-icon>
+                    </ion-button>
+                    <ion-reorder slot="end"></ion-reorder>
+                  </ion-item>
+                </div>
+                <!-- Back of card -->
+                <div class="back">
+                  <ion-item lines="none">
+                    <div class="marginx">
+                      <div>Back of Card</div>
+                    </div>
+                    <ion-button fill="clear" slot="end" class="reorder-icon md hydrated"
+                      (click)="mission.isFlipped = !mission.isFlipped">
+                      <ion-icon name="arrow-back-outline"></ion-icon>
+                    </ion-button>
+                  </ion-item>
+                </div>
               </div>
-              <div (click)="onFlip(i)" *ngIf="!isReorderEnabled" slot="end" class="reorder-icon md hydrated">
-                <ion-icon name="settings-outline"></ion-icon>
-              </div>
-              <ion-reorder slot="end"></ion-reorder>
-            </ion-item>
+            </div>
           </ng-container>
+          <ng-container *ngFor="let mission of filteredMissions; let i = index;">
+            <div class="flip-container">
+              <div class="flipper" [ngClass]="{'flip': mission.isFlipped}">
+                <!-- Front of card -->
+                <div class="front">
+                  <div (click)="onMissionClick(mission)">
+                    <ion-item lines="none">
+                      <!-- ... -->
+                    </ion-item>
+                  </div>
+                </div>
+                <!-- Back of card -->
+                <div class="back">
+                  <div>
+                    <ion-item lines="none">
+                      <!-- ... -->
+                    </ion-item>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
         </ion-reorder-group>
       </ion-list>
     </ng-template>
@@ -79,6 +121,3 @@
           </p>
         </div>
       </ng-container>
-    </ng-template>
-  </swiper>
-</ion-content>
