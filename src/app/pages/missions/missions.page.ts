@@ -86,6 +86,8 @@ export class MissionsPage implements OnInit {
     //this.scrollToTop();
   }
 
+  onEditMissionClick(mission: Mission) {}
+
   setSwiperInstance(swiper: Swiper) {
     this.swiper = swiper;
   }
@@ -95,7 +97,7 @@ export class MissionsPage implements OnInit {
   }
 
   onMissionClick(number: number) {
-    console.log("mission clicked", number);
+    //navigate to mission details page
   }
 
   filterOptionsPicker() {

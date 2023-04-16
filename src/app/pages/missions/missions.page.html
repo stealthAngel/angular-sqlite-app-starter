@@ -51,19 +51,22 @@
         <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
         <ion-reorder-group [disabled]="!isReorderEnabled" (ionItemReorder)="handleReorder($any($event))">
           <ng-container *ngFor="let mission of filteredMissions; let i = index;">
-            <div class="flip-container">
+            <div class="flip-container ion-margin-start ion-margin-end ion-margin-bottom">
               <div class="flipper" [ngClass]="{'flip': mission.isFlipped}">
                 <!-- Front of card -->
-                <div class="front" (click)="onMissionClick(mission)">
-                  <ion-item lines="none">
-                    <div class="marginx">
+                <div class="front" [routerLink]="['/counters', mission.id]">
+                  <ion-item lines="none" class="custom-ion-item" [color]="mission.isCompleted() ? 'success' : ''">
+                    <div>
                       <div>{{mission.name}}</div>
                       <ion-label>
                         <small>{{mission.currentTotalAmount}}/{{mission.targetAmount}}</small>
                       </ion-label>
                     </div>
+                    <div slot="end" class="ion-margin-start">{{ (mission.currentTotalAmount / mission.targetAmount *
+                      100) | number:
+                      '1.0-0' }}%</div>
                     <ion-button *ngIf="!isReorderEnabled" fill="clear" slot="end"
-                      (click)="mission.isFlipped = !mission.isFlipped" class="reorder-icon md hydrated">
+                      (click)="onMissionSettingsClick($event, mission)" class="reorder-icon md hydrated">
                       <ion-icon name="settings-outline"></ion-icon>
                     </ion-button>
                     <ion-reorder slot="end"></ion-reorder>
@@ -71,8 +74,8 @@
                 </div>
                 <!-- Back of card -->
                 <div class="back">
-                  <ion-item lines="none">
-                    <div class="marginx">
+                  <ion-item lines="none" class="custom-ion-item">
+                    <div>
                       <div>Back of Card</div>
                     </div>
                     <ion-button fill="clear" slot="end" class="reorder-icon md hydrated"
@@ -84,29 +87,6 @@
               </div>
             </div>
           </ng-container>
-          <ng-container *ngFor="let mission of filteredMissions; let i = index;">
-            <div class="flip-container">
-              <div class="flipper" [ngClass]="{'flip': mission.isFlipped}">
-                <!-- Front of card -->
-                <div class="front">
-                  <div (click)="onMissionClick(mission)">
-                    <ion-item lines="none">
-                      <!-- ... -->
-                    </ion-item>
-                  </div>
-                </div>
-                <!-- Back of card -->
-                <div class="back">
-                  <div>
-                    <ion-item lines="none">
-                      <!-- ... -->
-                    </ion-item>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ng-container>
-
         </ion-reorder-group>
       </ion-list>
     </ng-template>

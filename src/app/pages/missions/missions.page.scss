@@ -37,7 +37,7 @@
 }
 
 .flip {
-  transform: rotateY(-180deg);
+  transform: rotateY(180deg);
 }
 
 .flip .front > div {
@@ -46,4 +46,10 @@
 
 .flip .back > div {
   transform: rotateY(0deg);
+}
+
+.custom-ion-item {
+  //border-bottom: 1px solid #ebebeb;
+  background: transparent;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,.2);
 }
