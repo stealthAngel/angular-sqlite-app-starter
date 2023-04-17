@@ -24,11 +24,7 @@ export class SettingsPage implements OnInit {
   constructor(private settingService: SettingService, private toastService: ToastService, private router: Router, private themeService: ThemeService) {}
 
   ngOnInit() {
-    this.init();
-  }
-
-  async init() {
-    this.settings = await this.settingService.getSettings();
+    this.settings = this.settingService.getSettings();
   }
 
   onChangeColorTheme($event: ColorTheme, index: number) {

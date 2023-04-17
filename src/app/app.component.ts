@@ -17,23 +17,18 @@ import { ThemeService } from "./services/theme-service.service";
   styleUrls: ["app.component.scss"],
 })
 export class AppComponent {
-  constructor(private platform: Platform, private settingService: SettingService, private s: SettingRepository, private a: DatabaseService, private themeService: ThemeService) {
-    this.platform.ready().then(async () => {
-      this.platform.backButton.subscribeWithPriority(666666, () => {
-        App.exitApp();
-      });
-
-      this.setStatusBarOverlayWebView();
-
-      this.loadSettings();
-    });
-    this.do();
+  constructor(private platform: Platform) {
+    this.initializeApp();
   }
 
-  async do() {
-    // //todo make both calls work in parallel
-    // await this.s.deleteSettings();
-    // await new settings_migration_2022_05_26(this.a).up();
+  async initializeApp() {
+    await this.platform.ready();
+
+    this.platform.backButton.subscribeWithPriority(666666, () => {
+      App.exitApp();
+    });
+
+    this.setStatusBarOverlayWebView();
   }
 
   setStatusBarOverlayWebView() {
@@ -42,12 +37,5 @@ export class AppComponent {
     if (capacitorPlatform !== "web") {
       StatusBar.overlaysWebView(false);
     }
-  }
-
-  async loadSettings() {
-    var settings = await this.settingService.getSettings();
-    var setting = settings.find((x) => x.name == SettingType.COLOR_THEME);
-    var theme = setting.value as ColorTheme;
-    this.themeService.activeTheme(theme);
   }
 }

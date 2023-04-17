@@ -24,7 +24,7 @@ export class MissionFilter {
     this.filteredMissions = this.missions;
   }
 
-  public filter() {
+  public applyFilters() {
     this.filteredMissions = this.missions;
     //filter by search text;
     if (this._searchTerm) {
@@ -76,7 +76,7 @@ export class MissionFilter {
   }
 
   private updateFilter() {
-    this.filter();
+    this.applyFilters();
   }
 
   get isFiltered(): boolean {

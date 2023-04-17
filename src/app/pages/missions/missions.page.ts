@@ -8,6 +8,8 @@ import { MissionFilters } from "src/app/models/mission/missionFilter";
 import { MissionService } from "src/app/models/mission/mission.service";
 import { IonSearchbar, ItemReorderEventDetail } from "@ionic/angular";
 import { MissionFilter } from "src/app/models/mission/mission.filter";
+import { SettingService } from "src/app/models/setting/setting.service";
+import { SettingType } from "src/app/models/setting/settings.enum";
 Swiper.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
 @Component({
   selector: "app-missions",
@@ -15,16 +17,17 @@ Swiper.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
   styleUrls: ["./missions.page.scss"],
 })
 export class MissionsPage implements OnInit {
+  @ViewChild("mySearchbar", { static: false }) searchbar: IonSearchbar;
+
   missionFilter: MissionFilter;
   segments: string[] = ["Card View", "Notepad View"];
   selectedSegment: string = this.segments[0];
-  @ViewChild("mySearchbar", { static: false }) searchbar: IonSearchbar;
-  //reorder enabled
   isReorderEnabled: boolean = false;
+  shouldShowMissionCompletedColor: boolean = false;
 
   swiper: Swiper;
 
-  constructor(private missionService: MissionService, private changeDetectorRef: ChangeDetectorRef, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
+  constructor(private missionService: MissionService, private changeDetectorRef: ChangeDetectorRef, private alertService: AlertService, private settingService: SettingService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     const { from: indexFrom, to: indexTo } = ev.detail;
@@ -48,7 +51,7 @@ export class MissionsPage implements OnInit {
 
     this.missionService.reOrderMissions(this.missionFilter.missions);
 
-    this.missionFilter.filter();
+    this.missionFilter.applyFilters();
     // Signal to the framework that the reordering is complete
     ev.detail.complete();
   }
@@ -63,6 +66,15 @@ export class MissionsPage implements OnInit {
       const missions = (<{ missionClasses: Mission[] }>data).missionClasses;
       this.missionFilter = new MissionFilter(missions);
     });
+
+    var setting = this.settingService.getSetting(SettingType.SHOULD_SHOW_MISSION_COMPLETED_COLOR);
+    console.log("🚀 ~ file: missions.page.ts:71 ~ MissionsPage ~ ngOnInit ~ setting:", setting)
+    // if type not boolean throw error
+    let value = setting.value;
+    if (typeof value !== "boolean") {
+      throw new Error("Setting value is not boolean");
+    }
+    this.shouldShowMissionCompletedColor = value;
   }
 
   resetFilter() {
@@ -83,7 +95,8 @@ export class MissionsPage implements OnInit {
     if (shouldDelete) {
       await this.missionService.deleteMissionById(id);
 
-      // this.missions = this.missions.filter((mission) => mission.id !== id);
+      this.missionFilter.missions.filter((mission) => mission.id !== id);
+      this.missionFilter.applyFilters();
 
       this.toastService.showSuccessfullyDeleted();
     }
@@ -105,8 +118,8 @@ export class MissionsPage implements OnInit {
     document.querySelector("ion-content").scrollToTop(500);
   }
 
-  onMissionClick(number: number) {
-    //navigate to mission details page
+  async getMissionCompletedColor(mission: Mission) {
+    return this.shouldShowMissionCompletedColor ? (mission.isCompleted() ? "success" : "") : "";
   }
 
   filterOptionsPicker() {

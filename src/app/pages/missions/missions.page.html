@@ -23,8 +23,8 @@
         <ion-item [button]="true" [detail]="false" (click)="filterOptionsPicker()">Filter Options</ion-item>
         <ion-item [button]="true" [detail]="false" (click)="orderOptionsPicker()">Order Options</ion-item>
         <ion-item [button]="true" [detail]="false" (click)="resetFilter()">Reset Filter</ion-item>
-        <ion-item [button]="true" [detail]="false" [routerLink]="['/settings']">Settings</ion-item>
         <ion-item [button]="true" [detail]="false" (click)="isReorderEnabled = !isReorderEnabled">Reorder</ion-item>
+        <ion-item [button]="true" [detail]="false" [routerLink]="['/settings']">Settings</ion-item>
       </ion-list>
     </ion-content>
   </ng-template>
@@ -53,9 +53,9 @@
               <div class="flipper" [ngClass]="{'flip': mission.isFlipped}">
                 <!-- Front of card -->
                 <div class="front" [routerLink]="['/counters', mission.id]">
-                  <ion-item lines="none" class="custom-ion-item" [color]="mission.isCompleted() ? 'success' : ''">
+                  <ion-item lines="none" class="custom-ion-item" [color]="getMissionCompletedColor(mission)">
                     <div>
-                      <div>{{mission.name}} {{ mission.orderIndex}}</div>
+                      <div>{{mission.name}}</div>
                       <ion-label>
                         <small>{{mission.currentTotalAmount}}/{{mission.targetAmount}}</small>
                       </ion-label>
@@ -73,9 +73,20 @@
                 <!-- Back of card -->
                 <div class="back">
                   <ion-item lines="none" class="custom-ion-item">
-                    <div>
-                      <div>Back of Card</div>
-                    </div>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size="4">
+                          <div class="clickable-text" (click)="onEditMissionClick(mission)">
+                            <ion-icon name="create-outline" slot="start"></ion-icon>Edit
+                          </div>
+                        </ion-col>
+                        <ion-col size="4">
+                          <div class="clickable-text" (click)="onDeleteMissionClick(mission.id)">
+                            <ion-icon name="trash-outline" slot="start"></ion-icon>Delete
+                          </div>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
                     <ion-button fill="clear" slot="end" class="reorder-icon md hydrated"
                       (click)="mission.isFlipped = !mission.isFlipped">
                       <ion-icon name="arrow-back-outline"></ion-icon>
