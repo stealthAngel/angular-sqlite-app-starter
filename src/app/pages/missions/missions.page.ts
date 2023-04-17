@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChild, ViewChildren } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { AlertService } from "src/app/alert.service";
 import { ToastService } from "src/app/services/toast.service";
 import { Autoplay, Keyboard, Pagination, Scrollbar, Swiper, Zoom } from "swiper";
@@ -29,7 +29,7 @@ export class MissionsPage implements OnInit {
 
   swiper: Swiper;
 
-  constructor(private missionService: MissionService, private changeDetectorRef: ChangeDetectorRef, private alertService: AlertService, private settingService: SettingService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
+  constructor(private missionService: MissionService, private router: Router, private changeDetectorRef: ChangeDetectorRef, private alertService: AlertService, private settingService: SettingService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     const { from: indexFrom, to: indexTo } = ev.detail;
@@ -88,7 +88,7 @@ export class MissionsPage implements OnInit {
   }
 
   async onDeleteMissionClick(id: number) {
-    let shouldDelete = await this.alertService.presentCancelOkAlertForDeleteMision();
+    let shouldDelete = this.SHOULD_ALERT_DELETE_MISSION ? await this.alertService.presentCancelOkAlertForDeleteMision() : true;
     if (shouldDelete) {
       await this.missionService.deleteMissionById(id);
 
@@ -102,10 +102,10 @@ export class MissionsPage implements OnInit {
   onSlideChange() {
     this.selectedSegment = this.segments[this.swiper.activeIndex];
     this.changeDetectorRef.detectChanges();
-    //this.scrollToTop();
+    if (this.SHOULD_SCROLL_TO_TOP) {
+      this.scrollToTop();
+    }
   }
-
-  onEditMissionClick(mission: Mission) {}
 
   setSwiperInstance(swiper: Swiper) {
     this.swiper = swiper;

@@ -75,7 +75,7 @@
                     <ion-grid>
                       <ion-row>
                         <ion-col size="4">
-                          <div class="clickable-text" (click)="onEditMissionClick(mission)">
+                          <div class="clickable-text" [routerLink]="['update', mission.id]">
                             <ion-icon name="create-outline" slot="start"></ion-icon>Edit
                           </div>
                         </ion-col>
