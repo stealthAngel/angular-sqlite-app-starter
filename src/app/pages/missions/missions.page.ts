@@ -23,7 +23,9 @@ export class MissionsPage implements OnInit {
   segments: string[] = ["Card View", "Notepad View"];
   selectedSegment: string = this.segments[0];
   isReorderEnabled: boolean = false;
-  shouldShowMissionCompletedColor: boolean = false;
+  SHOULD_SHOW_MISSION_COMPLETED_COLOR: boolean = false;
+  SHOULD_SCROLL_TO_TOP: boolean = false;
+  SHOULD_ALERT_DELETE_MISSION: boolean = false;
 
   swiper: Swiper;
 
@@ -62,19 +64,14 @@ export class MissionsPage implements OnInit {
   }
 
   ngOnInit() {
+    this.SHOULD_SHOW_MISSION_COMPLETED_COLOR = this.settingService.getSetting(SettingType.SHOULD_SHOW_MISSION_COMPLETED_COLOR).value === true;
+    this.SHOULD_SCROLL_TO_TOP = this.settingService.getSetting(SettingType.SHOULD_SCROLL_TO_TOP).value === true;
+    this.SHOULD_ALERT_DELETE_MISSION = this.settingService.getSetting(SettingType.SHOULD_ALERT_DELETE_MISSION).value === true;
+
     this.activatedRoute.data.subscribe((data) => {
       const missions = (<{ missionClasses: Mission[] }>data).missionClasses;
       this.missionFilter = new MissionFilter(missions);
     });
-
-    var setting = this.settingService.getSetting(SettingType.SHOULD_SHOW_MISSION_COMPLETED_COLOR);
-    console.log("🚀 ~ file: missions.page.ts:71 ~ MissionsPage ~ ngOnInit ~ setting:", setting)
-    // if type not boolean throw error
-    let value = setting.value;
-    if (typeof value !== "boolean") {
-      throw new Error("Setting value is not boolean");
-    }
-    this.shouldShowMissionCompletedColor = value;
   }
 
   resetFilter() {
@@ -119,7 +116,7 @@ export class MissionsPage implements OnInit {
   }
 
   async getMissionCompletedColor(mission: Mission) {
-    return this.shouldShowMissionCompletedColor ? (mission.isCompleted() ? "success" : "") : "";
+    return "success";
   }
 
   filterOptionsPicker() {

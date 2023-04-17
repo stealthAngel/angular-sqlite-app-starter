@@ -53,16 +53,15 @@
               <div class="flipper" [ngClass]="{'flip': mission.isFlipped}">
                 <!-- Front of card -->
                 <div class="front" [routerLink]="['/counters', mission.id]">
-                  <ion-item lines="none" class="custom-ion-item" [color]="getMissionCompletedColor(mission)">
+                  <ion-item lines="none" class="custom-ion-item"
+                    [color]="SHOULD_SHOW_MISSION_COMPLETED_COLOR ? (mission.isCompleted() ? 'success' : '') : ''">
                     <div>
                       <div>{{mission.name}}</div>
                       <ion-label>
                         <small>{{mission.currentTotalAmount}}/{{mission.targetAmount}}</small>
                       </ion-label>
                     </div>
-                    <div slot="end" class="ion-margin-start">{{ (mission.currentTotalAmount / mission.targetAmount *
-                      100) | number:
-                      '1.0-0' }}%</div>
+                    <div slot="end" class="ion-margin-start">{{ mission.getPercentage() }}</div>
                     <ion-button *ngIf="!isReorderEnabled" fill="clear" slot="end"
                       (click)="onMissionSettingsClick($event, mission)" class="reorder-icon md hydrated">
                       <ion-icon name="settings-outline"></ion-icon>
