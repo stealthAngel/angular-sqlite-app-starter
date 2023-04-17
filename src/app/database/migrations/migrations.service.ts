@@ -6,6 +6,7 @@ import { FirstMigration } from "./initial-migrations/first.migration";
 import { MigrationBase } from "./migration-base";
 import { settings_migration_2022_05_26 } from "./migrations/settings.migration.2022-05-26";
 import { startup_migration_2022_05_26 } from "./migrations/startup.migration.2022-05-26";
+import { addorderindex_migration_2023_04_16 } from "./migrations/addorderindex.migration.2023-04-16";
 //static is internal saved in the class
 //to add migrations add them to the migrations array
 interface StaticMigration {
@@ -40,13 +41,13 @@ export class MigrationService {
   }
 
   getStaticMigrations(): StaticMigration[] {
-    var migrations = [new startup_migration_2022_05_26(this.databaseService), new settings_migration_2022_05_26(this.databaseService)];
+    var migrations = [new startup_migration_2022_05_26(this.databaseService), new settings_migration_2022_05_26(this.databaseService), new addorderindex_migration_2023_04_16(this.databaseService)];
 
-    return migrations.map((m, i) => {
+    return migrations.map((migration, index) => {
       return {
-        name: m.constructor.name,
-        id: i + 1,
-        migration: m,
+        name: migration.constructor.name,
+        id: index + 1,
+        migration: migration,
       };
     });
   }

@@ -35,17 +35,32 @@ export class MissionsPage implements OnInit {
   constructor(private missionService: MissionService, private changeDetectorRef: ChangeDetectorRef, private alertService: AlertService, private toastService: ToastService, private activatedRoute: ActivatedRoute) {}
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
-    // The `from` and `to` properties contain the index of the item
-    // when the drag started and ended, respectively
-    console.log("Dragged from index", ev.detail.from, "to", ev.detail.to);
-
-    // Reset the isFlipped property of all missions to false
-    this.filteredMissions.forEach((mission) => (mission.isFlipped = false));
-
-    // Finish the reorder and position the item in the DOM based on
-    // where the gesture ended. This method can also be called directly
-    // by the reorder group
+    const { from: indexFrom, to: indexTo } = ev.detail;
     ev.detail.complete();
+    console.log(ev);
+    console.log(this.filteredMissions);
+    const previousMission = indexTo > 0 ? this.filteredMissions[indexTo - 1] : null;
+    console.log(previousMission);
+    const draggedMission = this.filteredMissions[indexFrom];
+
+    //reposition draggedMission
+    this.missions = this.missions.filter((mission) => mission.id !== draggedMission.id);
+
+    if (previousMission == null) {
+      this.missions.unshift(draggedMission);
+    } else {
+      const previousMissionIndex = this.missions.findIndex((x) => x.id === previousMission.id);
+      this.missions.splice(previousMissionIndex + 1, 0, draggedMission);
+    }
+
+    // update orderIndexes
+    this.missions.forEach((mission, index) => {
+      mission.orderIndex = index;
+    });
+
+    this.filterMissions();
+
+    // Signal to the framework that the reordering is complete
   }
 
   onMissionSettingsClick(event: any, mission: any) {
@@ -66,6 +81,10 @@ export class MissionsPage implements OnInit {
 
   onSearchChange($event) {
     this.searchTerm = $event.detail.value;
+    this.filterMissions();
+  }
+
+  filterMissions() {
     this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderByFilter, this.orderValueFilter, this.completedFilter);
   }
 

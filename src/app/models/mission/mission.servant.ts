@@ -21,6 +21,7 @@ export class MissionServant {
       description: x.description,
       targetAmount: x.targetAmount,
       currentTotalAmount: x.currentTotalAmount,
+      orderIndex: x.orderIndex,
       createdAt: x.createdAt.toISOString(),
     };
   }

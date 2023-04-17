@@ -11,6 +11,7 @@ export interface Mission_DB {
   description: string;
   targetAmount: number;
   currentTotalAmount: number;
+  orderIndex: number;
   createdAt: string;
 }
 

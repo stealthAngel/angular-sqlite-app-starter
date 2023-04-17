@@ -1,5 +1,15 @@
 import { Mission_DB } from "src/app/database/models/database-models";
 
+export class MissionOrderIndexObject {
+  id: number;
+  orderIndex: number;
+
+  constructor(id: number, orderIndex: number) {
+    this.id = id;
+    this.orderIndex = orderIndex;
+  }
+}
+
 export class Mission {
   id: number;
   name: string;
@@ -8,6 +18,7 @@ export class Mission {
   currentTotalAmount: number;
   createdAt: Date;
   percentage?: number;
+  orderIndex: number;
   isFlipped: boolean = false;
 
   constructor() {}
@@ -19,6 +30,7 @@ export class Mission {
     this.targetAmount = x.targetAmount;
     this.currentTotalAmount = x.currentTotalAmount;
     this.createdAt = new Date(x.createdAt);
+    this.orderIndex = x.orderIndex;
     this.percentage = this.calculatePercentage(this.currentTotalAmount);
     return this;
   }

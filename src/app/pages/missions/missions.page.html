@@ -49,7 +49,7 @@
       <ion-list>
         <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
         <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
-        <ion-reorder-group [disabled]="!isReorderEnabled" (ionItemReorder)="handleReorder($any($event))">
+        <ion-reorder-group [disabled]="isReorderEnabled" (ionItemReorder)="handleReorder($any($event))">
           <ng-container *ngFor="let mission of filteredMissions; let i = index;">
             <div class="flip-container ion-margin-start ion-margin-end ion-margin-bottom">
               <div class="flipper" [ngClass]="{'flip': mission.isFlipped}">
@@ -57,7 +57,7 @@
                 <div class="front" [routerLink]="['/counters', mission.id]">
                   <ion-item lines="none" class="custom-ion-item" [color]="mission.isCompleted() ? 'success' : ''">
                     <div>
-                      <div>{{mission.name}}</div>
+                      <div>{{mission.name}} {{ mission.orderIndex}}</div>
                       <ion-label>
                         <small>{{mission.currentTotalAmount}}/{{mission.targetAmount}}</small>
                       </ion-label>
@@ -96,8 +96,9 @@
           <p class="ion-margin">
             {{mission.name}} {{mission.currentTotalAmount}}/{{mission.targetAmount}}
             <ng-container *ngIf="mission.isCompleted()">
-              <ion-icon class="icon" name="checkmark-circle-outline"></ion-icon>
+              <ion-icon class="icon" name="checkmark-circle-outline" color="success"></ion-icon>
             </ng-container>
           </p>
         </div>
       </ng-container>
+    </ng-template>

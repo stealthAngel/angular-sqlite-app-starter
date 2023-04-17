@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { MissionRepository } from "src/app/database/repositories/mission.repository";
 import { MissionServant } from "src/app/models/mission/mission.servant";
-import { Mission } from "./mission";
+import { Mission, MissionOrderIndexObject } from "./mission";
 @Injectable()
 export class MissionService {
   constructor(private missionRepository: MissionRepository, private missionServant: MissionServant) {}
@@ -28,5 +28,10 @@ export class MissionService {
 
   async deleteMissionById(id: number) {
     return await this.missionRepository.deleteMissionById(id);
+  }
+
+  async reOrderMissions(mission: Mission[]) {
+    var missions = mission.map((x) => new MissionOrderIndexObject(x.id, x.orderIndex));
+    return await this.missionRepository.reOrderMissions(missions);
   }
 }
