@@ -5,11 +5,8 @@
       <ion-button [routerLink]="['create']">
         <ion-icon icon="add-outline" slot="icon-only"></ion-icon>
       </ion-button>
-      <ion-button (click)="filterOptionsPicker()">
-        <ion-icon name="filter-outline"></ion-icon>
-      </ion-button>
-      <ion-button (click)="orderOptionsPicker()">
-        <ion-icon name="reorder-three-outline"></ion-icon>
+      <ion-button (click)="resetFilter()">
+        <ion-icon name="refresh-outline"></ion-icon>
       </ion-button>
       <ion-button id="popover-button">
         <ion-icon icon="ellipsis-vertical" slot="icon-only"></ion-icon>
@@ -25,6 +22,7 @@
         <ion-item [button]="true" [detail]="false" [routerLink]="['create']">Add new Mission</ion-item>
         <ion-item [button]="true" [detail]="false" (click)="filterOptionsPicker()">Filter Options</ion-item>
         <ion-item [button]="true" [detail]="false" (click)="orderOptionsPicker()">Order Options</ion-item>
+        <ion-item [button]="true" [detail]="false" (click)="resetFilter()">Reset Filter</ion-item>
         <ion-item [button]="true" [detail]="false" [routerLink]="['/settings']">Settings</ion-item>
         <ion-item [button]="true" [detail]="false" (click)="isReorderEnabled = !isReorderEnabled">Reorder</ion-item>
       </ion-list>
@@ -41,7 +39,7 @@
   </ion-segment-button>
 </ion-segment>
 <!-- ion search -->
-<ion-searchbar (ionChange)="onSearchChange($event)" placeholder="Search"></ion-searchbar>
+<ion-searchbar (ionChange)="onSearchChange($event)" #mySearchbar placeholder="Search"></ion-searchbar>
 
 <ion-content scrollEvents="true">
   <swiper (slideChange)="onSlideChange()" (swiper)="setSwiperInstance($event)">
@@ -49,8 +47,8 @@
       <ion-list>
         <!-- The reorder gesture is disabled by default, enable it to drag and drop items -->
         <!-- Casting $event to $any is a temporary fix for this bug https://github.com/ionic-team/ionic-framework/issues/24245 -->
-        <ion-reorder-group [disabled]="isReorderEnabled" (ionItemReorder)="handleReorder($any($event))">
-          <ng-container *ngFor="let mission of filteredMissions; let i = index;">
+        <ion-reorder-group [disabled]="!isReorderEnabled" (ionItemReorder)="handleReorder($any($event))">
+          <ng-container *ngFor="let mission of missionFilter.filteredMissions; let i = index;">
             <div class="flip-container ion-margin-start ion-margin-end ion-margin-bottom">
               <div class="flipper" [ngClass]="{'flip': mission.isFlipped}">
                 <!-- Front of card -->
@@ -91,7 +89,7 @@
       </ion-list>
     </ng-template>
     <ng-template swiperSlide>
-      <ng-container *ngFor="let mission of filteredMissions">
+      <ng-container *ngFor="let mission of missionFilter.filteredMissions">
         <div [routerLink]="['/counters', mission.id]">
           <p class="ion-margin">
             {{mission.name}} {{mission.currentTotalAmount}}/{{mission.targetAmount}}

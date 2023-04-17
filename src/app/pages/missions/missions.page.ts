@@ -1,13 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChildren } from "@angular/core";
+import { ChangeDetectorRef, Component, OnInit, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { AlertService } from "src/app/alert.service";
 import { ToastService } from "src/app/services/toast.service";
 import { Autoplay, Keyboard, Pagination, Scrollbar, Swiper, Zoom } from "swiper";
 import { Mission } from "src/app/models/mission/mission";
-import { filterMissions } from "src/app/models/mission/mission.filter";
 import { MissionFilters } from "src/app/models/mission/missionFilter";
 import { MissionService } from "src/app/models/mission/mission.service";
-import { ItemReorderEventDetail } from "@ionic/angular";
+import { IonSearchbar, ItemReorderEventDetail } from "@ionic/angular";
+import { MissionFilter } from "src/app/models/mission/mission.filter";
 Swiper.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
 @Component({
   selector: "app-missions",
@@ -15,18 +15,10 @@ Swiper.use([Autoplay, Keyboard, Pagination, Scrollbar, Zoom]);
   styleUrls: ["./missions.page.scss"],
 })
 export class MissionsPage implements OnInit {
-  missions: Mission[] = [];
-  filteredMissions: Mission[] = [];
-
+  missionFilter: MissionFilter;
   segments: string[] = ["Card View", "Notepad View"];
   selectedSegment: string = this.segments[0];
-
-  //filters
-  searchTerm: string = "";
-  orderValueFilter: string = "";
-  orderByFilter: string = "";
-  completedFilter: string = "";
-
+  @ViewChild("mySearchbar", { static: false }) searchbar: IonSearchbar;
   //reorder enabled
   isReorderEnabled: boolean = false;
 
@@ -36,31 +28,29 @@ export class MissionsPage implements OnInit {
 
   handleReorder(ev: CustomEvent<ItemReorderEventDetail>) {
     const { from: indexFrom, to: indexTo } = ev.detail;
-    ev.detail.complete();
-    console.log(ev);
-    console.log(this.filteredMissions);
-    const previousMission = indexTo > 0 ? this.filteredMissions[indexTo - 1] : null;
-    console.log(previousMission);
-    const draggedMission = this.filteredMissions[indexFrom];
 
-    //reposition draggedMission
-    this.missions = this.missions.filter((mission) => mission.id !== draggedMission.id);
+    const draggedMission = this.missionFilter.filteredMissions[indexFrom];
+    const missionThatWasThere = this.missionFilter.filteredMissions[indexTo];
 
-    if (previousMission == null) {
-      this.missions.unshift(draggedMission);
-    } else {
-      const previousMissionIndex = this.missions.findIndex((x) => x.id === previousMission.id);
-      this.missions.splice(previousMissionIndex + 1, 0, draggedMission);
-    }
+    const draggedMissionId = draggedMission.id;
+    const missionThatWasThereId = missionThatWasThere.id;
 
-    // update orderIndexes
-    this.missions.forEach((mission, index) => {
+    const savedDraggedMissionIndex = this.missionFilter.missions.findIndex((mission) => mission.id === draggedMissionId);
+    const savedMissionThatWasThereIndex = this.missionFilter.missions.findIndex((mission) => mission.id === missionThatWasThereId);
+
+    // Move dragged mission to its new position in the array
+    this.missionFilter.missions.splice(savedMissionThatWasThereIndex, 0, this.missionFilter.missions.splice(savedDraggedMissionIndex, 1)[0]);
+
+    // Update order indexes for all missions
+    this.missionFilter.missions.forEach((mission, index) => {
       mission.orderIndex = index;
     });
 
-    this.filterMissions();
+    this.missionService.reOrderMissions(this.missionFilter.missions);
 
+    this.missionFilter.filter();
     // Signal to the framework that the reordering is complete
+    ev.detail.complete();
   }
 
   onMissionSettingsClick(event: any, mission: any) {
@@ -70,9 +60,14 @@ export class MissionsPage implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.data.subscribe((data) => {
-      this.missions = (<{ missionClasses: Mission[] }>data).missionClasses;
-      this.filteredMissions = this.missions;
+      const missions = (<{ missionClasses: Mission[] }>data).missionClasses;
+      this.missionFilter = new MissionFilter(missions);
     });
+  }
+
+  resetFilter() {
+    this.searchbar.value = "";
+    this.missionFilter.resetFilter();
   }
 
   segmentChanged(ev: any) {
@@ -80,12 +75,7 @@ export class MissionsPage implements OnInit {
   }
 
   onSearchChange($event) {
-    this.searchTerm = $event.detail.value;
-    this.filterMissions();
-  }
-
-  filterMissions() {
-    this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderByFilter, this.orderValueFilter, this.completedFilter);
+    this.missionFilter.searchTerm = $event.detail.value;
   }
 
   async onDeleteMissionClick(id: number) {
@@ -93,7 +83,7 @@ export class MissionsPage implements OnInit {
     if (shouldDelete) {
       await this.missionService.deleteMissionById(id);
 
-      this.missions = this.missions.filter((mission) => mission.id !== id);
+      // this.missions = this.missions.filter((mission) => mission.id !== id);
 
       this.toastService.showSuccessfullyDeleted();
     }
@@ -121,8 +111,7 @@ export class MissionsPage implements OnInit {
 
   filterOptionsPicker() {
     var handler = (selected) => {
-      this.completedFilter = selected.completedFilter.value;
-      this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderByFilter, this.orderValueFilter, this.completedFilter);
+      this.missionFilter.completedFilter = selected.completedFilter.value;
     };
 
     var columns = [
@@ -140,9 +129,8 @@ export class MissionsPage implements OnInit {
 
   async orderOptionsPicker() {
     var handler = (selected) => {
-      this.orderByFilter = selected.orderByFilter.value;
-      this.orderValueFilter = selected.orderValueFilter.value;
-      this.filteredMissions = filterMissions(this.missions, this.searchTerm, this.orderByFilter, this.orderValueFilter, this.completedFilter);
+      this.missionFilter.orderByFilter = selected.orderByFilter.value;
+      this.missionFilter.orderValueFilter = selected.orderValueFilter.value;
     };
 
     var columns = [
