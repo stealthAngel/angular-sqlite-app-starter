@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS counters (
   CREATE TABLE IF NOT EXISTS categories (
     id INTEGER PRIMARY KEY NOT NULL,
     name TEXT NOT NULL,
+    orderIndex INTEGER NOT NULL DEFAULT 0,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
   
@@ -39,6 +40,7 @@ CREATE TABLE IF NOT EXISTS counters (
     name TEXT NOT NULL,
     description TEXT,
     targetAmount INTEGER,
+    orderIndex INTEGER NOT NULL DEFAULT 0,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 

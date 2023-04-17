@@ -23,9 +23,6 @@ export class MissionsPage implements OnInit {
   segments: string[] = ["Card View", "Notepad View"];
   selectedSegment: string = this.segments[0];
   isReorderEnabled: boolean = false;
-  SHOULD_SHOW_MISSION_COMPLETED_COLOR: boolean = false;
-  SHOULD_SCROLL_TO_TOP: boolean = false;
-  SHOULD_ALERT_DELETE_MISSION: boolean = false;
 
   swiper: Swiper;
 
@@ -63,11 +60,10 @@ export class MissionsPage implements OnInit {
     mission.isFlipped = !mission.isFlipped;
   }
 
+  whatever(mission: Mission) {
+    return this.settingService.getSetting(SettingType.SHOULD_SHOW_MISSION_COMPLETED_COLOR).value === true ? (mission.isCompleted() ? "success" : "") : "";
+  }
   ngOnInit() {
-    this.SHOULD_SHOW_MISSION_COMPLETED_COLOR = this.settingService.getSetting(SettingType.SHOULD_SHOW_MISSION_COMPLETED_COLOR).value === true;
-    this.SHOULD_SCROLL_TO_TOP = this.settingService.getSetting(SettingType.SHOULD_SCROLL_TO_TOP).value === true;
-    this.SHOULD_ALERT_DELETE_MISSION = this.settingService.getSetting(SettingType.SHOULD_ALERT_DELETE_MISSION).value === true;
-
     this.activatedRoute.data.subscribe((data) => {
       const missions = (<{ missionClasses: Mission[] }>data).missionClasses;
       this.missionFilter = new MissionFilter(missions);
@@ -88,11 +84,11 @@ export class MissionsPage implements OnInit {
   }
 
   async onDeleteMissionClick(id: number) {
-    let shouldDelete = this.SHOULD_ALERT_DELETE_MISSION ? await this.alertService.presentCancelOkAlertForDeleteMision() : true;
+    let shouldDelete = this.settingService.getSetting(SettingType.SHOULD_ALERT_DELETE_MISSION).value === true ? await this.alertService.presentCancelOkAlertForDeleteMision() : true;
     if (shouldDelete) {
       await this.missionService.deleteMissionById(id);
 
-      this.missionFilter.missions.filter((mission) => mission.id !== id);
+      this.missionFilter.missions = this.missionFilter.missions.filter((mission) => mission.id !== id);
       this.missionFilter.applyFilters();
 
       this.toastService.showSuccessfullyDeleted();
@@ -102,7 +98,7 @@ export class MissionsPage implements OnInit {
   onSlideChange() {
     this.selectedSegment = this.segments[this.swiper.activeIndex];
     this.changeDetectorRef.detectChanges();
-    if (this.SHOULD_SCROLL_TO_TOP) {
+    if (this.settingService.getSetting(SettingType.SHOULD_SCROLL_TO_TOP).value === true) {
       this.scrollToTop();
     }
   }

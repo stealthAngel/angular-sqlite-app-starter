@@ -14,6 +14,7 @@ export class SettingService {
     [SettingType.SHOULD_SCROLL_TO_TOP.toString()]: null,
     [SettingType.SHOULD_ALERT_DELETE_COUNTER.toString()]: null,
     [SettingType.SHOULD_ALERT_DELETE_MISSION.toString()]: null,
+    [SettingType.SHOULD_STRIKE_COMPLETED_MISSION.toString()]: null,
   };
 
   constructor(private settingRepository: SettingRepository, private settingServant: SettingServant) {}
@@ -44,6 +45,6 @@ export class SettingService {
   async updateSettings(settings: Setting[]): Promise<void> {
     var settingsDB = this.settingServant.toDBes(settings);
     await this.settingRepository.updateSettings(settingsDB);
-    this.init();
+    await this.init();
   }
 }

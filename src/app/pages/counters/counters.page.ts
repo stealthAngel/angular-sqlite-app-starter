@@ -8,6 +8,8 @@ import { CountersCalculation } from "src/app/models/counter/counters-calculation
 import { Mission } from "src/app/models/mission/mission";
 import { CountersCalculationServant } from "src/app/models/counter/counters-calculation.servant";
 import { AlertService } from "src/app/alert.service";
+import { SettingService } from "src/app/models/setting/setting.service";
+import { SettingType } from "src/app/models/setting/settings.enum";
 
 @Component({
   selector: "app-counters",
@@ -21,7 +23,7 @@ export class CountersPage implements OnInit {
   countersCalculation: CountersCalculation = {} as CountersCalculation;
   missionId: number;
   numberButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  selectedFilter: "today" | "week" | "month" | "all" | "custom" = "today";
+  selectedFilter: "today" | "week" | "month" | "all" | "custom" = "all";
   filterStartDate: Date;
   filterEndDate: Date;
   lastUpdatedCounterId: number | null = null;
@@ -30,7 +32,7 @@ export class CountersPage implements OnInit {
     amount: null,
   });
 
-  constructor(private activatedRoute: ActivatedRoute, private missionService: MissionService, private counterService: CounterService, private alertService: AlertService, private countersCalculationServant: CountersCalculationServant, private formBuilder: FormBuilder) {}
+  constructor(private activatedRoute: ActivatedRoute, private settingService: SettingService, private missionService: MissionService, private counterService: CounterService, private alertService: AlertService, private countersCalculationServant: CountersCalculationServant, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     //into chunks of 5
@@ -56,7 +58,7 @@ export class CountersPage implements OnInit {
     this.mission = await this.missionService.getMissionById(missionId);
 
     this.counters = await this.counterService.getCountersByMissionId(missionId);
-    
+
     this.redraw();
   }
 
@@ -98,7 +100,7 @@ export class CountersPage implements OnInit {
   }
 
   async onDeleteClick(counterId: number) {
-    let shouldDelete = await this.alertService.presentCancelOkAlertForDeleteCounter();
+    let shouldDelete = this.settingService.getSetting(SettingType.SHOULD_ALERT_DELETE_COUNTER).value === true ? await this.alertService.presentCancelOkAlertForDeleteCounter() : true;
     if (shouldDelete) {
       await this.counterService.deleteCounterById(counterId);
 

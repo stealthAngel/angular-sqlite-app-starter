@@ -29,7 +29,12 @@ export class SettingsPage implements OnInit {
 
   onChangeColorTheme($event: ColorTheme, index: number) {
     this.settings[index].value = $event;
-    this.themeService.activeTheme($event);
+    this.themeService.setActiveTheme($event);
+  }
+
+  onChangeFontTheme($event: FontTheme, index: number) {
+    this.settings[index].value = $event;
+    this.themeService.setActiveFontTheme($event);
   }
 
   async submit() {

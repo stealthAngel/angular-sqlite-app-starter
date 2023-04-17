@@ -13,6 +13,7 @@ export class settings_migration_2022_05_26 extends MigrationBase {
     INSERT INTO settings (name, value, orderIndex) VALUES ('SHOULD_SHOW_MISSION_COMPLETED_COLOR', 'true', 4);
     INSERT INTO settings (name, value, orderIndex) VALUES ('SHOULD_ALERT_DELETE_MISSION', 'true', 5);
     INSERT INTO settings (name, value, orderIndex) VALUES ('SHOULD_ALERT_DELETE_COUNTER', 'true', 6);
+    INSERT INTO settings (name, value, orderIndex) VALUES ('SHOULD_STRIKE_COMPLETED_MISSION', 'true', 7);
 
     `;
     this.databaseService.executeQuery(async (db) => {

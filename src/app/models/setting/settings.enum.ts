@@ -8,9 +8,10 @@ export enum ColorTheme {
 }
 
 export enum FontTheme {
-  DEFAULT = "default",
-  BAHN_SCRIPT = "bahn_script",
-  DANCING_SCRIPT = "dancing_script",
+  DEFAULT = "sans-serif",
+  TIMES_NEW_ROMAN = "Times New Roman",
+  BAHNSCHRIFT = "Bahnschrift",
+  DANCINGSCRIPTREGULAR = "dancingscriptregular",
 }
 
 export enum SettingType {
@@ -20,4 +21,5 @@ export enum SettingType {
   FONT_THEME = "FONT_THEME",
   SHOULD_ALERT_DELETE_COUNTER = "SHOULD_ALERT_DELETE_COUNTER",
   SHOULD_ALERT_DELETE_MISSION = "SHOULD_ALERT_DELETE_MISSION",
+  SHOULD_STRIKE_COMPLETED_MISSION = "SHOULD_STRIKE_COMPLETED_MISSION",
 }

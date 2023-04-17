@@ -53,8 +53,7 @@
               <div class="flipper" [ngClass]="{'flip': mission.isFlipped}">
                 <!-- Front of card -->
                 <div class="front" [routerLink]="['/counters', mission.id]">
-                  <ion-item lines="none" class="custom-ion-item"
-                    [color]="SHOULD_SHOW_MISSION_COMPLETED_COLOR ? (mission.isCompleted() ? 'success' : '') : ''">
+                  <ion-item lines="none" class="custom-ion-item" [color]="whatever(mission)">
                     <div>
                       <div>{{mission.name}}</div>
                       <ion-label>
@@ -101,7 +100,7 @@
     <ng-template swiperSlide>
       <ng-container *ngFor="let mission of missionFilter.filteredMissions">
         <div [routerLink]="['/counters', mission.id]">
-          <p class="ion-margin">
+          <p class="ion-margin" [style.textDecoration]="mission.isCompleted() ? 'line-through' : 'none'">
             {{mission.name}} {{mission.currentTotalAmount}}/{{mission.targetAmount}}
             <ng-container *ngIf="mission.isCompleted()">
               <ion-icon class="icon" name="checkmark-circle-outline" color="success"></ion-icon>

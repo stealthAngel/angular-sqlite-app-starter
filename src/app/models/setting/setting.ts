@@ -35,6 +35,8 @@ export class Setting {
         return value == "true";
       case SettingType.SHOULD_ALERT_DELETE_MISSION:
         return value == "true";
+      case SettingType.SHOULD_STRIKE_COMPLETED_MISSION:
+        return value == "true";
     }
   }
 }

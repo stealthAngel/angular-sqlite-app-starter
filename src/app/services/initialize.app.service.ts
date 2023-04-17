@@ -3,7 +3,7 @@ import { SQLiteService } from "../database/services/sqlite.service";
 import { Injectable } from "@angular/core";
 import { MigrationService } from "../database/migrations/migrations.service";
 import { SettingService } from "../models/setting/setting.service";
-import { ColorTheme, SettingType } from "../models/setting/settings.enum";
+import { ColorTheme, FontTheme, SettingType } from "../models/setting/settings.enum";
 import { ThemeService } from "./theme-service.service";
 
 @Injectable()
@@ -26,9 +26,15 @@ export class InitializeAppService {
 
   async loadSettings(): Promise<boolean> {
     await this.settingService.init();
+    // set color
     const setting = this.settingService.getSetting(SettingType.COLOR_THEME);
     const theme = setting.value as ColorTheme;
-    this.themeService.activeTheme(theme);
+    this.themeService.setActiveTheme(theme);
+
+    //set font
+    const setting2 = this.settingService.getSetting(SettingType.FONT_THEME);
+    const font = setting2.value as FontTheme;
+    this.themeService.setActiveFontTheme(font);
     return true;
   }
 }

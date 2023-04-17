@@ -26,7 +26,7 @@
       <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.FONT_THEME]">
         <ion-label>Font Themes:</ion-label>
         <ion-select placeholder="{{setting.value}}" [value]="setting.value"
-          (ionChange)="setting.value = $event.target.value">
+          (ionChange)="onChangeFontTheme($event.target.value, i)" (ionChange)="setting.value = $event.target.value">
           <ion-select-option *ngFor="let theme of FontThemes | keyvalue: originalEnumOrder" [value]="theme.value">
             {{theme.value}}
           </ion-select-option>
@@ -56,6 +56,14 @@
       <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_ALERT_DELETE_COUNTER]">
         <ion-label>
           Alert when deleting a counter
+        </ion-label>
+        <ion-toggle [checked]="setting.value" (ionChange)="setting.value = $event.detail.checked">
+        </ion-toggle>
+      </ion-item>
+
+      <ion-item *ngIf="setting.name == SettingTypes[SettingTypes.SHOULD_STRIKE_COMPLETED_MISSION]">
+        <ion-label>
+          Strike through completed missions
         </ion-label>
         <ion-toggle [checked]="setting.value" (ionChange)="setting.value = $event.detail.checked">
         </ion-toggle>

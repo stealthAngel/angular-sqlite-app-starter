@@ -11,11 +11,15 @@ export class ThemeService {
     this.renderer = this.rendererFactory.createRenderer(null, null);
   }
 
-  activeTheme(item: string) {
+  setActiveTheme(item: string) {
     //currently did not found a way to remove all classes from this element
     for (let theme in ColorTheme) {
       this.renderer.removeClass(this.document.body, ColorTheme[theme]);
     }
     this.renderer.addClass(this.document.body, item);
+  }
+
+  setActiveFontTheme(font: string) {
+    document.documentElement.style.setProperty("--ion-font-family", font);
   }
 }
