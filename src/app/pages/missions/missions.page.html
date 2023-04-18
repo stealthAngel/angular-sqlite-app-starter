@@ -61,10 +61,10 @@
                       </ion-label>
                     </div>
                     <div slot="end" class="ion-margin-start">{{ mission.getPercentage() }}</div>
-                    <ion-button *ngIf="!isReorderEnabled" fill="clear" slot="end"
+                    <div *ngIf="!isReorderEnabled" fill="clear" slot="end"
                       (click)="onMissionSettingsClick($event, mission)" class="reorder-icon md hydrated">
                       <ion-icon name="settings-outline"></ion-icon>
-                    </ion-button>
+                    </div>
                     <ion-reorder slot="end"></ion-reorder>
                   </ion-item>
                 </div>
@@ -85,10 +85,10 @@
                         </ion-col>
                       </ion-row>
                     </ion-grid>
-                    <ion-button fill="clear" slot="end" class="reorder-icon md hydrated"
+                    <div fill="clear" slot="end" class="reorder-icon md hydrated"
                       (click)="mission.isFlipped = !mission.isFlipped">
                       <ion-icon name="arrow-back-outline"></ion-icon>
-                    </ion-button>
+                    </div>
                   </ion-item>
                 </div>
               </div>

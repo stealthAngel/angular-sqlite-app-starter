@@ -1,7 +1,7 @@
 <p align="center"><br><img src="https://avatars3.githubusercontent.com/u/16580653?v=4" width="128" height="128" /></p>
 
 <h3 align="center">Ionic/Angular SQLite App Starter</h3>
-<p align="center"><strong><code>angular-sqlite-app-starter</code></strong></p>
+<p align="center"><strong><code>progress-pallapp-starter</code></strong></p>
 <p align="center">Ionic/Angular application demonstrating the use of the</p>
 <p align="center"><strong><code>@capacitor-community/sqlite@web</code></strong></p>
 <br>
@@ -9,8 +9,8 @@
 <br>
 <p align="center">
   <img src="https://img.shields.io/maintenance/yes/2022?style=flat-square" />
-  <a href="https://github.com/jepiqueau/angular-sqlite-app-starter"><img src="https://img.shields.io/github/license/jepiqueau/angular-sqlite-app-starter?style=flat-square" /></a>
-  <a href="https://github.com/jepiqueau/angular-sqlite-app-starter"><img src="https://img.shields.io/github/package-json/v/jepiqueau/angular-sqlite-app-starter/master?style=flat-square" /></a>
+  <a href="https://github.com/jepiqueau/progress-pallapp-starter"><img src="https://img.shields.io/github/license/jepiqueau/progress-pallapp-starter?style=flat-square" /></a>
+  <a href="https://github.com/jepiqueau/progress-pallapp-starter"><img src="https://img.shields.io/github/package-json/v/jepiqueau/progress-pallapp-starter/master?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 <a href="#contributors-"><img src="https://img.shields.io/badge/all%20contributors-3-orange?style=flat-square" /></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -35,8 +35,8 @@ npm install tslib --save-dev`
 To start building your App using this Starter App, clone this repo to a new directory:
 
 ```bash
-git clone https://github.com/jepiqueau/angular-sqlite-app-starter.git 
-cd angular-sqlite-app-starter
+git clone https://github.com/jepiqueau/progress-pallapp-starter.git 
+cd progress-pallapp-starter
 git remote rm origin
 ```
 
@@ -75,7 +75,7 @@ To change the app name and app id, go to `capacitor.config.ts` and change:
 
 ```
   "appId": "com.jeep.app.ionic.angular",
-  "appName": "angular-sqlite-app-starter",
+  "appName": "progress-pallapp-starter",
 ```
 
 If you don't see the tests on android you could put the biometrics to false in `capacitor.config.ts`
@@ -160,7 +160,7 @@ The application uses a service class as a wrapper to the ```@capacitor-community
 
 ### Resulting Output
 
-<p align="center"><br><img src="https://github.com/jepiqueau/angular-sqlite-app-refactor/blob/refactor/src/assets/icon/CaptureResult.png" width="200" height="400" /></p>
+<p align="center"><br><img src="https://github.com/jepiqueau/progress-pallapp-refactor/blob/refactor/src/assets/icon/CaptureResult.png" width="200" height="400" /></p>
 
 
 At the end of the test, seven databases should have been created,  

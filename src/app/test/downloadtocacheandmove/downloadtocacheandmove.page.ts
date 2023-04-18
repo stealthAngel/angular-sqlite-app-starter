@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Directory, Filesystem } from '@capacitor/filesystem';
-import { SQLiteService } from '../../database/services/sqlite.service';
-import { Dialog } from '@capacitor/dialog';
+import { Component, OnInit } from "@angular/core";
+import { Directory, Filesystem } from "@capacitor/filesystem";
+import { SQLiteService } from "../../database/services/sqlite.service";
+import { Dialog } from "@capacitor/dialog";
 
 @Component({
-  selector: 'app-downloadtocacheandmove',
-  templateUrl: 'downloadtocacheandmove.page.html',
-  styleUrls: ['downloadtocacheandmove.page.scss']
+  selector: "app-downloadtocacheandmove",
+  templateUrl: "downloadtocacheandmove.page.html",
+  styleUrls: ["downloadtocacheandmove.page.scss"],
 })
 export class DownloadToCacheAndMove implements OnInit {
   log: string = "";
@@ -21,27 +21,24 @@ export class DownloadToCacheAndMove implements OnInit {
   async ngOnInit() {
     const showAlert = async (message: string) => {
       await Dialog.alert({
-        title: 'Error Dialog',
+        title: "Error Dialog",
         message: message,
       });
     };
     try {
       await this.runTest();
-      document.querySelector('.sql-allsuccess').classList
-        .remove('display');
+      document.querySelector(".sql-allsuccess").classList.remove("display");
       console.log("$$$ runTest was successful");
     } catch (err) {
-      document.querySelector('.sql-allfailure').classList
-        .remove('display');
+      document.querySelector(".sql-allfailure").classList.remove("display");
       console.log(`$$$ runTest failed ${err.message}`);
       await showAlert(err.message);
     }
   }
 
-
   async runTest(): Promise<void> {
     this.log += "* Starting testDownloadToCacheAndMove *\n";
-    let response = await fetch("https://raw.githack.com/jepiqueau/angular-sqlite-app-starter/26ca67486713fc9b6ea4a37a889f0fd189c18926/src/assets/databases/dbForCopy.db");
+    let response = await fetch("https://raw.githack.com/jepiqueau/progress-pallapp-starter/26ca67486713fc9b6ea4a37a889f0fd189c18926/src/assets/databases/dbForCopy.db");
     this.log += "  > fetched 'dbForCopy' from github\n";
     let dbBlob = await response.blob();
     let base64Db = await this.getBlobAsBase64(dbBlob);
@@ -55,10 +52,7 @@ export class DownloadToCacheAndMove implements OnInit {
     await db.open();
     this.log += "  > open 'dbForCopyCache' successful\n";
     let res = await db.query("SELECT * FROM areas");
-    if (res.values.length !== 3 ||
-      res.values[0].name !== "Access road" ||
-      res.values[1].name !== "Accessway" ||
-      res.values[2].name !== "Air handling system") {
+    if (res.values.length !== 3 || res.values[0].name !== "Access road" || res.values[1].name !== "Accessway" || res.values[2].name !== "Air handling system") {
       throw new Error("Query 3 areas failed");
     }
     this.log += "  > query 'dbForCopyCache' successful\n";
@@ -75,5 +69,4 @@ export class DownloadToCacheAndMove implements OnInit {
       reader.readAsDataURL(blob);
     });
   }
-
 }

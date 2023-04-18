@@ -1,7 +1,9 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    namespace 'com.jeep.app.ionic.angular'
+    compileSdk 33
     defaultConfig {
         applicationId "com.jeep.app.ionic.angular"
         minSdkVersion rootProject.ext.minSdkVersion
