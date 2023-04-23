@@ -38,7 +38,7 @@ export class DownloadToCacheAndMove implements OnInit {
 
   async runTest(): Promise<void> {
     this.log += "* Starting testDownloadToCacheAndMove *\n";
-    let response = await fetch("https://raw.githack.com/jepiqueau/progress-pallapp-starter/26ca67486713fc9b6ea4a37a889f0fd189c18926/src/assets/databases/dbForCopy.db");
+    let response = await fetch("https://raw.githack.com/jepiqueau/progress-pall/26ca67486713fc9b6ea4a37a889f0fd189c18926/src/assets/databases/dbForCopy.db");
     this.log += "  > fetched 'dbForCopy' from github\n";
     let dbBlob = await response.blob();
     let base64Db = await this.getBlobAsBase64(dbBlob);

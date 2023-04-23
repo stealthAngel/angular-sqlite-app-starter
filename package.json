@@ -1,8 +1,8 @@
 {
-  "name": "progress-pallapp-starter",
+  "name": "progress-pallapp",
   "version": "4.2.0",
   "description": "Ionic/Angular SQLite Application Starter",
-  "author": "Jean Pierre Quéau",
+  "author": "Mo D Genesis",
   "license": "MIT",
   "homepage": "./",
   "scripts": {
@@ -86,9 +86,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jepiqueau/progress-pallapp-starter.git"
+    "url": "https://github.com/jepiqueau/progress-pall.git"
   },
   "bugs": {
-    "url": "https://github.com/jepiqueau/progress-pallapp-starter.git/issues"
+    "url": "https://github.com/jepiqueau/progress-pall.git/issues"
   }
 }

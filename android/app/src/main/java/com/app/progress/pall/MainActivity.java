@@ -1,4 +1,4 @@
-package com.jeep.app.ionic.angular;
+package com.app.progress.pall;
 
 import com.getcapacitor.BridgeActivity;
 

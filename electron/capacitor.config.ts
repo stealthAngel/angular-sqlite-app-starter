@@ -2,7 +2,7 @@ import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
   appId: "com.jeep.app.ionic.angular",
-  appName: "progress-pallapp-starter",
+  appName: "progress-pall",
   webDir: "www",
   bundledWebRuntime: false,
   loggingBehavior: "debug",
@@ -10,7 +10,7 @@ const config: CapacitorConfig = {
     CapacitorSQLite: {
       iosDatabaseLocation: "Library/CapacitorDatabase",
       iosIsEncryption: true,
-      iosKeychainPrefix: "progress-pallapp-starter",
+      iosKeychainPrefix: "progress-pall",
       iosBiometric: {
         biometricAuth: false,
         biometricTitle: "Biometric login for capacitor sqlite",

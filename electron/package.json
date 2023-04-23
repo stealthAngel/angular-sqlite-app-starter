@@ -1,5 +1,5 @@
 {
-  "name": "progress-pallapp-starter",
+  "name": "progress-pall",
   "version": "1.0.0",
   "description": "An Amazing Capacitor App",
   "author": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jepiqueau/progress-pallapp-starter.git"
+    "url": "https://github.com/jepiqueau/progress-pall.git"
   },
   "license": "MIT",
   "main": "build/src/index.js",
