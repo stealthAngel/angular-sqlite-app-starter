@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { MissionServant } from "./mission.servant";
-import { Resolve } from "@angular/router";
+
 import { Mission } from "./mission";
 import { MissionService } from "./mission.service";
 
 @Injectable({
   providedIn: "root",
 })
-export class MissionResolverService implements Resolve<Mission[]> {
+export class MissionResolverService  {
   constructor(private missionService: MissionService, private missionServant: MissionServant) {}
 
   async resolve(): Promise<Mission[]> {
